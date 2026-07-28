@@ -1,0 +1,117 @@
+{
+  "name": "vigil-rescue-sepolia",
+  "description": "Read Aave v3 health factor, conditionally repay debt, then notify Telegram.",
+  "enabled": false,
+  "nodes": [
+    {
+      "id": "trigger-1",
+      "type": "trigger",
+      "data": {
+        "label": "Trigger",
+        "type": "trigger",
+        "config": {
+          "triggerType": "Manual"
+        },
+        "status": "idle"
+      }
+    },
+    {
+      "id": "read-health",
+      "type": "action",
+      "data": {
+        "label": "Read Aave Health",
+        "type": "action",
+        "config": {
+          "actionType": "aave-v3/get-user-account-data",
+          "network": "11155111",
+          "user": "{{@trigger-1:Trigger.account}}"
+        },
+        "status": "idle"
+      }
+    },
+    {
+      "id": "health-condition",
+      "type": "action",
+      "data": {
+        "label": "Health Below Threshold",
+        "type": "action",
+        "config": {
+          "actionType": "Condition",
+          "condition": "{{@read-health:Read Aave Health.healthFactor}} < {{@trigger-1:Trigger.thresholdWad}}",
+          "conditionConfig": {
+            "group": {
+              "id": "health-group",
+              "logic": "AND",
+              "rules": [
+                {
+                  "id": "health-rule",
+                  "leftOperand": "{{@read-health:Read Aave Health.healthFactor}}",
+                  "operator": "<",
+                  "rightOperand": "{{@trigger-1:Trigger.thresholdWad}}"
+                }
+              ]
+            }
+          }
+        },
+        "status": "idle"
+      }
+    },
+    {
+      "id": "repay-debt",
+      "type": "action",
+      "data": {
+        "label": "Repay Aave Debt",
+        "type": "action",
+        "config": {
+          "actionType": "aave-v3/repay",
+          "network": "11155111",
+          "asset": "{{@trigger-1:Trigger.debtAsset}}",
+          "amount": "{{@trigger-1:Trigger.repayAmountRaw}}",
+          "interestRateMode": "2",
+          "onBehalfOf": "{{@trigger-1:Trigger.account}}",
+          "gasLimitMultiplier": "1.2"
+        },
+        "status": "idle"
+      }
+    },
+    {
+      "id": "notify-telegram",
+      "type": "action",
+      "data": {
+        "label": "Notify Telegram",
+        "type": "action",
+        "config": {
+          "actionType": "telegram/send-message",
+          "chatId": "{{@trigger-1:Trigger.telegramChatId}}",
+          "message": "Vigil rescue confirmed. Account {{@trigger-1:Trigger.account}}, tx {{@repay-debt:Repay Aave Debt.transactionHash}}",
+          "parseMode": "none"
+        },
+        "status": "idle"
+      }
+    }
+  ],
+  "edges": [
+    {
+      "id": "edge-trigger-read",
+      "source": "trigger-1",
+      "target": "read-health"
+    },
+    {
+      "id": "edge-read-condition",
+      "source": "read-health",
+      "target": "health-condition"
+    },
+    {
+      "id": "edge-condition-repay",
+      "source": "health-condition",
+      "target": "repay-debt",
+      "sourceHandle": "true"
+    },
+    {
+      "id": "edge-repay-notify",
+      "source": "repay-debt",
+      "target": "notify-telegram"
+    }
+  ]
+}
+

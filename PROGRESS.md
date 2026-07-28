@@ -82,3 +82,25 @@ Status: **complete**
 
 Current suite: 22 tests across Aave math, Chainlink validation, retry backoff,
 policy caps, runtime advisory validation, and idempotency.
+
+## M4 — KeeperHub rescue workflow
+
+Status: **in progress; blocked before workflow creation**
+
+- [x] Discover live `aave-v3/repay` and read schemas with
+  `search_protocol_actions`.
+- [x] Prove `aave-v3/get-user-account-data` works on Sepolia despite the plugin
+  page omitting Sepolia.
+- [x] Discover exact Manual trigger, Condition, Telegram, and workflow edge
+  schemas.
+- [x] Prepare the disabled workflow definition with
+  trigger -> Aave read -> Condition (`sourceHandle: "true"`) -> repay ->
+  Telegram.
+- [x] Implement gas/revert/RPC/unknown failure classification and a maximum
+  three-attempt retry ladder.
+- [ ] Resolve the validation API mismatch: live `validate_workflow` requires an
+  existing workflow ID, while project rules require validation before create.
+- [ ] Obtain a Telegram `chatId` for the notification step.
+- [ ] Prepare a deliberately at-risk Aave Sepolia position through KeeperHub.
+- [ ] Validate, execute, poll full logs, classify/retry failures, and record the
+  confirmed rescue transaction.

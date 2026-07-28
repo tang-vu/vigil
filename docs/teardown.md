@@ -88,3 +88,30 @@ description other than `ETH / USD`.
 
 **Proposed improvement:** Address-book typings or docs should distinguish direct
 Chainlink proxies from adapters, static feeds, and other Aave oracle sources.
+
+## 2026-07-28 — Validate-before-create is impossible in the live MCP schema
+
+**Observed:** The live `validate_workflow` tool requires an existing
+`workflowId`. The live `create_workflow` tool is the operation that first
+produces that ID.
+
+**Impact:** An MCP-only builder cannot follow a literal
+`validate_workflow -> create_workflow` sequence for a new definition. The safest
+available sequence appears to be create disabled, validate by ID, update if
+needed, then execute manually—but that reverses the documented discipline.
+
+**Proposed improvement:** Let `validate_workflow` accept either `workflowId` or
+an inline `{nodes, edges}` definition. Alternatively add
+`validate_workflow_definition`.
+
+## 2026-07-28 — Protocol action search hides chain support
+
+**Observed:** `search_protocol_actions` returned the Aave v3 actions and field
+schemas but no supported-chain list. The plugin documentation omits Sepolia,
+yet a live `aave-v3/get-user-account-data` call succeeded on Sepolia.
+
+**Impact:** Builders cannot know whether a write action is safe to configure for
+a testnet without probing it.
+
+**Proposed improvement:** Include `supportedChains` per action in
+`search_protocol_actions`, sourced from the same registry used at execution.
