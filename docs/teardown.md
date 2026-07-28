@@ -262,3 +262,117 @@ a confirmed transaction whenever a later workflow node fails.
 
 **Proposed improvement:** Populate aggregate transaction hashes incrementally
 after each successful write node, independent of the final workflow status.
+
+## 2026-07-28 - Code action availability is missing from discovery
+
+**Observed:** `list_action_schemas` advertises `code/run-code` with its full
+schema and `requiresCredentials: false`. Creating the first marketplace design
+then returned HTTP 402 `upgrade_required` for feature `action.code`.
+
+**Impact:** An agent can spend time producing and validating a design around an
+action it cannot create on the current plan. The schema response gives no plan
+or entitlement signal.
+
+**Resolution:** Vigil did not retry the same request. Both marketplace
+workflows were redesigned with free `math/aggregate`, `Condition`, Aave read,
+and `web3/read-contract` nodes.
+
+**Proposed improvement:** Add availability metadata to every discovered action,
+such as `minimumPlan`, `availableToOrg`, and an upgrade URL. Validation should
+also report unavailable actions before create/update.
+
+## 2026-07-28 - Static output strings fail listing validation
+
+**Observed:** Listing metadata initially included legitimate static strings
+such as `chainId: "11155111"` and a risk-policy description. The deep validator
+treated every string value as though it were a node reference and emitted
+`unknown-output-mapping-node`, naming the entire literal as the missing node ID.
+
+**Impact:** Read workflows cannot return ordinary string constants in a mapped
+result. This especially hurts quote workflows that need to return a function
+name or action type alongside dynamic calldata fields.
+
+**Resolution:** Vigil uses JSON numbers/booleans for static values and only
+node templates for strings. The rescue quote reads the Aave pool address
+onchain so the destination remains dynamic and verifiable. Human-readable
+method semantics remain in the workflow description.
+
+**Proposed improvement:** Only parse values matching the documented
+`{{@nodeId:Label.field}}` grammar as node references. Accept any other JSON
+literal unchanged, and add validator fixtures for addresses, chain IDs,
+function signatures, and explanatory text.
+
+## 2026-07-28 - A listed disabled workflow returns 503 before x402
+
+**Observed:** `list_workflow` successfully published a disabled, manual,
+read-only workflow and marketplace search discovered it at `$0.02`. Calling it
+returned `503 Workflow temporarily unavailable` instead of the expected 402
+challenge because the owner workflow was disabled.
+
+**Impact:** A creator can publish a listing that looks buyable but cannot be
+called. Neither listing nor deep validation warned about the disabled state.
+
+**Resolution:** Vigil enabled only the two manual, read-only marketplace
+workflows. The state-changing rescue workflow remains disabled.
+
+**Proposed improvement:** `list_workflow` should reject disabled workflows or
+return a prominent warning. The marketplace should display availability and
+exclude disabled listings from normal discovery.
+
+## 2026-07-28 - OAuth and organization-key MCP can resolve different orgs
+
+**Observed:** `update_workflow_listing` through the connected OAuth MCP returned
+401 for a workflow that was accessible through the documented organization
+`kh_` bearer on the same MCP endpoint. The local bearer call succeeded without
+changing the request body.
+
+**Impact:** A builder can mistake authentication/org scoping for a malformed
+marketplace request, particularly because read-only public marketplace tools
+still work on the OAuth connection.
+
+**Resolution:** Vigil uses the local, gitignored organization key only through
+the MCP transport for organization-scoped publishing and execution. It never
+prints or persists the key.
+
+**Proposed improvement:** Include the active organization ID in MCP connection
+diagnostics and make 401 responses distinguish expired OAuth, wrong
+organization, and missing permission.
+
+## 2026-07-29 - Agentic wallet installer skips Codex registration
+
+**Observed:** `@keeperhub/wallet@0.1.15` installed skills and MCP entries for
+Claude Code and OpenCode, but did not detect or register the active Codex host.
+The package does provide a standards-compliant stdio MCP server.
+
+**Impact:** A Codex builder can complete the documented install command and
+still not see the wallet tools after restart, even though KeeperHub's broader
+wallet comparison describes Codex-compatible alternatives and the MCP server
+itself works with any compatible client.
+
+**Resolution:** `scripts/agent-b-demo.ts` connects directly to
+`npx -y -p @keeperhub/wallet keeperhub-wallet-mcp`. This preserves the official
+Turnkey-backed payment path without reading `wallet.json` or depending on
+host-specific config discovery.
+
+**Proposed improvement:** Detect Codex's MCP configuration during `skill
+install`, print an explicit manual command when detection fails, and add Codex
+to the install verification matrix.
+
+## 2026-07-29 - Agentic wallet onboarding docs disagree on provisioning
+
+**Observed:** The KeeperHub docs describe two commands (`skill install`, then
+`keeperhub-wallet add`), while the current `@keeperhub/wallet` repository says
+versioned installation auto-provisions on the first wallet tool call and no
+manual add step is needed.
+
+**Impact:** Builders cannot tell whether running `add` is required, obsolete,
+or risks creating a second wallet. That uncertainty is especially costly when
+the old wallet may already have been funded.
+
+**Resolution:** Vigil pins and records the observed package version
+`0.1.15`, installs the skill once, and defers first provisioning/payment until
+the explicit Base-mainnet authorization gate.
+
+**Proposed improvement:** Version the docs alongside the package, show the
+minimum package version for each flow, and make `add` idempotently return the
+existing wallet unless an explicit `--new` flag is supplied.

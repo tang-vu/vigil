@@ -187,3 +187,50 @@ Receipt proof:
 - KeeperHub execution: `3r554lkdru7bn225qdwsz`
 - Transaction:
   `0xa03a49a8213415e9fc0ec53c423c707ed2c869b92841781c4174abced9a958bb`
+
+## M6 - KeeperHub marketplace
+
+Status: **in progress - paid Base settlement awaiting explicit approval**
+
+- [x] Build `vigil-risk-check` as a read-only Sepolia workflow returning Aave
+  health data, a single-collateral liquidation-price scenario, and
+  deterministic risk-grade signals.
+- [x] Build `vigil-rescue-quote` as a read-only Sepolia workflow returning a
+  capped repay amount plus the exact Aave pool, asset, amount, rate mode, and
+  on-behalf-of call plan. It never executes the plan.
+- [x] Replace the Pro-only Code action design with free Math, Condition, Aave,
+  and Web3 read nodes.
+- [x] Deep-validate both live workflows after applying their listing metadata:
+  risk check `valid=true`, 10 nodes; rescue quote `valid=true`, 13 nodes.
+- [x] Execute both workflows through KeeperHub and poll `get_execution` to
+  success with full artifacts.
+- [x] Publish both workflows at `$0.02` USDC per call with type `read`,
+  category `defi`, and application chain `11155111`.
+- [x] Verify marketplace discovery finds both slugs.
+- [x] Verify `/mcp/w/vigil-risk-check` exposes exactly one typed tool.
+- [x] Verify an unpaid Agent B call receives the expected HTTP 402 x402
+  challenge.
+- [x] Add an Agent B script that discovers, challenges, and can hand payment to
+  KeeperHub's Turnkey-backed agentic wallet.
+- [x] Install `@keeperhub/wallet@0.1.15` and its safety hook without reading or
+  printing the generated wallet credential file. The demo invokes its standard
+  stdio MCP server directly, so it does not depend on host-specific
+  auto-registration.
+- [ ] Provision/fund the agentic wallet and execute the real `$0.02` Base USDC
+  payment. This is intentionally blocked until the operator explicitly says
+  `go mainnet`, because KeeperHub's x402 settlement rail is Base mainnet
+  (`8453`).
+
+Live proof:
+
+- Risk workflow: `7ov7rxn5jz1ldehwsipoj`
+- Risk execution: `fpp0i2imcwflp4n0tibg9`
+- Risk endpoint: `https://app.keeperhub.com/mcp/w/vigil-risk-check`
+- Rescue quote workflow: `ofihzaszujrq8nhki2kti`
+- Rescue quote execution: `i229s197cownvhxcs4sor`
+- Rescue quote endpoint:
+  `https://app.keeperhub.com/mcp/w/vigil-rescue-quote`
+- Latest quote: `3667865` raw USDC (`3.667865 USDC`) to target HF `1.8`.
+- Current risk result: HF `1.499918663501565574`, elevated signal true, high
+  and critical signals false.
+- Local suite: 38 tests; all four KeeperHub workflows deep-validate.

@@ -1,0 +1,207 @@
+{
+  "name": "vigil-risk-check",
+  "description": "Paid Aave v3 risk report: health factor, single-collateral liquidation price scenario, and deterministic risk-grade signals.",
+  "enabled": true,
+  "nodes": [
+    {
+      "id": "trigger-1",
+      "type": "trigger",
+      "data": {
+        "label": "Trigger",
+        "type": "trigger",
+        "config": { "triggerType": "Manual" },
+        "status": "idle"
+      }
+    },
+    {
+      "id": "read-account",
+      "type": "action",
+      "data": {
+        "label": "Read Aave Account",
+        "type": "action",
+        "config": {
+          "actionType": "aave-v3/get-user-account-data",
+          "network": "11155111",
+          "user": "{{@trigger-1:Trigger.account}}"
+        },
+        "status": "idle"
+      }
+    },
+    {
+      "id": "read-collateral",
+      "type": "action",
+      "data": {
+        "label": "Read Collateral Reserve",
+        "type": "action",
+        "config": {
+          "actionType": "aave-v3/get-user-reserve-data",
+          "network": "11155111",
+          "asset": "{{@trigger-1:Trigger.collateralAsset}}",
+          "user": "{{@trigger-1:Trigger.account}}"
+        },
+        "status": "idle"
+      }
+    },
+    {
+      "id": "read-price",
+      "type": "action",
+      "data": {
+        "label": "Read Aave Oracle Price",
+        "type": "action",
+        "config": {
+          "actionType": "web3/read-contract",
+          "network": "11155111",
+          "contractAddress": "0x2da88497588bf89281816106C7259e31AF45a663",
+          "abi": "[{\"type\":\"function\",\"name\":\"getAssetPrice\",\"stateMutability\":\"view\",\"inputs\":[{\"name\":\"asset\",\"type\":\"address\"}],\"outputs\":[{\"name\":\"\",\"type\":\"uint256\"}]}]",
+          "abiFunction": "getAssetPrice",
+          "functionArgs": "[\"{{@trigger-1:Trigger.collateralAsset}}\"]"
+        },
+        "status": "idle"
+      }
+    },
+    {
+      "id": "critical-condition",
+      "type": "action",
+      "data": {
+        "label": "Critical Risk",
+        "type": "action",
+        "config": {
+          "actionType": "Condition",
+          "condition": "{{@read-account:Read Aave Account.healthFactor}} < 1050000000000000000",
+          "conditionConfig": {
+            "group": {
+              "id": "critical-group",
+              "logic": "AND",
+              "rules": [
+                {
+                  "id": "critical-rule",
+                  "leftOperand": "{{@read-account:Read Aave Account.healthFactor}}",
+                  "operator": "<",
+                  "rightOperand": "1050000000000000000"
+                }
+              ]
+            }
+          }
+        },
+        "status": "idle"
+      }
+    },
+    {
+      "id": "high-condition",
+      "type": "action",
+      "data": {
+        "label": "High Risk",
+        "type": "action",
+        "config": {
+          "actionType": "Condition",
+          "condition": "{{@read-account:Read Aave Account.healthFactor}} < 1200000000000000000",
+          "conditionConfig": {
+            "group": {
+              "id": "high-group",
+              "logic": "AND",
+              "rules": [
+                {
+                  "id": "high-rule",
+                  "leftOperand": "{{@read-account:Read Aave Account.healthFactor}}",
+                  "operator": "<",
+                  "rightOperand": "1200000000000000000"
+                }
+              ]
+            }
+          }
+        },
+        "status": "idle"
+      }
+    },
+    {
+      "id": "elevated-condition",
+      "type": "action",
+      "data": {
+        "label": "Elevated Risk",
+        "type": "action",
+        "config": {
+          "actionType": "Condition",
+          "condition": "{{@read-account:Read Aave Account.healthFactor}} < 1500000000000000000",
+          "conditionConfig": {
+            "group": {
+              "id": "elevated-group",
+              "logic": "AND",
+              "rules": [
+                {
+                  "id": "elevated-rule",
+                  "leftOperand": "{{@read-account:Read Aave Account.healthFactor}}",
+                  "operator": "<",
+                  "rightOperand": "1500000000000000000"
+                }
+              ]
+            }
+          }
+        },
+        "status": "idle"
+      }
+    },
+    {
+      "id": "liq-numerator",
+      "type": "action",
+      "data": {
+        "label": "Liquidation Numerator",
+        "type": "action",
+        "config": {
+          "actionType": "math/aggregate",
+          "operation": "product",
+          "inputMode": "explicit",
+          "explicitValues": "{{@read-account:Read Aave Account.totalDebtBase}},10000,{{@trigger-1:Trigger.collateralUnit}}",
+          "postOperation": "none"
+        },
+        "status": "idle"
+      }
+    },
+    {
+      "id": "liq-denominator",
+      "type": "action",
+      "data": {
+        "label": "Liquidation Denominator",
+        "type": "action",
+        "config": {
+          "actionType": "math/aggregate",
+          "operation": "product",
+          "inputMode": "explicit",
+          "explicitValues": "{{@read-collateral:Read Collateral Reserve.currentATokenBalance}},{{@read-account:Read Aave Account.currentLiquidationThreshold}}",
+          "postOperation": "none"
+        },
+        "status": "idle"
+      }
+    },
+    {
+      "id": "liq-price",
+      "type": "action",
+      "data": {
+        "label": "Liquidation Price Scenario",
+        "type": "action",
+        "config": {
+          "actionType": "math/aggregate",
+          "operation": "sum",
+          "inputMode": "explicit",
+          "explicitValues": "{{@liq-numerator:Liquidation Numerator.result}}",
+          "postOperation": "divide",
+          "postOperand": "{{@liq-denominator:Liquidation Denominator.result}}"
+        },
+        "status": "idle"
+      }
+    }
+  ],
+  "edges": [
+    { "id": "edge-trigger-account", "source": "trigger-1", "target": "read-account" },
+    { "id": "edge-account-collateral", "source": "read-account", "target": "read-collateral" },
+    { "id": "edge-collateral-price", "source": "read-collateral", "target": "read-price" },
+    { "id": "edge-price-critical", "source": "read-price", "target": "critical-condition" },
+    { "id": "edge-critical-true-high", "source": "critical-condition", "target": "high-condition", "sourceHandle": "true" },
+    { "id": "edge-critical-false-high", "source": "critical-condition", "target": "high-condition", "sourceHandle": "false" },
+    { "id": "edge-high-true-elevated", "source": "high-condition", "target": "elevated-condition", "sourceHandle": "true" },
+    { "id": "edge-high-false-elevated", "source": "high-condition", "target": "elevated-condition", "sourceHandle": "false" },
+    { "id": "edge-elevated-true-numerator", "source": "elevated-condition", "target": "liq-numerator", "sourceHandle": "true" },
+    { "id": "edge-elevated-false-numerator", "source": "elevated-condition", "target": "liq-numerator", "sourceHandle": "false" },
+    { "id": "edge-numerator-denominator", "source": "liq-numerator", "target": "liq-denominator" },
+    { "id": "edge-denominator-price", "source": "liq-denominator", "target": "liq-price" }
+  ]
+}

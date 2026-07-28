@@ -1,0 +1,114 @@
+{
+  "riskCheck": {
+    "workflowId": "7ov7rxn5jz1ldehwsipoj",
+    "slug": "vigil-risk-check",
+    "category": "defi",
+    "chain": "11155111",
+    "workflowType": "read",
+    "priceUsdcPerCall": "0.02",
+    "inputSchema": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["account", "collateralAsset", "collateralUnit"],
+      "properties": {
+        "account": {
+          "type": "string",
+          "description": "Aave account address on Ethereum Sepolia.",
+          "pattern": "^0x[a-fA-F0-9]{40}$"
+        },
+        "collateralAsset": {
+          "type": "string",
+          "description": "Primary collateral token address used for the liquidation-price scenario.",
+          "pattern": "^0x[a-fA-F0-9]{40}$"
+        },
+        "collateralUnit": {
+          "type": "string",
+          "description": "One whole collateral token in raw units, e.g. 1000000000000000000 for 18 decimals.",
+          "pattern": "^[1-9][0-9]*$"
+        }
+      }
+    },
+    "outputMapping": {
+      "healthFactorWad": "{{@read-account:Read Aave Account.healthFactor}}",
+      "totalCollateralBase": "{{@read-account:Read Aave Account.totalCollateralBase}}",
+      "totalDebtBase": "{{@read-account:Read Aave Account.totalDebtBase}}",
+      "currentLiquidationThresholdBps": "{{@read-account:Read Aave Account.currentLiquidationThreshold}}",
+      "currentCollateralPriceBase8": "{{@read-price:Read Aave Oracle Price.result}}",
+      "liquidationPriceBase8": "{{@liq-price:Liquidation Price Scenario.result}}",
+      "riskGrade": {
+        "isCritical": "{{@critical-condition:Critical Risk.condition}}",
+        "isHighOrWorse": "{{@high-condition:High Risk.condition}}",
+        "isElevatedOrWorse": "{{@elevated-condition:Elevated Risk.condition}}"
+      },
+      "chainId": 11155111
+    }
+  },
+  "rescueQuote": {
+    "workflowId": "ofihzaszujrq8nhki2kti",
+    "slug": "vigil-rescue-quote",
+    "category": "defi",
+    "chain": "11155111",
+    "workflowType": "read",
+    "priceUsdcPerCall": "0.02",
+    "inputSchema": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "account",
+        "debtAsset",
+        "debtAssetUnit",
+        "targetHealthFactorWad"
+      ],
+      "properties": {
+        "account": {
+          "type": "string",
+          "description": "Aave borrower address on Ethereum Sepolia.",
+          "pattern": "^0x[a-fA-F0-9]{40}$"
+        },
+        "debtAsset": {
+          "type": "string",
+          "description": "Aave variable-debt underlying token address.",
+          "pattern": "^0x[a-fA-F0-9]{40}$"
+        },
+        "debtAssetUnit": {
+          "type": "string",
+          "description": "One whole debt token in raw units, e.g. 1000000 for USDC.",
+          "pattern": "^[1-9][0-9]*$"
+        },
+        "targetHealthFactorWad": {
+          "type": "string",
+          "description": "Target health factor in 18-decimal WAD; must be greater than 1e18.",
+          "pattern": "^[1-9][0-9]{18,}$"
+        }
+      }
+    },
+    "outputMapping": {
+      "currentHealthFactorWad": "{{@read-account:Read Aave Account.healthFactor}}",
+      "targetHealthFactorWad": "{{@trigger-1:Trigger.targetHealthFactorWad}}",
+      "repayAmountRaw": "{{@repay-raw-cap:Capped Repay Amount.result}}",
+      "assetPriceBase8": "{{@read-price:Read Debt Oracle Price.result}}",
+      "allowancePlan": {
+        "token": "{{@trigger-1:Trigger.debtAsset}}",
+        "spender": "{{@read-pool:Read Aave Pool Address.result}}",
+        "amountRaw": "{{@repay-raw-cap:Capped Repay Amount.result}}"
+      },
+      "repayPlan": {
+        "to": "{{@read-pool:Read Aave Pool Address.result}}",
+        "value": 0,
+        "asset": "{{@trigger-1:Trigger.debtAsset}}",
+        "amountRaw": "{{@repay-raw-cap:Capped Repay Amount.result}}",
+        "interestRateMode": 2,
+        "onBehalfOf": "{{@trigger-1:Trigger.account}}"
+      },
+      "aaveV3RepayParams": {
+        "network": 11155111,
+        "asset": "{{@trigger-1:Trigger.debtAsset}}",
+        "amount": "{{@repay-raw-cap:Capped Repay Amount.result}}",
+        "interestRateMode": 2,
+        "onBehalfOf": "{{@trigger-1:Trigger.account}}"
+      },
+      "executesOnchain": false,
+      "chainId": 11155111
+    }
+  }
+}

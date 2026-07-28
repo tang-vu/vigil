@@ -19,7 +19,10 @@
     "receipt:m4": "tsx scripts/build-m4-receipt.ts",
     "receipt:verify": "tsx scripts/verify-receipt.ts",
     "chaos": "tsx scripts/chaos.ts",
-    "workflow:validate": "tsx scripts/validate-workflow.ts"
+    "workflow:validate": "tsx scripts/validate-workflow.ts",
+    "marketplace:publish": "tsx scripts/publish-marketplace.ts",
+    "marketplace:prove": "tsx scripts/prove-marketplace.ts",
+    "agent-b:demo": "tsx scripts/agent-b-demo.ts"
   },
   "dependencies": {
     "@bgd-labs/aave-address-book": "4.44.22",

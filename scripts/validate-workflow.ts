@@ -22,6 +22,8 @@ async function main(): Promise<void> {
   for (const metadata of [
     workflowMetadata.rescue,
     workflowMetadata.telegramRecovery,
+    workflowMetadata.riskCheck,
+    workflowMetadata.rescueQuote,
   ]) {
     const result = await callKeeperHubMcpTool(
       baseUrl,

@@ -9,5 +9,15 @@
     "workflowId": "28zoahvd8qiv1s7sm4aia",
     "name": "vigil-telegram-recovery",
     "enabled": false
+  },
+  "riskCheck": {
+    "workflowId": "7ov7rxn5jz1ldehwsipoj",
+    "name": "vigil-risk-check",
+    "enabled": true
+  },
+  "rescueQuote": {
+    "workflowId": "ofihzaszujrq8nhki2kti",
+    "name": "vigil-rescue-quote",
+    "enabled": true
   }
 }

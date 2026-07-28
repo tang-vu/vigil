@@ -1,0 +1,226 @@
+{
+  "name": "vigil-rescue-quote",
+  "description": "Paid read-only Aave v3 quote returning an exact KeeperHub repay call plan without executing it.",
+  "enabled": true,
+  "nodes": [
+    {
+      "id": "trigger-1",
+      "type": "trigger",
+      "data": {
+        "label": "Trigger",
+        "type": "trigger",
+        "config": { "triggerType": "Manual" },
+        "status": "idle"
+      }
+    },
+    {
+      "id": "read-account",
+      "type": "action",
+      "data": {
+        "label": "Read Aave Account",
+        "type": "action",
+        "config": {
+          "actionType": "aave-v3/get-user-account-data",
+          "network": "11155111",
+          "user": "{{@trigger-1:Trigger.account}}"
+        },
+        "status": "idle"
+      }
+    },
+    {
+      "id": "read-debt",
+      "type": "action",
+      "data": {
+        "label": "Read Debt Reserve",
+        "type": "action",
+        "config": {
+          "actionType": "aave-v3/get-user-reserve-data",
+          "network": "11155111",
+          "asset": "{{@trigger-1:Trigger.debtAsset}}",
+          "user": "{{@trigger-1:Trigger.account}}"
+        },
+        "status": "idle"
+      }
+    },
+    {
+      "id": "read-price",
+      "type": "action",
+      "data": {
+        "label": "Read Debt Oracle Price",
+        "type": "action",
+        "config": {
+          "actionType": "web3/read-contract",
+          "network": "11155111",
+          "contractAddress": "0x2da88497588bf89281816106C7259e31AF45a663",
+          "abi": "[{\"type\":\"function\",\"name\":\"getAssetPrice\",\"stateMutability\":\"view\",\"inputs\":[{\"name\":\"asset\",\"type\":\"address\"}],\"outputs\":[{\"name\":\"\",\"type\":\"uint256\"}]}]",
+          "abiFunction": "getAssetPrice",
+          "functionArgs": "[\"{{@trigger-1:Trigger.debtAsset}}\"]"
+        },
+        "status": "idle"
+      }
+    },
+    {
+      "id": "read-pool",
+      "type": "action",
+      "data": {
+        "label": "Read Aave Pool Address",
+        "type": "action",
+        "config": {
+          "actionType": "web3/read-contract",
+          "network": "11155111",
+          "contractAddress": "0x012bAC54348C0E635dCAc9D5FB99f06F24136C9A",
+          "abi": "[{\"type\":\"function\",\"name\":\"getPool\",\"stateMutability\":\"view\",\"inputs\":[],\"outputs\":[{\"name\":\"\",\"type\":\"address\"}]}]",
+          "abiFunction": "getPool",
+          "functionArgs": "[]"
+        },
+        "status": "idle"
+      }
+    },
+    {
+      "id": "adjusted-collateral",
+      "type": "action",
+      "data": {
+        "label": "Adjusted Collateral",
+        "type": "action",
+        "config": {
+          "actionType": "math/aggregate",
+          "operation": "product",
+          "inputMode": "explicit",
+          "explicitValues": "{{@read-account:Read Aave Account.totalCollateralBase}},{{@read-account:Read Aave Account.currentLiquidationThreshold}}",
+          "postOperation": "divide",
+          "postOperand": "10000"
+        },
+        "status": "idle"
+      }
+    },
+    {
+      "id": "target-debt-numerator",
+      "type": "action",
+      "data": {
+        "label": "Target Debt Numerator",
+        "type": "action",
+        "config": {
+          "actionType": "math/aggregate",
+          "operation": "product",
+          "inputMode": "explicit",
+          "explicitValues": "{{@adjusted-collateral:Adjusted Collateral.result}},1000000000000000000",
+          "postOperation": "none"
+        },
+        "status": "idle"
+      }
+    },
+    {
+      "id": "target-debt",
+      "type": "action",
+      "data": {
+        "label": "Target Debt",
+        "type": "action",
+        "config": {
+          "actionType": "math/aggregate",
+          "operation": "sum",
+          "inputMode": "explicit",
+          "explicitValues": "{{@target-debt-numerator:Target Debt Numerator.result}}",
+          "postOperation": "divide",
+          "postOperand": "{{@trigger-1:Trigger.targetHealthFactorWad}}"
+        },
+        "status": "idle"
+      }
+    },
+    {
+      "id": "repay-base",
+      "type": "action",
+      "data": {
+        "label": "Required Repay Base",
+        "type": "action",
+        "config": {
+          "actionType": "math/aggregate",
+          "operation": "sum",
+          "inputMode": "explicit",
+          "explicitValues": "{{@read-account:Read Aave Account.totalDebtBase}}",
+          "postOperation": "subtract",
+          "postOperand": "{{@target-debt:Target Debt.result}}"
+        },
+        "status": "idle"
+      }
+    },
+    {
+      "id": "repay-raw-numerator",
+      "type": "action",
+      "data": {
+        "label": "Repay Raw Numerator",
+        "type": "action",
+        "config": {
+          "actionType": "math/aggregate",
+          "operation": "product",
+          "inputMode": "explicit",
+          "explicitValues": "{{@repay-base:Required Repay Base.result}},{{@trigger-1:Trigger.debtAssetUnit}}",
+          "postOperation": "none"
+        },
+        "status": "idle"
+      }
+    },
+    {
+      "id": "repay-raw-decimal",
+      "type": "action",
+      "data": {
+        "label": "Repay Raw Decimal",
+        "type": "action",
+        "config": {
+          "actionType": "math/aggregate",
+          "operation": "sum",
+          "inputMode": "explicit",
+          "explicitValues": "{{@repay-raw-numerator:Repay Raw Numerator.result}}",
+          "postOperation": "divide",
+          "postOperand": "{{@read-price:Read Debt Oracle Price.result}}"
+        },
+        "status": "idle"
+      }
+    },
+    {
+      "id": "repay-raw-ceil",
+      "type": "action",
+      "data": {
+        "label": "Repay Raw Rounded Up",
+        "type": "action",
+        "config": {
+          "actionType": "math/aggregate",
+          "operation": "sum",
+          "inputMode": "explicit",
+          "explicitValues": "{{@repay-raw-decimal:Repay Raw Decimal.result}}",
+          "postOperation": "ceil"
+        },
+        "status": "idle"
+      }
+    },
+    {
+      "id": "repay-raw-cap",
+      "type": "action",
+      "data": {
+        "label": "Capped Repay Amount",
+        "type": "action",
+        "config": {
+          "actionType": "math/aggregate",
+          "operation": "min",
+          "inputMode": "explicit",
+          "explicitValues": "{{@repay-raw-ceil:Repay Raw Rounded Up.result}},{{@read-debt:Read Debt Reserve.currentVariableDebtTokenBalance}}",
+          "postOperation": "none"
+        },
+        "status": "idle"
+      }
+    }
+  ],
+  "edges": [
+    { "id": "edge-trigger-account", "source": "trigger-1", "target": "read-account" },
+    { "id": "edge-account-debt", "source": "read-account", "target": "read-debt" },
+    { "id": "edge-debt-price", "source": "read-debt", "target": "read-price" },
+    { "id": "edge-price-pool", "source": "read-price", "target": "read-pool" },
+    { "id": "edge-pool-adjusted", "source": "read-pool", "target": "adjusted-collateral" },
+    { "id": "edge-adjusted-numerator", "source": "adjusted-collateral", "target": "target-debt-numerator" },
+    { "id": "edge-numerator-target", "source": "target-debt-numerator", "target": "target-debt" },
+    { "id": "edge-target-repay-base", "source": "target-debt", "target": "repay-base" },
+    { "id": "edge-repay-base-raw-numerator", "source": "repay-base", "target": "repay-raw-numerator" },
+    { "id": "edge-raw-numerator-decimal", "source": "repay-raw-numerator", "target": "repay-raw-decimal" },
+    { "id": "edge-raw-decimal-ceil", "source": "repay-raw-decimal", "target": "repay-raw-ceil" },
+    { "id": "edge-raw-ceil-cap", "source": "repay-raw-ceil", "target": "repay-raw-cap" }
+  ]
+}
