@@ -8,6 +8,7 @@ import {
 describe("KeeperHub failure classification", () => {
   it.each([
     ["replacement transaction underpriced", "gas", true],
+    ["nonce too low", "nonce", true],
     ["execution reverted: insufficient allowance", "revert", false],
     ["RPC gateway timeout", "rpc", true],
     ["unexpected executor response", "unknown", true],
@@ -61,4 +62,3 @@ describe("capped execution retry", () => {
     expect(execute).toHaveBeenCalledTimes(MAX_EXECUTION_ATTEMPTS);
   });
 });
-

@@ -159,3 +159,31 @@ Rescue proof:
   `0xa03a49a8213415e9fc0ec53c423c707ed2c869b92841781c4174abced9a958bb`
 - Full step log: `artifacts/m4/3r554lkdru7bn225qdwsz.json`
 - Telegram recovery: execution `35bu3yt31ir0xucroy7jb`, message ID `2`
+
+## M5 — Receipts and chaos
+
+Status: **complete**
+
+- [x] Build canonical JSON serialization with recursively sorted object keys.
+- [x] Seal each receipt with SHA-256 computed over the complete payload before
+  the `sha256` field is attached.
+- [x] Verify hashes independently with `npm run receipt:verify -- <path>` and
+  reject any modified receipt.
+- [x] Bundle the decision rationale, deterministic policy evidence, complete
+  KeeperHub `get_execution` response, execution/workflow IDs, transaction hash,
+  gas, sponsorship, before/after health, and Telegram recovery proof.
+- [x] Create the M4 rescue receipt at
+  `receipts/2026-07-28T16-29-26.213Z.json`.
+- [x] Add `npm run chaos` with controlled gas, stale-nonce, and dead-RPC fault
+  injection. All scenarios recover through the capped exponential retry ladder.
+- [x] Capture the repeatable demo result in `artifacts/chaos/latest.json`.
+- [x] Pass 35 tests, including receipt order invariance, tamper detection,
+  non-finite number rejection, nonce classification, and retry caps.
+
+Receipt proof:
+
+- SHA-256:
+  `550de5d5729bf3833215bf0583471514dd1e765bfe809556f8c5b86d468d0f20`
+- KeeperHub execution: `3r554lkdru7bn225qdwsz`
+- Transaction:
+  `0xa03a49a8213415e9fc0ec53c423c707ed2c869b92841781c4174abced9a958bb`

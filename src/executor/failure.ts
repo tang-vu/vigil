@@ -1,4 +1,9 @@
-export type ExecutionFailureKind = "gas" | "revert" | "rpc" | "unknown";
+export type ExecutionFailureKind =
+  | "gas"
+  | "nonce"
+  | "revert"
+  | "rpc"
+  | "unknown";
 
 export interface ClassifiedFailure {
   readonly kind: ExecutionFailureKind;
@@ -8,6 +13,7 @@ export interface ClassifiedFailure {
 
 const GAS_PATTERN =
   /out of gas|intrinsic gas|underpriced|fee too low|max fee|gas limit/i;
+const NONCE_PATTERN = /nonce too low|nonce too high|invalid nonce|already known/i;
 const REVERT_PATTERN =
   /revert|execution reverted|call exception|insufficient allowance|transfer amount exceeds/i;
 const RPC_PATTERN =
@@ -24,6 +30,9 @@ export function classifyKeeperHubFailure(error: unknown): ClassifiedFailure {
   if (GAS_PATTERN.test(message)) {
     return { kind: "gas", retryable: true, message };
   }
+  if (NONCE_PATTERN.test(message)) {
+    return { kind: "nonce", retryable: true, message };
+  }
   if (REVERT_PATTERN.test(message)) {
     return { kind: "revert", retryable: false, message };
   }
@@ -32,4 +41,3 @@ export function classifyKeeperHubFailure(error: unknown): ClassifiedFailure {
   }
   return { kind: "unknown", retryable: true, message };
 }
-

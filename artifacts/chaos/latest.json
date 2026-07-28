@@ -1,0 +1,62 @@
+{
+  "schemaVersion": "1.0.0",
+  "generatedAt": "2026-07-28T16:49:26.770Z",
+  "mode": "controlled-fault-injection",
+  "onchainTransactions": 0,
+  "results": [
+    {
+      "name": "bad-gas-params",
+      "recovered": true,
+      "attempts": 2,
+      "classifications": [
+        {
+          "kind": "gas",
+          "retryable": true,
+          "message": "max fee per gas less than block base fee"
+        }
+      ],
+      "backoffMs": [
+        1000
+      ],
+      "recovery": "discard bad override and let KeeperHub re-estimate gas"
+    },
+    {
+      "name": "wrong-nonce-assumption",
+      "recovered": true,
+      "attempts": 2,
+      "classifications": [
+        {
+          "kind": "nonce",
+          "retryable": true,
+          "message": "nonce too low after stale local assumption"
+        }
+      ],
+      "backoffMs": [
+        1000
+      ],
+      "recovery": "discard local nonce and defer ordering to KeeperHub"
+    },
+    {
+      "name": "dead-rpc-failover",
+      "recovered": true,
+      "attempts": 3,
+      "classifications": [
+        {
+          "kind": "rpc",
+          "retryable": true,
+          "message": "RPC connection refused: primary endpoint dead"
+        },
+        {
+          "kind": "rpc",
+          "retryable": true,
+          "message": "503 gateway timeout from secondary endpoint"
+        }
+      ],
+      "backoffMs": [
+        1000,
+        2000
+      ],
+      "recovery": "retry with exponential backoff until healthy RPC routing returns"
+    }
+  ]
+}

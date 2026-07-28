@@ -16,6 +16,9 @@
     "monitor": "tsx scripts/monitor.ts",
     "m4:setup": "tsx scripts/setup-aave-position.ts",
     "m4:rescue": "tsx scripts/execute-rescue.ts",
+    "receipt:m4": "tsx scripts/build-m4-receipt.ts",
+    "receipt:verify": "tsx scripts/verify-receipt.ts",
+    "chaos": "tsx scripts/chaos.ts",
     "workflow:validate": "tsx scripts/validate-workflow.ts"
   },
   "dependencies": {
