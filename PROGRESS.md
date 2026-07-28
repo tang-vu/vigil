@@ -263,3 +263,34 @@ Live proof:
 - Latest quote: `170314609700000000000` raw GHO (`170.3146097 GHO`) to target
   HF `2.0`.
 - Local suite: 40 tests; all four KeeperHub workflows deep-validate.
+
+## M7 - Ship
+
+Status: **complete**
+
+- [x] Rewrite the README around the shipped product with a Mermaid architecture
+  diagram, eight-step quickstart, safety model, live links, commands, and a
+  KeeperHub-surface-to-judging-criteria table.
+- [x] Add a timed three-minute demo script with exact PowerShell commands,
+  narration, live-payment guard, and a no-extra-spend fallback using the
+  committed x402 proof.
+- [x] Add `DORAHACKS.md` with repository link, best rescue transaction, x402
+  monetization transaction, video outline, KeeperHub surfaces, and submission
+  asset links.
+- [x] Finalize the onboarding teardown with an executive summary and prioritized
+  fixes grounded in the real M1-M6 build path.
+- [x] Prepare a small PR-ready KeeperHub improvement: expose plan entitlement
+  metadata in `list_action_schemas`, with implementation sketch and acceptance
+  tests.
+- [x] Keep the paid demo repeatable and compliant: a future Agent B payment
+  confirms the challenge-matched Base USDC event and immediately records its
+  transaction hash and KeeperHub execution ID.
+
+Submission package:
+
+- Repository: <https://github.com/tang-vu/vigil>
+- README: `README.md`
+- DoraHacks copy: `DORAHACKS.md`
+- Demo script: `docs/demo-script.md`
+- Teardown: `docs/teardown.md`
+- PR proposal: `docs/keeperhub-pr-proposal.md`

@@ -3,6 +3,39 @@
 This document records firsthand friction while building Vigil. Each issue includes
 evidence and a proposed improvement so it can become bounty-quality feedback.
 
+## Executive summary
+
+Vigil completed the full path from zero to a KeeperHub-sponsored Sepolia
+transfer, an Aave rescue workflow, a Base marketplace listing, and a paid x402
+call. The execution layer worked: KeeperHub confirmed the writes, sponsored the
+Sepolia gas, exposed detailed per-step logs, and settled the marketplace
+payment. The largest onboarding costs were discoverability and cross-surface
+inconsistency rather than transaction execution itself.
+
+Highest-leverage fixes:
+
+| Priority | Fix | Why it matters |
+|---:|---|---|
+| 1 | expose plan entitlements in `list_action_schemas` | prevents agents designing around unavailable Code/HTTP actions |
+| 2 | accept inline definitions in workflow validation | makes the documented validate-before-create sequence possible |
+| 3 | decouple x402 settlement chain from workflow chain | lets first-party wallets purchase testnet/read workflows |
+| 4 | apply `outputMapping` in paid runtime responses | makes the marketplace result match its advertised contract |
+| 5 | return settlement transaction details from the wallet | gives every paid call an immediate onchain audit link |
+
+The smallest PR-ready change is fully scoped in
+[`keeperhub-pr-proposal.md`](./keeperhub-pr-proposal.md). It adds non-secret
+entitlement metadata to schema discovery and reuses KeeperHub's existing
+feature-to-plan registry.
+
+Build context:
+
+- KeeperHub hosted MCP: `https://app.keeperhub.com/mcp`
+- KeeperHub wallet package: `@keeperhub/wallet@0.1.15`
+- application networks: Ethereum Sepolia `11155111`, Base `8453`
+- payment asset: native Base USDC
+- client/runtime: Codex on Windows PowerShell, strict TypeScript, Node 20+
+- observation window: July 28-29, 2026
+
 ## 2026-07-28 — Connected MCP claim did not match the active Codex session
 
 **Observed:** The project brief said the KeeperHub MCP server was connected, but
