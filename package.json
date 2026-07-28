@@ -15,6 +15,7 @@
     "m1:connectivity": "tsx scripts/m1-connectivity.ts",
     "monitor": "tsx scripts/monitor.ts",
     "m4:setup": "tsx scripts/setup-aave-position.ts",
+    "m4:rescue": "tsx scripts/execute-rescue.ts",
     "workflow:validate": "tsx scripts/validate-workflow.ts"
   },
   "dependencies": {

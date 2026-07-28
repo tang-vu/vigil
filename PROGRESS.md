@@ -85,7 +85,7 @@ policy caps, runtime advisory validation, and idempotency.
 
 ## M4 — KeeperHub rescue workflow
 
-Status: **in progress**
+Status: **onchain proof complete; Telegram credential blocked**
 
 - [x] Discover live `aave-v3/repay` and read schemas with
   `search_protocol_actions`.
@@ -118,9 +118,24 @@ Status: **in progress**
   execution IDs and hashes to `ledger/txs.json`.
 - [x] Verify the live at-risk position: collateral base `4,000,000,000`, debt
   base `2,800,000,700`, health factor `1.178571133928645089`.
-- [ ] Obtain a Telegram `chatId` for the notification step.
-- [ ] Validate, execute, poll full logs, classify/retry failures, and record the
-  confirmed rescue transaction.
+- [x] Confirm the Telegram schema accepts either a numeric chat ID or
+  `@username`; use `@hanhgia2212`.
+- [x] Preflight the exact `repay(USDC, 6000000, 2, account)` call through
+  KeeperHub simulation; returned `wouldRevert: false` and `193,179` estimated
+  gas.
+- [x] Execute the deep-validated workflow against the at-risk position and
+  capture the full five-node `get_execution` log.
+- [x] Confirm the condition observed HF `1.178564525550636061 < 1.2`.
+- [x] Confirm KeeperHub executed the Aave v3 repay step, sponsored the
+  transaction, reported `205,376` gas units, and append its execution ID and
+  hash to `ledger/txs.json`.
+- [x] Verify the post-rescue position: debt base fell from `2,800,016,400` to
+  `2,200,028,700`; health factor rose to `1.499980432073454314`.
+- [x] Do not retry after the downstream Telegram failure because the repay
+  transaction was already confirmed; this prevents a double repayment.
+- [ ] Configure a Telegram bot token in KeeperHub and prove the notification
+  step independently. Runtime requires a token even though the live schema
+  reports `requiresCredentials: false`.
 
 Setup proof:
 
@@ -130,3 +145,10 @@ Setup proof:
   `0xf76617d6b8d298738326506a1b9c751a9f3067960f6fd9ea31ff2858b47f4712`
 - Approval: execution `q1lv0soqx5mtzul4gytyn`, tx
   `0x5b25a71b86fc792414427b830674cc0223834734b834aa726af86160b02f2996`
+
+Rescue proof:
+
+- Workflow execution: `3r554lkdru7bn225qdwsz`
+- Repay transaction:
+  `0xa03a49a8213415e9fc0ec53c423c707ed2c869b92841781c4174abced9a958bb`
+- Full step log: `artifacts/m4/3r554lkdru7bn225qdwsz.json`

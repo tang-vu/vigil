@@ -33,5 +33,14 @@
     "confirmedAt": "2026-07-28T16:24:40.004Z",
     "transactionLink": "https://sepolia.etherscan.io/tx/0x5b25a71b86fc792414427b830674cc0223834734b834aa726af86160b02f2996",
     "gasUsedWei": "68494"
+  },
+  {
+    "executionId": "3r554lkdru7bn225qdwsz",
+    "transactionHash": "0xa03a49a8213415e9fc0ec53c423c707ed2c869b92841781c4174abced9a958bb",
+    "chainId": 11155111,
+    "type": "rescue",
+    "confirmedAt": "2026-07-28T16:29:26.213Z",
+    "transactionLink": "https://sepolia.etherscan.io/tx/0xa03a49a8213415e9fc0ec53c423c707ed2c869b92841781c4174abced9a958bb",
+    "gasUsedWei": "205376"
   }
 ]

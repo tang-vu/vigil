@@ -176,3 +176,71 @@ liquidity, then generated a new request and idempotency key.
 results with reserve status, liquidity, price, decimals, and supported chains.
 Decode or enrich reserve-liquidity panics as
 `AAVE_INSUFFICIENT_RESERVE_LIQUIDITY` with requested and available amounts.
+
+## 2026-07-28 — Validator does not classify Aave repay as a write action
+
+**Observed:** The persisted rescue workflow contains
+`actionType: "aave-v3/repay"`. Its default `workflowType: "read"` passed deep
+validation. After correcting the metadata to `workflowType: "write"`, the same
+five-node definition failed with:
+
+```text
+missing-write-action-for-write-workflow
+workflowType is "write" but no node has a write actionType
+```
+
+The validator also emitted no `write-action-on-read-workflow` warning in the
+original state.
+
+**Impact:** A private Aave rescue cannot simultaneously carry correct write
+metadata and pass the mandatory validation gate, even though the live action
+registry labels repay as credentialed and state-changing.
+
+**Resolution:** Vigil keeps this private, unlisted rescue at the server default
+classification, validates it, and proves the actual write from KeeperHub's full
+execution log and confirmed transaction. The separate marketplace workflows
+remain genuinely read-only.
+
+**Proposed improvement:** Source both validator checks from the same protocol
+action registry used by `search_protocol_actions`, including an explicit
+`mutability: "read" | "write"` field for every action.
+
+## 2026-07-28 — Telegram schema says credential-free, runtime requires a token
+
+**Observed:** `list_action_schemas({ category: "telegram" })` reports
+`requiresCredentials: false` and lists only `chatId`, `message`, and
+`parseMode`. The rescue's Telegram node accepted `@hanhgia2212`, but runtime
+failed with:
+
+```text
+Telegram bot token is required. Please configure it in the integration settings.
+```
+
+The Aave repay immediately before it had already confirmed onchain.
+
+**Impact:** A workflow can pass deep validation and execute an irreversible
+write before discovering a missing notification credential. A naive
+workflow-level retry would then repeat the repayment just to retry Telegram.
+
+**Resolution:** Vigil treats a confirmed write-step hash as terminal for the
+financial action, records it immediately, and never retries the whole workflow
+for a downstream notification failure.
+
+**Proposed improvement:** Mark Telegram `requiresCredentials: true`, expose its
+integration selector in required fields, and have `validate_workflow` reject a
+Telegram node when no bot credential is configured. Add per-node replay or a
+notification-only retry facility.
+
+## 2026-07-28 — Aggregate transaction hash list omitted a confirmed write
+
+**Observed:** The full `get_execution` step log contains the successful Aave
+repay transaction
+`0xa03a49a8213415e9fc0ec53c423c707ed2c869b92841781c4174abced9a958bb`,
+including executed calldata, sponsorship, gas, and explorer link. Both
+`status.transactionHashes` and `logs.execution.transactionHashes` are empty.
+
+**Impact:** Consumers relying on the documented aggregate audit field can miss
+a confirmed transaction whenever a later workflow node fails.
+
+**Proposed improvement:** Populate aggregate transaction hashes incrementally
+after each successful write node, independent of the final workflow status.

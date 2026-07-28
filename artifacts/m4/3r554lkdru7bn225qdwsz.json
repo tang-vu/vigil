@@ -1,0 +1,768 @@
+{
+  "attempt": 1,
+  "capturedAt": "2026-07-28T16:33:46.094Z",
+  "executionId": "3r554lkdru7bn225qdwsz",
+  "status": "error",
+  "logs": [
+    {
+      "id": "p5n8nu55tijyxwncd3htw",
+      "executionId": "3r554lkdru7bn225qdwsz",
+      "nodeId": "notify-telegram",
+      "nodeName": "Notify Telegram",
+      "nodeType": "telegram/send-message",
+      "status": "error",
+      "input": {
+        "chatId": "@hanhgia2212",
+        "message": "Vigil rescue confirmed. Account 0x81a60018b81dD438c1Fa7C869A7BDf9bf14B4efB, tx 0xa03a49a8213415e9fc0ec53c423c707ed2c869b92841781c4174abced9a958bb",
+        "condition": null,
+        "parseMode": "none",
+        "actionType": "telegram/send-message",
+        "_actionType": "telegram/send-message",
+        "conditionConfig": null
+      },
+      "output": {
+        "error": "Telegram bot token is required. Please configure it in the integration settings.",
+        "success": false,
+        "errorClass": "user"
+      },
+      "outputRaw": {
+        "error": "Telegram bot token is required. Please configure it in the integration settings.",
+        "success": false,
+        "errorClass": "user"
+      },
+      "error": "Telegram bot token is required. Please configure it in the integration settings.",
+      "startedAt": "2026-07-28T16:29:26.296Z",
+      "completedAt": "2026-07-28T16:29:26.302Z",
+      "duration": "3",
+      "timestamp": "2026-07-28T16:29:26.297Z",
+      "iterationIndex": null,
+      "forEachNodeId": null,
+      "network": null,
+      "gasUsedWei": null
+    },
+    {
+      "id": "9q2ot0irsiy342nvxypet",
+      "executionId": "3r554lkdru7bn225qdwsz",
+      "nodeId": "repay-debt",
+      "nodeName": "Repay Aave Debt",
+      "nodeType": "aave-v3/repay",
+      "status": "success",
+      "input": {
+        "asset": "0x94a9D9AC8a22534E3FaCa9F4e7F2E2cf85d5E4C8",
+        "amount": "6000000",
+        "network": "11155111",
+        "condition": null,
+        "actionType": "aave-v3/repay",
+        "onBehalfOf": "0x81a60018b81dD438c1Fa7C869A7BDf9bf14B4efB",
+        "_actionType": "aave-v3/repay",
+        "conditionConfig": null,
+        "interestRateMode": "2",
+        "gasLimitMultiplier": "1.2"
+      },
+      "output": {
+        "gasUsed": "205376",
+        "success": true,
+        "sponsored": true,
+        "executedCall": {
+          "args": {
+            "asset": "0x94a9D9AC8a22534E3FaCa9F4e7F2E2cf85d5E4C8",
+            "amount": "6000000",
+            "onBehalfOf": "0x81a60018b81dD438c1Fa7C869A7BDf9bf14B4efB",
+            "interestRateMode": "2"
+          },
+          "reverted": false,
+          "sponsored": true,
+          "topLevelTo": "0x5af5194b4b0909eb978e3cf1e25333852277f07d",
+          "functionName": "repay",
+          "contractAddress": "0x6ae43d3271ff6888e7fc43fd7321a503ff738951",
+          "functionSignature": "repay(address,uint256,uint256,address)"
+        },
+        "gasUsedUnits": "205376",
+        "transactionHash": "0xa03a49a8213415e9fc0ec53c423c707ed2c869b92841781c4174abced9a958bb",
+        "transactionLink": "https://sepolia.etherscan.io/tx/0xa03a49a8213415e9fc0ec53c423c707ed2c869b92841781c4174abced9a958bb",
+        "effectiveGasPrice": "1118357955"
+      },
+      "outputRaw": {
+        "gasUsed": "205376",
+        "success": true,
+        "sponsored": true,
+        "executedCall": {
+          "args": {
+            "asset": "0x94a9D9AC8a22534E3FaCa9F4e7F2E2cf85d5E4C8",
+            "amount": "6000000",
+            "onBehalfOf": "0x81a60018b81dD438c1Fa7C869A7BDf9bf14B4efB",
+            "interestRateMode": "2"
+          },
+          "reverted": false,
+          "sponsored": true,
+          "topLevelTo": "0x5af5194b4b0909eb978e3cf1e25333852277f07d",
+          "functionName": "repay",
+          "contractAddress": "0x6ae43d3271ff6888e7fc43fd7321a503ff738951",
+          "functionSignature": "repay(address,uint256,uint256,address)"
+        },
+        "gasUsedUnits": "205376",
+        "transactionHash": "0xa03a49a8213415e9fc0ec53c423c707ed2c869b92841781c4174abced9a958bb",
+        "transactionLink": "https://sepolia.etherscan.io/tx/0xa03a49a8213415e9fc0ec53c423c707ed2c869b92841781c4174abced9a958bb",
+        "effectiveGasPrice": "1118357955"
+      },
+      "error": null,
+      "startedAt": "2026-07-28T16:29:15.107Z",
+      "completedAt": "2026-07-28T16:29:26.213Z",
+      "duration": "11100",
+      "timestamp": "2026-07-28T16:29:15.107Z",
+      "iterationIndex": null,
+      "forEachNodeId": null,
+      "network": "11155111",
+      "gasUsedWei": "205376"
+    },
+    {
+      "id": "kva4vk77qdtnyqyxtzotb",
+      "executionId": "3r554lkdru7bn225qdwsz",
+      "nodeId": "health-condition",
+      "nodeName": "Health Below Threshold",
+      "nodeType": "Condition",
+      "status": "success",
+      "input": {
+        "values": {
+          "Trigger.thresholdWad": "1200000000000000000",
+          "Read Aave Health.healthFactor": "1178564525550636061"
+        },
+        "condition": true,
+        "expression": "{{@read-health:Read Aave Health.healthFactor}} < {{@trigger-1:Trigger.thresholdWad}}",
+        "_evaluationError": null,
+        "resolvedExpression": "\"1178564525550636061\" < \"1200000000000000000\""
+      },
+      "output": {
+        "condition": true
+      },
+      "outputRaw": {
+        "condition": true
+      },
+      "error": null,
+      "startedAt": "2026-07-28T16:29:15.005Z",
+      "completedAt": "2026-07-28T16:29:15.012Z",
+      "duration": "1",
+      "timestamp": "2026-07-28T16:29:15.005Z",
+      "iterationIndex": null,
+      "forEachNodeId": null,
+      "network": null,
+      "gasUsedWei": null
+    },
+    {
+      "id": "eiff8v6jerw1u9lh1pqxy",
+      "executionId": "3r554lkdru7bn225qdwsz",
+      "nodeId": "read-health",
+      "nodeName": "Read Aave Health",
+      "nodeType": "aave-v3/get-user-account-data",
+      "status": "success",
+      "input": {
+        "user": "0x81a60018b81dD438c1Fa7C869A7BDf9bf14B4efB",
+        "network": "11155111",
+        "condition": null,
+        "actionType": "aave-v3/get-user-account-data",
+        "_actionType": "aave-v3/get-user-account-data",
+        "conditionConfig": null
+      },
+      "output": {
+        "result": {
+          "ltv": "8000",
+          "healthFactor": "1178564525550636061",
+          "totalDebtBase": "2800016400",
+          "totalCollateralBase": "4000000000",
+          "availableBorrowsBase": "399983600",
+          "currentLiquidationThreshold": "8250"
+        },
+        "success": true,
+        "addressLink": "https://sepolia.etherscan.io/address/0x6Ae43d3271ff6888e7Fc43Fd7321a503ff738951"
+      },
+      "outputRaw": {
+        "result": {
+          "ltv": "8000",
+          "healthFactor": "1178564525550636061",
+          "totalDebtBase": "2800016400",
+          "totalCollateralBase": "4000000000",
+          "availableBorrowsBase": "399983600",
+          "currentLiquidationThreshold": "8250"
+        },
+        "success": true,
+        "addressLink": "https://sepolia.etherscan.io/address/0x6Ae43d3271ff6888e7Fc43Fd7321a503ff738951"
+      },
+      "error": null,
+      "startedAt": "2026-07-28T16:29:14.817Z",
+      "completedAt": "2026-07-28T16:29:14.917Z",
+      "duration": "94",
+      "timestamp": "2026-07-28T16:29:14.817Z",
+      "iterationIndex": null,
+      "forEachNodeId": null,
+      "network": "11155111",
+      "gasUsedWei": null
+    },
+    {
+      "id": "v6yqs6kf0kvx4xgbt3fqf",
+      "executionId": "3r554lkdru7bn225qdwsz",
+      "nodeId": "trigger-1",
+      "nodeName": "Trigger",
+      "nodeType": "trigger",
+      "status": "success",
+      "input": {
+        "triggerData": {
+          "account": "0x81a60018b81dD438c1Fa7C869A7BDf9bf14B4efB",
+          "debtAsset": "0x94a9D9AC8a22534E3FaCa9F4e7F2E2cf85d5E4C8",
+          "timestamp": 1785256154585,
+          "triggered": true,
+          "triggeredAt": "2026-07-28T16:29:14.585Z",
+          "thresholdWad": "1200000000000000000",
+          "repayAmountRaw": "6000000",
+          "telegramChatId": "@hanhgia2212"
+        }
+      },
+      "output": {
+        "data": {
+          "account": "0x81a60018b81dD438c1Fa7C869A7BDf9bf14B4efB",
+          "debtAsset": "0x94a9D9AC8a22534E3FaCa9F4e7F2E2cf85d5E4C8",
+          "timestamp": 1785256154585,
+          "triggered": true,
+          "triggeredAt": "2026-07-28T16:29:14.585Z",
+          "thresholdWad": "1200000000000000000",
+          "repayAmountRaw": "6000000",
+          "telegramChatId": "@hanhgia2212"
+        },
+        "success": true
+      },
+      "outputRaw": {
+        "data": {
+          "account": "0x81a60018b81dD438c1Fa7C869A7BDf9bf14B4efB",
+          "debtAsset": "0x94a9D9AC8a22534E3FaCa9F4e7F2E2cf85d5E4C8",
+          "timestamp": 1785256154585,
+          "triggered": true,
+          "triggeredAt": "2026-07-28T16:29:14.585Z",
+          "thresholdWad": "1200000000000000000",
+          "repayAmountRaw": "6000000",
+          "telegramChatId": "@hanhgia2212"
+        },
+        "success": true
+      },
+      "error": null,
+      "startedAt": "2026-07-28T16:29:14.698Z",
+      "completedAt": "2026-07-28T16:29:14.704Z",
+      "duration": "2",
+      "timestamp": "2026-07-28T16:29:14.698Z",
+      "iterationIndex": null,
+      "forEachNodeId": null,
+      "network": null,
+      "gasUsedWei": null
+    }
+  ],
+  "raw": {
+    "status": {
+      "status": "error",
+      "nodeStatuses": [
+        {
+          "nodeId": "health-condition",
+          "status": "success"
+        },
+        {
+          "nodeId": "notify-telegram",
+          "status": "error"
+        },
+        {
+          "nodeId": "read-health",
+          "status": "success"
+        },
+        {
+          "nodeId": "trigger-1",
+          "status": "success"
+        },
+        {
+          "nodeId": "repay-debt",
+          "status": "success"
+        }
+      ],
+      "progress": {
+        "totalSteps": 0,
+        "completedSteps": 5,
+        "runningSteps": 0,
+        "currentNodeId": null,
+        "currentNodeName": null,
+        "percentage": 0
+      },
+      "errorContext": {
+        "failedNodeId": null,
+        "lastSuccessfulNodeId": "repay-debt",
+        "lastSuccessfulNodeName": "Repay Aave Debt",
+        "executionTrace": [
+          "trigger-1",
+          "read-health",
+          "health-condition",
+          "repay-debt",
+          "notify-telegram"
+        ],
+        "error": "Telegram bot token is required. Please configure it in the integration settings."
+      },
+      "transactionHashes": []
+    },
+    "logs": {
+      "execution": {
+        "id": "3r554lkdru7bn225qdwsz",
+        "workflowId": "7cnxv04o5w3s2fbrgnf62",
+        "userId": "R0XrO60abvIUWu0TkCdqi5G9MypZk6lf",
+        "status": "error",
+        "input": {
+          "account": "0x81a60018b81dD438c1Fa7C869A7BDf9bf14B4efB",
+          "debtAsset": "0x94a9D9AC8a22534E3FaCa9F4e7F2E2cf85d5E4C8",
+          "thresholdWad": "1200000000000000000",
+          "repayAmountRaw": "6000000",
+          "telegramChatId": "@hanhgia2212"
+        },
+        "output": null,
+        "error": "Telegram bot token is required. Please configure it in the integration settings.",
+        "errorCategory": "workflow_engine",
+        "errorType": "user",
+        "errorCode": null,
+        "startedAt": "2026-07-28T16:29:14.551Z",
+        "completedAt": "2026-07-28T16:29:26.390Z",
+        "duration": "11793",
+        "totalSteps": null,
+        "completedSteps": "5",
+        "currentNodeId": null,
+        "currentNodeName": null,
+        "lastSuccessfulNodeId": "repay-debt",
+        "lastSuccessfulNodeName": "Repay Aave Debt",
+        "executionTrace": [
+          "trigger-1",
+          "read-health",
+          "health-condition",
+          "repay-debt",
+          "notify-telegram"
+        ],
+        "runId": "wrun_01KYMRY5E1JYT6M9QJVWG9JGHT",
+        "transactionHashes": [],
+        "gasUsedWei": "205376",
+        "billable": true,
+        "triggeredByUserApiKeyId": null,
+        "triggeredByOrgApiKeyId": "6is7xn7yazcdqeq92hach",
+        "triggeredByIp": null,
+        "triggeredByCountry": null,
+        "triggerSource": "manual",
+        "triggeredByCredentialType": "org_api_key",
+        "triggeredByCredentialLabel": null,
+        "executedWorkflowHash": "d4f3f87c08abecf27014d0ab03f1a2f6a80a61d7e46bdeea3ce9a64402480649",
+        "dispatchKey": null,
+        "deletedAt": null,
+        "workflow": {
+          "id": "7cnxv04o5w3s2fbrgnf62",
+          "name": "vigil-rescue-sepolia",
+          "description": "Read Aave v3 health factor, conditionally repay debt, then notify Telegram.",
+          "userId": "R0XrO60abvIUWu0TkCdqi5G9MypZk6lf",
+          "organizationId": "e782ed83-5e97-447a-9126-22a64d427512",
+          "isAnonymous": false,
+          "featured": false,
+          "featuredOrder": 0,
+          "featuredProtocol": null,
+          "featuredProtocolOrder": 0,
+          "projectId": null,
+          "tagId": null,
+          "nodes": [
+            {
+              "id": "trigger-1",
+              "data": {
+                "type": "trigger",
+                "label": "Trigger",
+                "config": {
+                  "triggerType": "Manual"
+                },
+                "status": "idle"
+              },
+              "type": "trigger",
+              "position": {
+                "x": 0,
+                "y": 0
+              }
+            },
+            {
+              "id": "read-health",
+              "data": {
+                "type": "action",
+                "label": "Read Aave Health",
+                "config": {
+                  "user": "{{@trigger-1:Trigger.account}}",
+                  "network": "11155111",
+                  "actionType": "aave-v3/get-user-account-data"
+                },
+                "status": "idle"
+              },
+              "type": "action",
+              "position": {
+                "x": 252,
+                "y": 0
+              }
+            },
+            {
+              "id": "health-condition",
+              "data": {
+                "type": "action",
+                "label": "Health Below Threshold",
+                "config": {
+                  "condition": "{{@read-health:Read Aave Health.healthFactor}} < {{@trigger-1:Trigger.thresholdWad}}",
+                  "actionType": "Condition",
+                  "conditionConfig": {
+                    "group": {
+                      "id": "health-group",
+                      "logic": "AND",
+                      "rules": [
+                        {
+                          "id": "health-rule",
+                          "operator": "<",
+                          "leftOperand": "{{@read-health:Read Aave Health.healthFactor}}",
+                          "rightOperand": "{{@trigger-1:Trigger.thresholdWad}}"
+                        }
+                      ]
+                    }
+                  }
+                },
+                "status": "idle"
+              },
+              "type": "action",
+              "position": {
+                "x": 504,
+                "y": 0
+              }
+            },
+            {
+              "id": "repay-debt",
+              "data": {
+                "type": "action",
+                "label": "Repay Aave Debt",
+                "config": {
+                  "asset": "{{@trigger-1:Trigger.debtAsset}}",
+                  "amount": "{{@trigger-1:Trigger.repayAmountRaw}}",
+                  "network": "11155111",
+                  "actionType": "aave-v3/repay",
+                  "onBehalfOf": "{{@trigger-1:Trigger.account}}",
+                  "interestRateMode": "2",
+                  "gasLimitMultiplier": "1.2"
+                },
+                "status": "idle"
+              },
+              "type": "action",
+              "position": {
+                "x": 756,
+                "y": 0
+              }
+            },
+            {
+              "id": "notify-telegram",
+              "data": {
+                "type": "action",
+                "label": "Notify Telegram",
+                "config": {
+                  "chatId": "{{@trigger-1:Trigger.telegramChatId}}",
+                  "message": "Vigil rescue confirmed. Account {{@trigger-1:Trigger.account}}, tx {{@repay-debt:Repay Aave Debt.transactionHash}}",
+                  "parseMode": "none",
+                  "actionType": "telegram/send-message"
+                },
+                "status": "idle"
+              },
+              "type": "action",
+              "position": {
+                "x": 1008,
+                "y": 0
+              }
+            }
+          ],
+          "edges": [
+            {
+              "id": "edge-trigger-read",
+              "source": "trigger-1",
+              "target": "read-health"
+            },
+            {
+              "id": "edge-read-condition",
+              "source": "read-health",
+              "target": "health-condition"
+            },
+            {
+              "id": "edge-condition-repay",
+              "source": "health-condition",
+              "target": "repay-debt",
+              "sourceHandle": "true"
+            },
+            {
+              "id": "edge-repay-notify",
+              "source": "repay-debt",
+              "target": "notify-telegram"
+            }
+          ],
+          "visibility": "private",
+          "enabled": false,
+          "sourceWorkflowId": null,
+          "createdAt": "2026-07-28T16:13:07.858Z",
+          "updatedAt": "2026-07-28T16:27:12.816Z",
+          "seededAt": null,
+          "isListed": false,
+          "listedSlug": null,
+          "listedAt": null,
+          "inputSchema": null,
+          "outputMapping": null,
+          "priceUsdcPerCall": null,
+          "workflowType": "read",
+          "category": null,
+          "chain": null,
+          "listingVersion": 1,
+          "deletedAt": null,
+          "deactivatedAt": null
+        }
+      },
+      "logs": [
+        {
+          "id": "p5n8nu55tijyxwncd3htw",
+          "executionId": "3r554lkdru7bn225qdwsz",
+          "nodeId": "notify-telegram",
+          "nodeName": "Notify Telegram",
+          "nodeType": "telegram/send-message",
+          "status": "error",
+          "input": {
+            "chatId": "@hanhgia2212",
+            "message": "Vigil rescue confirmed. Account 0x81a60018b81dD438c1Fa7C869A7BDf9bf14B4efB, tx 0xa03a49a8213415e9fc0ec53c423c707ed2c869b92841781c4174abced9a958bb",
+            "condition": null,
+            "parseMode": "none",
+            "actionType": "telegram/send-message",
+            "_actionType": "telegram/send-message",
+            "conditionConfig": null
+          },
+          "output": {
+            "error": "Telegram bot token is required. Please configure it in the integration settings.",
+            "success": false,
+            "errorClass": "user"
+          },
+          "outputRaw": {
+            "error": "Telegram bot token is required. Please configure it in the integration settings.",
+            "success": false,
+            "errorClass": "user"
+          },
+          "error": "Telegram bot token is required. Please configure it in the integration settings.",
+          "startedAt": "2026-07-28T16:29:26.296Z",
+          "completedAt": "2026-07-28T16:29:26.302Z",
+          "duration": "3",
+          "timestamp": "2026-07-28T16:29:26.297Z",
+          "iterationIndex": null,
+          "forEachNodeId": null,
+          "network": null,
+          "gasUsedWei": null
+        },
+        {
+          "id": "9q2ot0irsiy342nvxypet",
+          "executionId": "3r554lkdru7bn225qdwsz",
+          "nodeId": "repay-debt",
+          "nodeName": "Repay Aave Debt",
+          "nodeType": "aave-v3/repay",
+          "status": "success",
+          "input": {
+            "asset": "0x94a9D9AC8a22534E3FaCa9F4e7F2E2cf85d5E4C8",
+            "amount": "6000000",
+            "network": "11155111",
+            "condition": null,
+            "actionType": "aave-v3/repay",
+            "onBehalfOf": "0x81a60018b81dD438c1Fa7C869A7BDf9bf14B4efB",
+            "_actionType": "aave-v3/repay",
+            "conditionConfig": null,
+            "interestRateMode": "2",
+            "gasLimitMultiplier": "1.2"
+          },
+          "output": {
+            "gasUsed": "205376",
+            "success": true,
+            "sponsored": true,
+            "executedCall": {
+              "args": {
+                "asset": "0x94a9D9AC8a22534E3FaCa9F4e7F2E2cf85d5E4C8",
+                "amount": "6000000",
+                "onBehalfOf": "0x81a60018b81dD438c1Fa7C869A7BDf9bf14B4efB",
+                "interestRateMode": "2"
+              },
+              "reverted": false,
+              "sponsored": true,
+              "topLevelTo": "0x5af5194b4b0909eb978e3cf1e25333852277f07d",
+              "functionName": "repay",
+              "contractAddress": "0x6ae43d3271ff6888e7fc43fd7321a503ff738951",
+              "functionSignature": "repay(address,uint256,uint256,address)"
+            },
+            "gasUsedUnits": "205376",
+            "transactionHash": "0xa03a49a8213415e9fc0ec53c423c707ed2c869b92841781c4174abced9a958bb",
+            "transactionLink": "https://sepolia.etherscan.io/tx/0xa03a49a8213415e9fc0ec53c423c707ed2c869b92841781c4174abced9a958bb",
+            "effectiveGasPrice": "1118357955"
+          },
+          "outputRaw": {
+            "gasUsed": "205376",
+            "success": true,
+            "sponsored": true,
+            "executedCall": {
+              "args": {
+                "asset": "0x94a9D9AC8a22534E3FaCa9F4e7F2E2cf85d5E4C8",
+                "amount": "6000000",
+                "onBehalfOf": "0x81a60018b81dD438c1Fa7C869A7BDf9bf14B4efB",
+                "interestRateMode": "2"
+              },
+              "reverted": false,
+              "sponsored": true,
+              "topLevelTo": "0x5af5194b4b0909eb978e3cf1e25333852277f07d",
+              "functionName": "repay",
+              "contractAddress": "0x6ae43d3271ff6888e7fc43fd7321a503ff738951",
+              "functionSignature": "repay(address,uint256,uint256,address)"
+            },
+            "gasUsedUnits": "205376",
+            "transactionHash": "0xa03a49a8213415e9fc0ec53c423c707ed2c869b92841781c4174abced9a958bb",
+            "transactionLink": "https://sepolia.etherscan.io/tx/0xa03a49a8213415e9fc0ec53c423c707ed2c869b92841781c4174abced9a958bb",
+            "effectiveGasPrice": "1118357955"
+          },
+          "error": null,
+          "startedAt": "2026-07-28T16:29:15.107Z",
+          "completedAt": "2026-07-28T16:29:26.213Z",
+          "duration": "11100",
+          "timestamp": "2026-07-28T16:29:15.107Z",
+          "iterationIndex": null,
+          "forEachNodeId": null,
+          "network": "11155111",
+          "gasUsedWei": "205376"
+        },
+        {
+          "id": "kva4vk77qdtnyqyxtzotb",
+          "executionId": "3r554lkdru7bn225qdwsz",
+          "nodeId": "health-condition",
+          "nodeName": "Health Below Threshold",
+          "nodeType": "Condition",
+          "status": "success",
+          "input": {
+            "values": {
+              "Trigger.thresholdWad": "1200000000000000000",
+              "Read Aave Health.healthFactor": "1178564525550636061"
+            },
+            "condition": true,
+            "expression": "{{@read-health:Read Aave Health.healthFactor}} < {{@trigger-1:Trigger.thresholdWad}}",
+            "_evaluationError": null,
+            "resolvedExpression": "\"1178564525550636061\" < \"1200000000000000000\""
+          },
+          "output": {
+            "condition": true
+          },
+          "outputRaw": {
+            "condition": true
+          },
+          "error": null,
+          "startedAt": "2026-07-28T16:29:15.005Z",
+          "completedAt": "2026-07-28T16:29:15.012Z",
+          "duration": "1",
+          "timestamp": "2026-07-28T16:29:15.005Z",
+          "iterationIndex": null,
+          "forEachNodeId": null,
+          "network": null,
+          "gasUsedWei": null
+        },
+        {
+          "id": "eiff8v6jerw1u9lh1pqxy",
+          "executionId": "3r554lkdru7bn225qdwsz",
+          "nodeId": "read-health",
+          "nodeName": "Read Aave Health",
+          "nodeType": "aave-v3/get-user-account-data",
+          "status": "success",
+          "input": {
+            "user": "0x81a60018b81dD438c1Fa7C869A7BDf9bf14B4efB",
+            "network": "11155111",
+            "condition": null,
+            "actionType": "aave-v3/get-user-account-data",
+            "_actionType": "aave-v3/get-user-account-data",
+            "conditionConfig": null
+          },
+          "output": {
+            "result": {
+              "ltv": "8000",
+              "healthFactor": "1178564525550636061",
+              "totalDebtBase": "2800016400",
+              "totalCollateralBase": "4000000000",
+              "availableBorrowsBase": "399983600",
+              "currentLiquidationThreshold": "8250"
+            },
+            "success": true,
+            "addressLink": "https://sepolia.etherscan.io/address/0x6Ae43d3271ff6888e7Fc43Fd7321a503ff738951"
+          },
+          "outputRaw": {
+            "result": {
+              "ltv": "8000",
+              "healthFactor": "1178564525550636061",
+              "totalDebtBase": "2800016400",
+              "totalCollateralBase": "4000000000",
+              "availableBorrowsBase": "399983600",
+              "currentLiquidationThreshold": "8250"
+            },
+            "success": true,
+            "addressLink": "https://sepolia.etherscan.io/address/0x6Ae43d3271ff6888e7Fc43Fd7321a503ff738951"
+          },
+          "error": null,
+          "startedAt": "2026-07-28T16:29:14.817Z",
+          "completedAt": "2026-07-28T16:29:14.917Z",
+          "duration": "94",
+          "timestamp": "2026-07-28T16:29:14.817Z",
+          "iterationIndex": null,
+          "forEachNodeId": null,
+          "network": "11155111",
+          "gasUsedWei": null
+        },
+        {
+          "id": "v6yqs6kf0kvx4xgbt3fqf",
+          "executionId": "3r554lkdru7bn225qdwsz",
+          "nodeId": "trigger-1",
+          "nodeName": "Trigger",
+          "nodeType": "trigger",
+          "status": "success",
+          "input": {
+            "triggerData": {
+              "account": "0x81a60018b81dD438c1Fa7C869A7BDf9bf14B4efB",
+              "debtAsset": "0x94a9D9AC8a22534E3FaCa9F4e7F2E2cf85d5E4C8",
+              "timestamp": 1785256154585,
+              "triggered": true,
+              "triggeredAt": "2026-07-28T16:29:14.585Z",
+              "thresholdWad": "1200000000000000000",
+              "repayAmountRaw": "6000000",
+              "telegramChatId": "@hanhgia2212"
+            }
+          },
+          "output": {
+            "data": {
+              "account": "0x81a60018b81dD438c1Fa7C869A7BDf9bf14B4efB",
+              "debtAsset": "0x94a9D9AC8a22534E3FaCa9F4e7F2E2cf85d5E4C8",
+              "timestamp": 1785256154585,
+              "triggered": true,
+              "triggeredAt": "2026-07-28T16:29:14.585Z",
+              "thresholdWad": "1200000000000000000",
+              "repayAmountRaw": "6000000",
+              "telegramChatId": "@hanhgia2212"
+            },
+            "success": true
+          },
+          "outputRaw": {
+            "data": {
+              "account": "0x81a60018b81dD438c1Fa7C869A7BDf9bf14B4efB",
+              "debtAsset": "0x94a9D9AC8a22534E3FaCa9F4e7F2E2cf85d5E4C8",
+              "timestamp": 1785256154585,
+              "triggered": true,
+              "triggeredAt": "2026-07-28T16:29:14.585Z",
+              "thresholdWad": "1200000000000000000",
+              "repayAmountRaw": "6000000",
+              "telegramChatId": "@hanhgia2212"
+            },
+            "success": true
+          },
+          "error": null,
+          "startedAt": "2026-07-28T16:29:14.698Z",
+          "completedAt": "2026-07-28T16:29:14.704Z",
+          "duration": "2",
+          "timestamp": "2026-07-28T16:29:14.698Z",
+          "iterationIndex": null,
+          "forEachNodeId": null,
+          "network": null,
+          "gasUsedWei": null
+        }
+      ]
+    }
+  }
+}
