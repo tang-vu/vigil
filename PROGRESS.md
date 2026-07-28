@@ -4,7 +4,7 @@ Last updated: 2026-07-28
 
 ## M1 — Connectivity
 
-Status: **blocked on Sepolia wallet funding**
+Status: **complete**
 
 - [x] Confirmed the repository contains no existing implementation or `CLAUDE.md`.
 - [x] Read the official KeeperHub Hackathon Quickstart, MCP server, Direct Execution, Aave v3, and Chainlink documentation.
@@ -14,11 +14,21 @@ Status: **blocked on Sepolia wallet funding**
 - [x] Verify the organization wallet with `get_wallet_integration`.
 - [x] Confirm Ethereum Sepolia (`11155111`) is a stable testnet using
   `list_action_schemas`.
-- [x] Check the org wallet's Sepolia balance read-only: `0 wei` at verification
-  time, so broadcast was intentionally not attempted.
-- [ ] Fund `0x81a60018b81dD438c1Fa7C869A7BDf9bf14B4efB` with Sepolia ETH.
-- [ ] Simulate a dust transfer.
-- [ ] Execute the dust transfer through KeeperHub.
-- [ ] Poll to terminal status and append the execution ID and transaction hash to `ledger/txs.json`.
+- [x] Recheck the funded org wallet read-only: `0.05 ETH`.
+- [x] Execute a `0.000001 ETH` self-transfer on Sepolia through KeeperHub MCP
+  `execute_transfer`, protected by idempotency key
+  `vigil-m1-connectivity-20260728-01`.
+- [x] Poll `get_direct_execution_status` to `completed` and immediately append
+  the execution ID and transaction hash to `ledger/txs.json`.
+- [x] Confirm KeeperHub reported `success: true`, `sponsored: true`,
+  `retryCount: 0`, and `74,745` gas units.
 
-M2 has not started because milestones require proof in order.
+Proof:
+
+- KeeperHub execution: `mnjfr6ce08z6ngks5xo5x`
+- Transaction:
+  `0x7d6c187670e37ba3838be47baa5951b49c89fcf6af83f2dccab794e2b26b1c3e`
+- Explorer:
+  <https://sepolia.etherscan.io/tx/0x7d6c187670e37ba3838be47baa5951b49c89fcf6af83f2dccab794e2b26b1c3e>
+
+M2 is now unblocked.
