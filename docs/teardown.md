@@ -155,3 +155,24 @@ five nodes.
 This narrows the issue to the OAuth credential path rather than the workflow
 definition, organization, or hosted service generally. A concise auth
 capability diagnostic would have saved the reauthorization and repeated call.
+
+## 2026-07-28 — Aave action discovery omits reserve liquidity
+
+**Observed:** The Aave action registry reported DAI as a borrow action input on
+Sepolia, and onchain reserve configuration showed it active, unpaused, and
+borrow-enabled. KeeperHub's dry-run correctly prevented broadcast, but returned
+only `Panic(17)`. A separate read showed the DAI reserve had roughly 0.022 DAI
+of underlying liquidity, far below the requested 14 DAI.
+
+**Impact:** Protocol/action discovery can identify an available action without
+showing whether the selected reserve can currently satisfy it. The raw Solidity
+panic is also much less actionable than an insufficient-liquidity explanation.
+
+**Resolution:** Vigil did not repeat or broadcast the failing call. It selected
+USDC only after reading its active flags, Aave oracle price, and underlying
+liquidity, then generated a new request and idempotency key.
+
+**Proposed improvement:** Add an optional preflight payload to protocol search
+results with reserve status, liquidity, price, decimals, and supported chains.
+Decode or enrich reserve-liquidity panics as
+`AAVE_INSUFFICIENT_RESERVE_LIQUIDITY` with requested and available amounts.

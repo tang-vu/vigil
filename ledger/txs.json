@@ -6,5 +6,32 @@
     "type": "m1-connectivity-transfer",
     "confirmedAt": "2026-07-28T14:24:18.652Z",
     "transactionLink": "https://sepolia.etherscan.io/tx/0x7d6c187670e37ba3838be47baa5951b49c89fcf6af83f2dccab794e2b26b1c3e"
+  },
+  {
+    "executionId": "dsar54qwu8n4wn11ph67g",
+    "transactionHash": "0x77b5273688bf38a7e7973d2d2dc44e6e59802a31da2eb4c645dc8727cf9bac15",
+    "chainId": 11155111,
+    "type": "setup-collateral",
+    "confirmedAt": "2026-07-28T16:22:53.117Z",
+    "transactionLink": "https://sepolia.etherscan.io/tx/0x77b5273688bf38a7e7973d2d2dc44e6e59802a31da2eb4c645dc8727cf9bac15",
+    "gasUsedWei": "229927"
+  },
+  {
+    "executionId": "s9ahvqibd4bi14qya6kxe",
+    "transactionHash": "0xf76617d6b8d298738326506a1b9c751a9f3067960f6fd9ea31ff2858b47f4712",
+    "chainId": 11155111,
+    "type": "setup-borrow",
+    "confirmedAt": "2026-07-28T16:24:27.877Z",
+    "transactionLink": "https://sepolia.etherscan.io/tx/0xf76617d6b8d298738326506a1b9c751a9f3067960f6fd9ea31ff2858b47f4712",
+    "gasUsedWei": "289724"
+  },
+  {
+    "executionId": "q1lv0soqx5mtzul4gytyn",
+    "transactionHash": "0x5b25a71b86fc792414427b830674cc0223834734b834aa726af86160b02f2996",
+    "chainId": 11155111,
+    "type": "setup-approval",
+    "confirmedAt": "2026-07-28T16:24:40.004Z",
+    "transactionLink": "https://sepolia.etherscan.io/tx/0x5b25a71b86fc792414427b830674cc0223834734b834aa726af86160b02f2996",
+    "gasUsedWei": "68494"
   }
 ]

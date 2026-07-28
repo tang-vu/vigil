@@ -110,7 +110,23 @@ Status: **in progress**
   `valid: true` and `nodeCount: 5`.
 - [x] Add `npm run workflow:validate` so the proof is repeatable without
   printing or persisting the organization key.
+- [x] Create the deliberately at-risk Sepolia position entirely through
+  KeeperHub direct execution: deposit `0.01 ETH` through Aave's WETH gateway,
+  borrow `28 USDC` at variable rate, and approve a tightly bounded `6 USDC`
+  repayment allowance.
+- [x] Simulate each setup call before broadcast and append all three confirmed
+  execution IDs and hashes to `ledger/txs.json`.
+- [x] Verify the live at-risk position: collateral base `4,000,000,000`, debt
+  base `2,800,000,700`, health factor `1.178571133928645089`.
 - [ ] Obtain a Telegram `chatId` for the notification step.
-- [ ] Prepare a deliberately at-risk Aave Sepolia position through KeeperHub.
 - [ ] Validate, execute, poll full logs, classify/retry failures, and record the
   confirmed rescue transaction.
+
+Setup proof:
+
+- Collateral: execution `dsar54qwu8n4wn11ph67g`, tx
+  `0x77b5273688bf38a7e7973d2d2dc44e6e59802a31da2eb4c645dc8727cf9bac15`
+- Borrow: execution `s9ahvqibd4bi14qya6kxe`, tx
+  `0xf76617d6b8d298738326506a1b9c751a9f3067960f6fd9ea31ff2858b47f4712`
+- Approval: execution `q1lv0soqx5mtzul4gytyn`, tx
+  `0x5b25a71b86fc792414427b830674cc0223834734b834aa726af86160b02f2996`

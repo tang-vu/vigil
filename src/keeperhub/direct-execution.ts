@@ -21,6 +21,16 @@ export interface TransferSimulation {
   readonly wouldRevert: false;
 }
 
+export interface ContractCallRequest {
+  readonly chainId: typeof SEPOLIA_CHAIN_ID;
+  readonly contractAddress: Address;
+  readonly functionName: string;
+  readonly functionArgs?: string;
+  readonly abi?: string;
+  readonly value?: string;
+  readonly gasLimitMultiplier?: string;
+}
+
 export interface DirectExecutionAccepted {
   readonly executionId: string;
   readonly status: "pending" | "running" | "completed" | "failed";
@@ -74,9 +84,29 @@ export class KeeperHubDirectExecutionClient {
 
   public async executeTransfer(
     request: Omit<TransferRequest, "simulate">,
-    idempotencyKey = randomUUID(),
+    idempotencyKey: string = randomUUID(),
   ): Promise<DirectExecutionAccepted> {
     return this.request<DirectExecutionAccepted>("/api/execute/transfer", {
+      method: "POST",
+      headers: { "Idempotency-Key": idempotencyKey },
+      body: JSON.stringify(request),
+    });
+  }
+
+  public async simulateContractCall(
+    request: ContractCallRequest,
+  ): Promise<TransferSimulation> {
+    return this.request<TransferSimulation>("/api/execute/contract-call", {
+      method: "POST",
+      body: JSON.stringify({ ...request, simulate: true satisfies boolean }),
+    });
+  }
+
+  public async executeContractCall(
+    request: ContractCallRequest,
+    idempotencyKey: string = randomUUID(),
+  ): Promise<DirectExecutionAccepted> {
+    return this.request<DirectExecutionAccepted>("/api/execute/contract-call", {
       method: "POST",
       headers: { "Idempotency-Key": idempotencyKey },
       body: JSON.stringify(request),
@@ -124,4 +154,3 @@ export class KeeperHubDirectExecutionClient {
     return response;
   }
 }
-

@@ -6,7 +6,12 @@ export interface LedgerEntry {
   readonly executionId: string;
   readonly transactionHash: Hash;
   readonly chainId: 11_155_111;
-  readonly type: "m1-connectivity-transfer" | "rescue";
+  readonly type:
+    | "m1-connectivity-transfer"
+    | "setup-collateral"
+    | "setup-borrow"
+    | "setup-approval"
+    | "rescue";
   readonly confirmedAt: string;
   readonly transactionLink?: string;
   readonly gasUsedWei?: string;
@@ -49,4 +54,3 @@ export async function appendLedgerEntry(
   });
   await rename(temporaryPath, ledgerPath);
 }
-
