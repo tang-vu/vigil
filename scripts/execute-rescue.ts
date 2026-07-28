@@ -127,6 +127,55 @@ async function persistExecution(view: ExecutionView, attempt: number): Promise<v
   );
 }
 
+async function pollExecution(
+  baseUrl: URL,
+  apiKey: string,
+  executionId: string,
+): Promise<ExecutionView> {
+  for (;;) {
+    const payload = parseMcpJson(
+      await callKeeperHubMcpTool(baseUrl, apiKey, "get_execution", {
+        executionId,
+        includeData: true,
+        truncateData: 16_384,
+      }),
+    );
+    const view = normalizeExecution(executionId, payload);
+    console.info(`Workflow ${executionId}: ${view.status}`);
+    if (TERMINAL_STATUSES.has(view.status.toLowerCase())) {
+      return view;
+    }
+    await delay(2_000);
+  }
+}
+
+async function sendRecoveryNotification(
+  baseUrl: URL,
+  apiKey: string,
+  chatId: string,
+  idempotencyKey: string,
+  message: string,
+): Promise<string> {
+  const started = unwrap(
+    parseMcpJson(
+      await callKeeperHubMcpTool(baseUrl, apiKey, "execute_workflow", {
+        workflowId: workflowMetadata.telegramRecovery.workflowId,
+        idempotency_key: idempotencyKey,
+        input: { chatId, message },
+      }),
+    ),
+  );
+  const executionId = readString(started, "executionId", "id");
+  if (!executionId) {
+    throw new Error("KeeperHub notification recovery did not return an execution ID");
+  }
+  const view = await pollExecution(baseUrl, apiKey, executionId);
+  if (!["success", "completed"].includes(view.status.toLowerCase())) {
+    throw new Error(`Telegram recovery workflow ${executionId} failed`);
+  }
+  return executionId;
+}
+
 async function main(): Promise<void> {
   if (process.env["M4_RESCUE_EXECUTE"]?.trim().toLowerCase() !== "true") {
     throw new Error("Set M4_RESCUE_EXECUTE=true to authorize the Sepolia rescue proof");
@@ -138,11 +187,14 @@ async function main(): Promise<void> {
   const baseUrl = new URL(
     process.env["KEEPERHUB_BASE_URL"] ?? "https://app.keeperhub.com",
   );
+  const telegramChatId = required("TELEGRAM_CHAT_ID");
 
   let repeatedFailureSignature: string | undefined;
   let repeatedFailureCount = 0;
-  const outcome = await executeWithRetry(
-    async (attempt) => {
+  let outcome;
+  try {
+    outcome = await executeWithRetry(
+      async (attempt) => {
       const started = parseMcpJson(
         await callKeeperHubMcpTool(
           baseUrl,
@@ -156,7 +208,7 @@ async function main(): Promise<void> {
               thresholdWad: "1200000000000000000",
               debtAsset: AaveV3Sepolia.ASSETS.USDC.UNDERLYING,
               repayAmountRaw: "6000000",
-              telegramChatId: "@hanhgia2212",
+              telegramChatId,
             },
           },
         ),
@@ -168,22 +220,7 @@ async function main(): Promise<void> {
       }
       console.info(`Workflow attempt ${attempt}: executionId=${executionId}`);
 
-      let view: ExecutionView;
-      for (;;) {
-        const payload = parseMcpJson(
-          await callKeeperHubMcpTool(baseUrl, apiKey, "get_execution", {
-            executionId,
-            includeData: true,
-            truncateData: 16_384,
-          }),
-        );
-        view = normalizeExecution(executionId, payload);
-        console.info(`Workflow ${executionId}: ${view.status}`);
-        if (TERMINAL_STATUSES.has(view.status.toLowerCase())) {
-          break;
-        }
-        await delay(2_000);
-      }
+      const view = await pollExecution(baseUrl, apiKey, executionId);
 
       await persistExecution(view, attempt);
       const repayLog =
@@ -202,6 +239,24 @@ async function main(): Promise<void> {
         console.info(
           `Rescue confirmed and recorded: executionId=${executionId}, transactionHash=${transactionHash}`,
         );
+        if (!["success", "completed"].includes(view.status.toLowerCase())) {
+          try {
+            const notificationExecutionId = await sendRecoveryNotification(
+              baseUrl,
+              apiKey,
+              telegramChatId,
+              `vigil-rescue-notification-recovery-${executionId}`,
+              `Vigil rescue confirmed on Sepolia. Execution ${executionId} | tx ${transactionHash}`,
+            );
+            console.info(
+              `Downstream alert recovered without repeating repay: executionId=${notificationExecutionId}`,
+            );
+          } catch (notificationError) {
+            console.error(
+              `Rescue is confirmed; notification recovery failed without retrying repay: ${notificationError instanceof Error ? notificationError.message : String(notificationError)}`,
+            );
+          }
+        }
         return view;
       }
 
@@ -211,26 +266,57 @@ async function main(): Promise<void> {
       throw new Error(
         `KeeperHub workflow ${executionId} completed without a rescue transaction hash`,
       );
-    },
-    {
-      onFailure: (failure, attempt) => {
-        const signature = `${failure.kind}:${failure.message}`;
-        repeatedFailureCount =
-          signature === repeatedFailureSignature ? repeatedFailureCount + 1 : 1;
-        repeatedFailureSignature = signature;
-        console.error(
-          `Workflow attempt ${attempt} classified ${failure.kind}; retryable=${failure.retryable}`,
-        );
-        if (repeatedFailureCount >= 2) {
-          throw new Error(
-            "Stopping after the same KeeperHub failure occurred twice; record it and ask before workaround",
-          );
-        }
       },
-    },
-  );
+      {
+        onFailure: (failure, attempt) => {
+          const signature = `${failure.kind}:${failure.message}`;
+          repeatedFailureCount =
+            signature === repeatedFailureSignature ? repeatedFailureCount + 1 : 1;
+          repeatedFailureSignature = signature;
+          console.error(
+            `Workflow attempt ${attempt} classified ${failure.kind}; retryable=${failure.retryable}`,
+          );
+          if (repeatedFailureCount >= 2) {
+            throw new Error(
+              "Stopping after the same KeeperHub failure occurred twice; record it and ask before workaround",
+            );
+          }
+        },
+      },
+    );
+  } catch (retryError) {
+    try {
+      const notificationExecutionId = await sendRecoveryNotification(
+        baseUrl,
+        apiKey,
+        telegramChatId,
+        `vigil-rescue-repeated-failure-alert-${Date.now()}`,
+        "Vigil rescue stopped after the same KeeperHub failure occurred twice. Manual review required before workaround.",
+      );
+      console.info(`Repeated failure alert sent: executionId=${notificationExecutionId}`);
+    } catch (alertError) {
+      console.error(
+        `Repeated failure alert also failed: ${alertError instanceof Error ? alertError.message : String(alertError)}`,
+      );
+    }
+    throw retryError;
+  }
 
   if (!outcome.result) {
+    try {
+      const notificationExecutionId = await sendRecoveryNotification(
+        baseUrl,
+        apiKey,
+        telegramChatId,
+        `vigil-rescue-terminal-alert-${Date.now()}`,
+        `Vigil rescue stopped after ${outcome.attempts} attempt(s). Failure class: ${outcome.terminalFailure?.kind ?? "unknown"}. Manual review required.`,
+      );
+      console.info(`Terminal failure alert sent: executionId=${notificationExecutionId}`);
+    } catch (alertError) {
+      console.error(
+        `Terminal failure alert also failed: ${alertError instanceof Error ? alertError.message : String(alertError)}`,
+      );
+    }
     throw new Error(
       `Rescue failed after ${outcome.attempts} attempt(s): ${outcome.terminalFailure?.message ?? "unknown"}`,
     );

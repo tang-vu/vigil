@@ -19,28 +19,33 @@ async function main(): Promise<void> {
   const baseUrl = new URL(
     process.env["KEEPERHUB_BASE_URL"] ?? "https://app.keeperhub.com",
   );
-  const result = await callKeeperHubMcpTool(
-    baseUrl,
-    apiKey,
-    "validate_workflow",
-    {
-      workflowId: workflowMetadata.rescue.workflowId,
-      deepCheck: true,
-    },
-  );
+  for (const metadata of [
+    workflowMetadata.rescue,
+    workflowMetadata.telegramRecovery,
+  ]) {
+    const result = await callKeeperHubMcpTool(
+      baseUrl,
+      apiKey,
+      "validate_workflow",
+      {
+        workflowId: metadata.workflowId,
+        deepCheck: true,
+      },
+    );
 
-  const text = getMcpText(result);
-  const parsed = JSON.parse(text) as {
-    readonly ok?: boolean;
-    readonly result?: { readonly valid?: boolean; readonly nodeCount?: number };
-  };
-  if (parsed.ok !== true || parsed.result?.valid !== true) {
-    throw new Error(`Workflow validation failed: ${text}`);
+    const text = getMcpText(result);
+    const parsed = JSON.parse(text) as {
+      readonly ok?: boolean;
+      readonly result?: { readonly valid?: boolean; readonly nodeCount?: number };
+    };
+    if (parsed.ok !== true || parsed.result?.valid !== true) {
+      throw new Error(`Workflow validation failed: ${text}`);
+    }
+
+    console.info(
+      `KeeperHub validated workflow ${metadata.workflowId}: valid=true, nodes=${parsed.result.nodeCount ?? "unknown"}`,
+    );
   }
-
-  console.info(
-    `KeeperHub validated workflow ${workflowMetadata.rescue.workflowId}: valid=true, nodes=${parsed.result.nodeCount ?? "unknown"}`,
-  );
 }
 
 await main();

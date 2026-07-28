@@ -231,6 +231,24 @@ integration selector in required fields, and have `validate_workflow` reject a
 Telegram node when no bot credential is configured. Add per-node replay or a
 notification-only retry facility.
 
+### Follow-up: the undocumented integration ID fixes credential resolution
+
+After creating a Telegram connection, it appeared in `list_integrations`, but
+the same validated node still returned "bot token is required". KeeperHub's
+quickstart says notification nodes must select a Connection. Adding the
+connection's `integrationId` to the Telegram node fixed token resolution,
+despite that field being absent from both required and optional live schema
+fields.
+
+The next failure, `Bad Request: chat not found`, came from using a private
+account's `@username`. After the user started the bot, Vigil resolved the
+numeric private chat ID and the recovery workflow succeeded as execution
+`35bu3yt31ir0xucroy7jb`, returning Telegram message ID `2`.
+
+**Additional proposed improvement:** Add `integrationId` to the action schema
+and clarify that `@username` is suitable for addressable channels/supergroups;
+private users should use the numeric chat ID obtained after starting the bot.
+
 ## 2026-07-28 — Aggregate transaction hash list omitted a confirmed write
 
 **Observed:** The full `get_execution` step log contains the successful Aave

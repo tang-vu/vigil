@@ -4,5 +4,10 @@
     "name": "vigil-rescue-sepolia",
     "chainId": 11155111,
     "enabled": false
+  },
+  "telegramRecovery": {
+    "workflowId": "28zoahvd8qiv1s7sm4aia",
+    "name": "vigil-telegram-recovery",
+    "enabled": false
   }
 }

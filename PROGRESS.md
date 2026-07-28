@@ -85,7 +85,7 @@ policy caps, runtime advisory validation, and idempotency.
 
 ## M4 — KeeperHub rescue workflow
 
-Status: **onchain proof complete; Telegram credential blocked**
+Status: **complete**
 
 - [x] Discover live `aave-v3/repay` and read schemas with
   `search_protocol_actions`.
@@ -133,9 +133,15 @@ Status: **onchain proof complete; Telegram credential blocked**
   `2,200,028,700`; health factor rose to `1.499980432073454314`.
 - [x] Do not retry after the downstream Telegram failure because the repay
   transaction was already confirmed; this prevents a double repayment.
-- [ ] Configure a Telegram bot token in KeeperHub and prove the notification
-  step independently. Runtime requires a token even though the live schema
-  reports `requiresCredentials: false`.
+- [x] Configure `VigilKeeperHubBot` as a KeeperHub Telegram connection and bind
+  its integration ID explicitly to both notification nodes.
+- [x] Resolve private-chat numeric ID `5532543318` after `/start`; Telegram does
+  not resolve the personal username as a destination.
+- [x] Deliver the rescue summary through notification-recovery execution
+  `35bu3yt31ir0xucroy7jb`; Telegram returned message ID `2`.
+- [x] Wire the notification-recovery workflow into the executor so exhausted
+  retries alert separately and a downstream notification failure never repeats
+  an already-confirmed repayment.
 
 Setup proof:
 
@@ -152,3 +158,4 @@ Rescue proof:
 - Repay transaction:
   `0xa03a49a8213415e9fc0ec53c423c707ed2c869b92841781c4174abced9a958bb`
 - Full step log: `artifacts/m4/3r554lkdru7bn225qdwsz.json`
+- Telegram recovery: execution `35bu3yt31ir0xucroy7jb`, message ID `2`

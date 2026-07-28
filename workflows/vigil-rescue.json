@@ -82,6 +82,7 @@
         "type": "action",
         "config": {
           "actionType": "telegram/send-message",
+          "integrationId": "tbq0g8l027cxkunhjuyc9",
           "chatId": "{{@trigger-1:Trigger.telegramChatId}}",
           "message": "Vigil rescue confirmed. Account {{@trigger-1:Trigger.account}}, tx {{@repay-debt:Repay Aave Debt.transactionHash}}",
           "parseMode": "none"
@@ -114,4 +115,3 @@
     }
   ]
 }
-

@@ -34,6 +34,11 @@ describe("Vigil rescue workflow definition", () => {
     expect(actionTypes.get("health-condition")).toBe("Condition");
     expect(actionTypes.get("repay-debt")).toBe("aave-v3/repay");
     expect(actionTypes.get("notify-telegram")).toBe("telegram/send-message");
+    expect(
+      workflow.nodes.find((node) => node.id === "notify-telegram")?.data.config[
+        "integrationId"
+      ],
+    ).toBe("tbq0g8l027cxkunhjuyc9");
     expect(workflow.edges).toContainEqual({
       source: "health-condition",
       target: "repay-debt",
@@ -49,5 +54,21 @@ describe("Vigil rescue workflow definition", () => {
       ),
     ).toBe(false);
   });
-});
 
+  it("keeps notification recovery isolated from onchain actions", async () => {
+    const workflow = JSON.parse(
+      await readFile("workflows/vigil-telegram-recovery.json", "utf8"),
+    ) as WorkflowDefinition;
+    const actionTypes = workflow.nodes
+      .map((node) => node.data.config["actionType"])
+      .filter((actionType) => actionType !== undefined);
+
+    expect(workflow.enabled).toBe(false);
+    expect(actionTypes).toEqual(["telegram/send-message"]);
+    expect(
+      workflow.nodes.find((node) => node.id === "notify-telegram")?.data.config[
+        "integrationId"
+      ],
+    ).toBe("tbq0g8l027cxkunhjuyc9");
+  });
+});

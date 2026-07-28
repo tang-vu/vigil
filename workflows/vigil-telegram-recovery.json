@@ -1,0 +1,42 @@
+{
+  "name": "vigil-telegram-recovery",
+  "description": "Retry Vigil execution notifications without repeating an onchain action.",
+  "enabled": false,
+  "nodes": [
+    {
+      "id": "trigger-1",
+      "type": "trigger",
+      "data": {
+        "label": "Trigger",
+        "type": "trigger",
+        "config": {
+          "triggerType": "Manual"
+        },
+        "status": "idle"
+      }
+    },
+    {
+      "id": "notify-telegram",
+      "type": "action",
+      "data": {
+        "label": "Notify Telegram",
+        "type": "action",
+        "config": {
+          "actionType": "telegram/send-message",
+          "integrationId": "tbq0g8l027cxkunhjuyc9",
+          "chatId": "{{@trigger-1:Trigger.chatId}}",
+          "message": "{{@trigger-1:Trigger.message}}",
+          "parseMode": "none"
+        },
+        "status": "idle"
+      }
+    }
+  ],
+  "edges": [
+    {
+      "id": "edge-trigger-notify",
+      "source": "trigger-1",
+      "target": "notify-telegram"
+    }
+  ]
+}
