@@ -12,9 +12,11 @@
     "typecheck": "tsc -p tsconfig.json --noEmit",
     "test": "vitest run",
     "test:watch": "vitest",
-    "m1:connectivity": "tsx scripts/m1-connectivity.ts"
+    "m1:connectivity": "tsx scripts/m1-connectivity.ts",
+    "monitor": "tsx scripts/monitor.ts"
   },
   "dependencies": {
+    "@bgd-labs/aave-address-book": "4.44.22",
     "dotenv": "^17.2.1",
     "viem": "^2.33.1"
   },
@@ -25,4 +27,3 @@
     "vitest": "^3.2.4"
   }
 }
-

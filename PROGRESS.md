@@ -31,4 +31,33 @@ Proof:
 - Explorer:
   <https://sepolia.etherscan.io/tx/0x7d6c187670e37ba3838be47baa5951b49c89fcf6af83f2dccab794e2b26b1c3e>
 
-M2 is now unblocked.
+## M2 — Aave monitor
+
+Status: **complete**
+
+- [x] Pin the official `@bgd-labs/aave-address-book` and assert its Sepolia
+  chain ID at startup.
+- [x] Read Aave v3 Sepolia Pool `getUserAccountData` and Chainlink ETH/USD
+  `latestRoundData` at one block through `viem` multicall.
+- [x] Validate positive price, completed round, timestamp, maximum feed age,
+  and expected `ETH / USD` feed description.
+- [x] Implement fixed-point health-factor math and explicitly label the
+  single-collateral liquidation price as a scenario rather than a universal
+  portfolio liquidation price.
+- [x] Implement continuous polling with jitter on successful intervals and
+  capped exponential backoff after failures.
+- [x] Add one-shot mode for repeatable demos and CI diagnostics.
+- [x] Verify both reads independently through KeeperHub
+  `execute_contract_call` using view functions.
+- [x] Run a live snapshot against the KeeperHub org wallet at Sepolia block
+  `11369199`; Aave returned a debt-free position and Chainlink returned
+  ETH/USD `1869.5`.
+- [x] Pass 12 Vitest fixtures covering Aave math, Chainlink safety checks, and
+  deterministic backoff bounds.
+
+Live contract proof:
+
+- Aave v3 Sepolia Pool: `0x6Ae43d3271ff6888e7Fc43Fd7321a503ff738951`
+- Chainlink ETH/USD: `0x694AA1769357215DE4FAC081bf1f309aDC325306`
+- Aave onchain health factor and Vigil's calculated health factor both returned
+  `type(uint256).max` for the debt-free account.

@@ -72,3 +72,19 @@ before calling `execute_transfer`, avoiding a guaranteed failed execution. The
 quickstart links a faucet, but an actionable wallet response could also include
 the target testnet, current native balance, and a faucet link when balance is
 zero.
+
+## 2026-07-28 — Aave asset oracle is not necessarily AggregatorV3
+
+**Observed:** The official Aave address book exposes
+`AaveV3Sepolia.ASSETS.WETH.ORACLE`, but calling Chainlink's
+`latestRoundData()` interface against it reverted. The field is Aave's configured
+price source, not a promise that the contract implements
+`AggregatorV3Interface`.
+
+**Resolution:** Vigil keeps Aave's price-source address distinct from the
+Chainlink ETH/USD proxy. The monitor verifies the Chainlink proxy onchain via
+`description()`, `decimals()`, and `latestRoundData()` and rejects any
+description other than `ETH / USD`.
+
+**Proposed improvement:** Address-book typings or docs should distinguish direct
+Chainlink proxies from adapters, static feeds, and other Aave oracle sources.
