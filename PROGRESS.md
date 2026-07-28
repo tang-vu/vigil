@@ -85,7 +85,7 @@ policy caps, runtime advisory validation, and idempotency.
 
 ## M4 — KeeperHub rescue workflow
 
-Status: **in progress; blocked before workflow creation**
+Status: **blocked by repeated KeeperHub `401 Unauthorized` on workflow creation**
 
 - [x] Discover live `aave-v3/repay` and read schemas with
   `search_protocol_actions`.
@@ -98,8 +98,12 @@ Status: **in progress; blocked before workflow creation**
   Telegram.
 - [x] Implement gas/revert/RPC/unknown failure classification and a maximum
   three-attempt retry ladder.
-- [ ] Resolve the validation API mismatch: live `validate_workflow` requires an
-  existing workflow ID, while project rules require validation before create.
+- [x] User approved the safest available validation exception: create disabled,
+  validate by ID, then execute manually.
+- [x] Set the Telegram notification target to `@hanhgia2212`.
+- [ ] Create the disabled workflow. Two identical calls using idempotency key
+  `vigil-create-rescue-sepolia-v1` returned `401 Unauthorized`; stopped before
+  workaround as required.
 - [ ] Obtain a Telegram `chatId` for the notification step.
 - [ ] Prepare a deliberately at-risk Aave Sepolia position through KeeperHub.
 - [ ] Validate, execute, poll full logs, classify/retry failures, and record the

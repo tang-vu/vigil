@@ -115,3 +115,30 @@ a testnet without probing it.
 
 **Proposed improvement:** Include `supportedChains` per action in
 `search_protocol_actions`, sourced from the same registry used at execution.
+
+## 2026-07-28 — OAuth permits execution reads/writes but workflow create returns 401
+
+**Observed:** In the same OAuth-authenticated MCP session, Vigil successfully
+called wallet integration tools, a sponsored Sepolia transfer, direct contract
+reads, and Aave protocol reads. Two identical `create_workflow` calls then
+returned:
+
+```text
+API call failed: 401 Unauthorized - {"error":"Unauthorized"}
+```
+
+Both calls used the same body and idempotency key
+`vigil-create-rescue-sepolia-v1`. Per project discipline, Vigil stopped after
+the second identical error and did not switch to REST or attempt another
+credential path.
+
+**Impact:** Authentication appears valid for multiple MCP surfaces but not for
+workflow creation, and the response does not say whether the cause is an OAuth
+scope, organization role, expired token, endpoint guard, or CSRF/auth middleware
+mismatch.
+
+**Proposed improvement:** Return a machine-readable reason such as
+`oauth_scope_missing`, `org_role_forbidden`, or `token_expired`, and include the
+required remediation. Add a `tools_capabilities` or auth-diagnostics tool that
+reports read, execute, workflow-write, integration-write, and marketplace
+permissions before a builder reaches a write call.
