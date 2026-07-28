@@ -1,0 +1,8 @@
+{
+  "rescue": {
+    "workflowId": "7cnxv04o5w3s2fbrgnf62",
+    "name": "vigil-rescue-sepolia",
+    "chainId": 11155111,
+    "enabled": false
+  }
+}

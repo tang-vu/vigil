@@ -13,10 +13,12 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "m1:connectivity": "tsx scripts/m1-connectivity.ts",
-    "monitor": "tsx scripts/monitor.ts"
+    "monitor": "tsx scripts/monitor.ts",
+    "workflow:validate": "tsx scripts/validate-workflow.ts"
   },
   "dependencies": {
     "@bgd-labs/aave-address-book": "4.44.22",
+    "@modelcontextprotocol/sdk": "^1.30.0",
     "dotenv": "^17.2.1",
     "viem": "^2.33.1"
   },

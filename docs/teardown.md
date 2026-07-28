@@ -142,3 +142,16 @@ mismatch.
 required remediation. Add a `tools_capabilities` or auth-diagnostics tool that
 reports read, execute, workflow-write, integration-write, and marketplace
 permissions before a builder reaches a write call.
+
+### Follow-up: organization-key authentication succeeds on the same MCP endpoint
+
+After the required stop and explicit user approval, Vigil retried the workflow
+write through the documented REST API with the organization's `kh_` key. The
+disabled workflow was created as `7cnxv04o5w3s2fbrgnf62`. Calling
+`validate_workflow` with `deepCheck: true` through the same hosted MCP endpoint,
+but authenticated with that organization key, returned `valid: true` for all
+five nodes.
+
+This narrows the issue to the OAuth credential path rather than the workflow
+definition, organization, or hosted service generally. A concise auth
+capability diagnostic would have saved the reauthorization and repeated call.

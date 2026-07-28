@@ -85,7 +85,7 @@ policy caps, runtime advisory validation, and idempotency.
 
 ## M4 — KeeperHub rescue workflow
 
-Status: **blocked by repeated KeeperHub `401 Unauthorized` on workflow creation**
+Status: **in progress**
 
 - [x] Discover live `aave-v3/repay` and read schemas with
   `search_protocol_actions`.
@@ -101,9 +101,15 @@ Status: **blocked by repeated KeeperHub `401 Unauthorized` on workflow creation*
 - [x] User approved the safest available validation exception: create disabled,
   validate by ID, then execute manually.
 - [x] Set the Telegram notification target to `@hanhgia2212`.
-- [ ] Create the disabled workflow. Two identical calls using idempotency key
-  `vigil-create-rescue-sepolia-v1` returned `401 Unauthorized`; stopped before
-  workaround as required.
+- [x] Stop after two identical OAuth `401 Unauthorized` responses, document the
+  failure, and obtain user approval before changing authentication surfaces.
+- [x] Create the disabled workflow through KeeperHub REST using the local
+  organization key and idempotency key `vigil-create-rescue-sepolia-v1`.
+- [x] Validate workflow `7cnxv04o5w3s2fbrgnf62` with `deepCheck: true` through
+  KeeperHub MCP authenticated by the same organization key. KeeperHub returned
+  `valid: true` and `nodeCount: 5`.
+- [x] Add `npm run workflow:validate` so the proof is repeatable without
+  printing or persisting the organization key.
 - [ ] Obtain a Telegram `chatId` for the notification step.
 - [ ] Prepare a deliberately at-risk Aave Sepolia position through KeeperHub.
 - [ ] Validate, execute, poll full logs, classify/retry failures, and record the
