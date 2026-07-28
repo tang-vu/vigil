@@ -370,9 +370,35 @@ or risks creating a second wallet. That uncertainty is especially costly when
 the old wallet may already have been funded.
 
 **Resolution:** Vigil pins and records the observed package version
-`0.1.15`, installs the skill once, and defers first provisioning/payment until
-the explicit Base-mainnet authorization gate.
+`0.1.15`, installs the skill once, and waits for explicit Base-mainnet
+authorization. After authorization, `info` confirmed there was no wallet and
+the documented `add` command was required; the repository's auto-provisioning
+claim did not match this version's CLI behavior.
 
 **Proposed improvement:** Version the docs alongside the package, show the
 minimum package version for each flow, and make `add` idempotently return the
 existing wallet unless an explicit `--new` flag is supplied.
+
+## 2026-07-29 - Wallet fund command emits an unusable Coinbase URL
+
+**Observed:** `keeperhub-wallet fund` from `@keeperhub/wallet@0.1.15` emitted a
+Coinbase Onramp URL containing `addresses`, Base, USDC, and a preset amount.
+Opening that exact URL failed with:
+
+```text
+When providing addresses, appId (also known as Project ID) is also required.
+```
+
+The generated URL contains no `appId`.
+
+**Impact:** A zero-balance agent wallet cannot follow the CLI's primary funding
+path. This blocks the first paid workflow proof at the final onboarding step.
+
+**Resolution:** Do not retry or modify the generated Coinbase request with an
+invented project ID. Fund the public agent address by direct Base USDC transfer
+from a wallet or exchange that explicitly supports the Base network.
+
+**Proposed improvement:** Configure KeeperHub's Coinbase Onramp project ID in
+the CLI-generated URL, test the emitted link in release CI, and provide a
+prominent direct-deposit fallback with copyable address, chain, token contract,
+and minimum amount.

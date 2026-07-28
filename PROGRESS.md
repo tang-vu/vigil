@@ -221,6 +221,18 @@ Status: **in progress - paid Base settlement awaiting explicit approval**
   `go mainnet`, because KeeperHub's x402 settlement rail is Base mainnet
   (`8453`).
 
+Mainnet authorization update:
+
+- [x] Operator explicitly authorized `go mainnet`.
+- [x] Provision the official Turnkey-backed agentic wallet without reading,
+  printing, or committing its credential material.
+- [x] Confirm both the agent wallet and creator wallet currently hold zero Base
+  USDC; no payment was attempted with insufficient funds.
+- [ ] Receive Base USDC through a direct wallet/exchange transfer. The Coinbase
+  URL emitted by `keeperhub-wallet fund` is currently unusable because it omits
+  Coinbase's now-required `appId`.
+- [ ] Execute and capture the single `$0.02` x402 payment.
+
 Live proof:
 
 - Risk workflow: `7ov7rxn5jz1ldehwsipoj`
