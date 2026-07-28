@@ -61,3 +61,24 @@ Live contract proof:
 - Chainlink ETH/USD: `0x694AA1769357215DE4FAC081bf1f309aDC325306`
 - Aave onchain health factor and Vigil's calculated health factor both returned
   `type(uint256).max` for the debt-free account.
+
+## M3 — Safety policy
+
+Status: **complete**
+
+- [x] Implement deterministic rescue eligibility from debt, health factor,
+  cooldown, per-rescue spend, and daily spend.
+- [x] Derive a stable SHA-256 idempotency key from chain, Aave market, account,
+  and block range.
+- [x] Define a tightening-only advisory with no `allow` capability.
+- [x] Runtime-validate advisory JSON with an allowlist; reject `allow`, unknown
+  fields, unsafe numbers, and malformed caps.
+- [x] Merge constraints monotonically: minimum spend cap, maximum cooldown, and
+  advisory veto.
+- [x] Document why the LLM is context-only and never an execution authority in
+  `README.md`.
+- [x] Pass 10 policy tests, including the invariant that advisory input cannot
+  convert any deterministic denial into execution.
+
+Current suite: 22 tests across Aave math, Chainlink validation, retry backoff,
+policy caps, runtime advisory validation, and idempotency.
