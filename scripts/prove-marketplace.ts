@@ -2,11 +2,11 @@ import "dotenv/config";
 import { mkdir, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { setTimeout as delay } from "node:timers/promises";
-import { AaveV3Sepolia } from "@bgd-labs/aave-address-book";
+import { AaveV3Base } from "@bgd-labs/aave-address-book";
 import { callKeeperHubMcpTool, getMcpText } from "../src/keeperhub/mcp-client.js";
 import workflowMetadata from "../workflows/keeperhub.json" with { type: "json" };
 
-const ACCOUNT = "0x81a60018b81dD438c1Fa7C869A7BDf9bf14B4efB";
+const ACCOUNT = "0x5a93Cd1176ebbbfCeFa915da3eFCBB9bC3ca2C44";
 const TERMINAL = new Set(["success", "completed", "failed", "error", "cancelled"]);
 
 function required(name: string): string {
@@ -59,7 +59,7 @@ async function prove(
   const started = parseResult(
     await callKeeperHubMcpTool(baseUrl, apiKey, "execute_workflow", {
       workflowId,
-      idempotency_key: `vigil-m6-${slug}-proof-v2`,
+      idempotency_key: `vigil-m6-${slug}-proof-v4-base-clamped`,
       input,
     }),
   );
@@ -125,8 +125,8 @@ async function main(): Promise<void> {
     workflowMetadata.riskCheck.workflowId,
     {
       account: ACCOUNT,
-      collateralAsset: AaveV3Sepolia.ASSETS.WETH.UNDERLYING,
-      collateralUnit: "1000000000000000000",
+      collateralAsset: AaveV3Base.ASSETS.cbBTC.UNDERLYING,
+      collateralUnit: "100000000",
     },
   );
   await prove(
@@ -136,9 +136,9 @@ async function main(): Promise<void> {
     workflowMetadata.rescueQuote.workflowId,
     {
       account: ACCOUNT,
-      debtAsset: AaveV3Sepolia.ASSETS.USDC.UNDERLYING,
-      debtAssetUnit: "1000000",
-      targetHealthFactorWad: "1800000000000000000",
+      debtAsset: AaveV3Base.ASSETS.GHO.UNDERLYING,
+      debtAssetUnit: "1000000000000000000",
+      targetHealthFactorWad: "2000000000000000000",
     },
   );
 }

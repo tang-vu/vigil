@@ -1,6 +1,6 @@
 # Vigil progress
 
-Last updated: 2026-07-28
+Last updated: 2026-07-29
 
 ## M1 — Connectivity
 
@@ -190,59 +190,76 @@ Receipt proof:
 
 ## M6 - KeeperHub marketplace
 
-Status: **in progress - paid Base settlement awaiting explicit approval**
+Status: **complete**
 
-- [x] Build `vigil-risk-check` as a read-only Sepolia workflow returning Aave
-  health data, a single-collateral liquidation-price scenario, and
+- [x] Build `vigil-risk-check` as a read-only Aave v3 Base workflow computing
+  health factor, a single-collateral liquidation-price scenario, and
   deterministic risk-grade signals.
-- [x] Build `vigil-rescue-quote` as a read-only Sepolia workflow returning a
-  capped repay amount plus the exact Aave pool, asset, amount, rate mode, and
-  on-behalf-of call plan. It never executes the plan.
+- [x] Build `vigil-rescue-quote` as a read-only Aave v3 Base workflow computing
+  a nonnegative, debt-capped repay amount plus the exact pool, asset, amount,
+  rate mode, and on-behalf-of plan. It never executes the plan.
 - [x] Replace the Pro-only Code action design with free Math, Condition, Aave,
   and Web3 read nodes.
 - [x] Deep-validate both live workflows after applying their listing metadata:
-  risk check `valid=true`, 10 nodes; rescue quote `valid=true`, 13 nodes.
+  risk check `valid=true`, 10 nodes; rescue quote `valid=true`, 14 nodes.
 - [x] Execute both workflows through KeeperHub and poll `get_execution` to
   success with full artifacts.
 - [x] Publish both workflows at `$0.02` USDC per call with type `read`,
-  category `defi`, and application chain `11155111`.
+  category `defi`, and application chain `8453`.
 - [x] Verify marketplace discovery finds both slugs.
 - [x] Verify `/mcp/w/vigil-risk-check` exposes exactly one typed tool.
 - [x] Verify an unpaid Agent B call receives the expected HTTP 402 x402
   challenge.
-- [x] Add an Agent B script that discovers, challenges, and can hand payment to
-  KeeperHub's Turnkey-backed agentic wallet.
+- [x] Add an Agent B script that discovers, challenges, pays through
+  KeeperHub's Turnkey-backed agentic wallet, confirms the Base USDC Transfer,
+  and immediately appends the execution ID and transaction hash to the ledger.
 - [x] Install `@keeperhub/wallet@0.1.15` and its safety hook without reading or
   printing the generated wallet credential file. The demo invokes its standard
   stdio MCP server directly, so it does not depend on host-specific
   auto-registration.
-- [ ] Provision/fund the agentic wallet and execute the real `$0.02` Base USDC
-  payment. This is intentionally blocked until the operator explicitly says
-  `go mainnet`, because KeeperHub's x402 settlement rail is Base mainnet
-  (`8453`).
-
-Mainnet authorization update:
-
 - [x] Operator explicitly authorized `go mainnet`.
 - [x] Provision the official Turnkey-backed agentic wallet without reading,
   printing, or committing its credential material.
-- [x] Confirm both the agent wallet and creator wallet currently hold zero Base
-  USDC; no payment was attempted with insufficient funds.
-- [ ] Receive Base USDC through a direct wallet/exchange transfer. The Coinbase
-  URL emitted by `keeperhub-wallet fund` is currently unusable because it omits
-  Coinbase's now-required `appId`.
-- [ ] Execute and capture the single `$0.02` x402 payment.
+- [x] Fund the public agent wallet by direct Base USDC transfer after the
+  package-generated Coinbase Onramp URL failed because it omitted `appId`.
+- [x] Diagnose the first Sepolia-listing payment attempt as KeeperHub
+  `CHAIN_MISMATCH`: the workflow chain was Sepolia while x402 challenged on
+  Base. No USDC was debited.
+- [x] Move only the paid marketplace products to their production Aave Base
+  market after explicit mainnet authorization. The guardian and rescue
+  executor remain on Sepolia.
+- [x] Execute one real `$0.02` x402 purchase; Agent B received HTTP 200,
+  `paid=true`, `protocolUsed=x402`, and workflow execution
+  `vn5ghanemwgvwr6gg5h5i`.
+- [x] Confirm the Base USDC transfer onchain, append it to `ledger/txs.json`,
+  and retain `$2.78` USDC in the agent wallet for demos.
+- [x] Detect and fix negative rescue quotes when current HF already exceeds the
+  target by applying `max(0, requiredRepay)` before the live-debt cap.
+- [x] Re-run live Base proofs: risk check `bdmcgs8gfe7e5dpar91mk`; rescue quote
+  `widkbkgmgqzplv1vfikmj`, returning `170.3146097 GHO` for target HF `2.0`.
+- [x] Record that the paid marketplace runtime currently ignores a valid
+  `outputMapping` and returns only the final node output. The complete mapped
+  values remain present in the KeeperHub audit log; both free packaging actions
+  advertised by discovery (`Code` and `HTTP Request`) are Pro-only.
 
 Live proof:
 
 - Risk workflow: `7ov7rxn5jz1ldehwsipoj`
-- Risk execution: `fpp0i2imcwflp4n0tibg9`
+- Latest risk execution: `bdmcgs8gfe7e5dpar91mk`
 - Risk endpoint: `https://app.keeperhub.com/mcp/w/vigil-risk-check`
 - Rescue quote workflow: `ofihzaszujrq8nhki2kti`
-- Rescue quote execution: `i229s197cownvhxcs4sor`
+- Latest rescue quote execution: `widkbkgmgqzplv1vfikmj`
 - Rescue quote endpoint:
   `https://app.keeperhub.com/mcp/w/vigil-rescue-quote`
-- Latest quote: `3667865` raw USDC (`3.667865 USDC`) to target HF `1.8`.
-- Current risk result: HF `1.499918663501565574`, elevated signal true, high
-  and critical signals false.
-- Local suite: 38 tests; all four KeeperHub workflows deep-validate.
+- Paid Agent B execution: `vn5ghanemwgvwr6gg5h5i`
+- x402 transaction:
+  `0x440baa100eb85a9b586ead523c05a1918247fccb610098718e2f2fd0317d4122`
+- BaseScan:
+  <https://basescan.org/tx/0x440baa100eb85a9b586ead523c05a1918247fccb610098718e2f2fd0317d4122>
+- Payment: `20,000` raw Base USDC (`$0.02`) from Agent B to the workflow owner;
+  facilitator paid the gas.
+- Current risk proof: HF `1.810762178545984082`; liquidation-price scenario
+  `12909024592558.094` in Aave Base oracle units.
+- Latest quote: `170314609700000000000` raw GHO (`170.3146097 GHO`) to target
+  HF `2.0`.
+- Local suite: 40 tests; all four KeeperHub workflows deep-validate.

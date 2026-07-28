@@ -1,6 +1,6 @@
 {
   "name": "vigil-rescue-quote",
-  "description": "Paid read-only Aave v3 quote returning an exact KeeperHub repay call plan without executing it.",
+  "description": "Paid read-only Aave v3 Base quote returning an exact KeeperHub repay call plan without executing it.",
   "enabled": true,
   "nodes": [
     {
@@ -21,7 +21,7 @@
         "type": "action",
         "config": {
           "actionType": "aave-v3/get-user-account-data",
-          "network": "11155111",
+          "network": "8453",
           "user": "{{@trigger-1:Trigger.account}}"
         },
         "status": "idle"
@@ -35,7 +35,7 @@
         "type": "action",
         "config": {
           "actionType": "aave-v3/get-user-reserve-data",
-          "network": "11155111",
+          "network": "8453",
           "asset": "{{@trigger-1:Trigger.debtAsset}}",
           "user": "{{@trigger-1:Trigger.account}}"
         },
@@ -50,8 +50,8 @@
         "type": "action",
         "config": {
           "actionType": "web3/read-contract",
-          "network": "11155111",
-          "contractAddress": "0x2da88497588bf89281816106C7259e31AF45a663",
+          "network": "8453",
+          "contractAddress": "0x2Cc0Fc26eD4563A5ce5e8bdcfe1A2878676Ae156",
           "abi": "[{\"type\":\"function\",\"name\":\"getAssetPrice\",\"stateMutability\":\"view\",\"inputs\":[{\"name\":\"asset\",\"type\":\"address\"}],\"outputs\":[{\"name\":\"\",\"type\":\"uint256\"}]}]",
           "abiFunction": "getAssetPrice",
           "functionArgs": "[\"{{@trigger-1:Trigger.debtAsset}}\"]"
@@ -67,8 +67,8 @@
         "type": "action",
         "config": {
           "actionType": "web3/read-contract",
-          "network": "11155111",
-          "contractAddress": "0x012bAC54348C0E635dCAc9D5FB99f06F24136C9A",
+          "network": "8453",
+          "contractAddress": "0xe20fCBdBfFC4Dd138cE8b2E6FBb6CB49777ad64D",
           "abi": "[{\"type\":\"function\",\"name\":\"getPool\",\"stateMutability\":\"view\",\"inputs\":[],\"outputs\":[{\"name\":\"\",\"type\":\"address\"}]}]",
           "abiFunction": "getPool",
           "functionArgs": "[]"
@@ -193,6 +193,22 @@
       }
     },
     {
+      "id": "repay-raw-floor",
+      "type": "action",
+      "data": {
+        "label": "Nonnegative Repay Amount",
+        "type": "action",
+        "config": {
+          "actionType": "math/aggregate",
+          "operation": "max",
+          "inputMode": "explicit",
+          "explicitValues": "{{@repay-raw-ceil:Repay Raw Rounded Up.result}},0",
+          "postOperation": "none"
+        },
+        "status": "idle"
+      }
+    },
+    {
       "id": "repay-raw-cap",
       "type": "action",
       "data": {
@@ -202,7 +218,7 @@
           "actionType": "math/aggregate",
           "operation": "min",
           "inputMode": "explicit",
-          "explicitValues": "{{@repay-raw-ceil:Repay Raw Rounded Up.result}},{{@read-debt:Read Debt Reserve.currentVariableDebtTokenBalance}}",
+          "explicitValues": "{{@repay-raw-floor:Nonnegative Repay Amount.result}},{{@read-debt:Read Debt Reserve.currentVariableDebtTokenBalance}}",
           "postOperation": "none"
         },
         "status": "idle"
@@ -221,6 +237,7 @@
     { "id": "edge-repay-base-raw-numerator", "source": "repay-base", "target": "repay-raw-numerator" },
     { "id": "edge-raw-numerator-decimal", "source": "repay-raw-numerator", "target": "repay-raw-decimal" },
     { "id": "edge-raw-decimal-ceil", "source": "repay-raw-decimal", "target": "repay-raw-ceil" },
-    { "id": "edge-raw-ceil-cap", "source": "repay-raw-ceil", "target": "repay-raw-cap" }
+    { "id": "edge-raw-ceil-floor", "source": "repay-raw-ceil", "target": "repay-raw-floor" },
+    { "id": "edge-raw-floor-cap", "source": "repay-raw-floor", "target": "repay-raw-cap" }
   ]
 }

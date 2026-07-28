@@ -13,11 +13,13 @@
   "riskCheck": {
     "workflowId": "7ov7rxn5jz1ldehwsipoj",
     "name": "vigil-risk-check",
+    "chainId": 8453,
     "enabled": true
   },
   "rescueQuote": {
     "workflowId": "ofihzaszujrq8nhki2kti",
     "name": "vigil-rescue-quote",
+    "chainId": 8453,
     "enabled": true
   }
 }

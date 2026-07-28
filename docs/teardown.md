@@ -402,3 +402,95 @@ from a wallet or exchange that explicitly supports the Base network.
 the CLI-generated URL, test the emitted link in release CI, and provide a
 prominent direct-deposit fallback with copyable address, chain, token contract,
 and minimum amount.
+
+## 2026-07-29 - x402 payment rail is incorrectly coupled to workflow chain
+
+**Observed:** A paid read workflow listed with application chain Sepolia
+(`11155111`) returned a valid Base USDC x402 challenge (`eip155:8453`).
+KeeperHub's first-party `@keeperhub/wallet@0.1.15` then rejected its own
+challenge with `CHAIN_MISMATCH`, saying the workflow expected Sepolia. No USDC
+was debited. The marketplace documentation describes payment rails as
+independent from the workflow's execution chain and offers x402 for every
+workflow.
+
+**Impact:** Testnet workflows can be published and challenged but cannot be
+purchased with the first-party wallet. Builders discover this only at the paid
+proof stage, after provisioning and funding a mainnet wallet.
+
+**Resolution:** Vigil did not repeat the unchanged paid call. After the operator
+explicitly authorized `go mainnet`, only the marketplace products moved to the
+production Aave Base market. The Sepolia guardian and rescue executor did not
+move.
+
+**Proposed improvement:** Pass the x402 challenge network to the wallet as the
+settlement network and keep it independent of listing/application chain. Add an
+integration test for a Sepolia read workflow purchased with Base USDC.
+
+## 2026-07-29 - Paid runtime ignores the listing output mapping
+
+**Observed:** `vigil-risk-check` has a deep-validated `outputMapping` containing
+health factor, collateral, debt, oracle price, liquidation-price scenario, and
+three risk booleans. The paid call succeeded, but its HTTP 200 body returned
+only the raw output of the final `math/aggregate` node. Execution
+`vn5ghanemwgvwr6gg5h5i` contains every source value in `get_execution`, and the
+listing snapshot contains the complete mapping, so the data and metadata were
+both present.
+
+**Impact:** A buyer pays for a typed workflow contract but receives an
+implementation-detail node output instead of the advertised result schema.
+This also affects `vigil-rescue-quote`: the audit trail contains the pool and
+repay plan, while the marketplace response exposes only the final amount.
+
+**Resolution:** Preserve the valid mapping and full execution artifacts, and
+make Agent B retain the returned execution ID for audit. A free workflow-only
+packaging workaround is not available: both Code and HTTP Request actions
+returned `upgrade_required`.
+
+**Proposed improvement:** Apply `outputMapping` after successful execution in
+the marketplace call path and return that object as `output`. Generate the
+per-workflow MCP output schema from the same mapping, and add an end-to-end
+fixture with nested objects, static literals, Condition outputs, and large
+integer strings.
+
+## 2026-07-29 - HTTP Request entitlement is also absent from discovery
+
+**Observed:** After the paid-output issue, Vigil added a final `HTTP Request`
+node using the exact schema from `list_action_schemas` to echo a structured
+JSON report. The first `update_workflow` call returned HTTP 402
+`upgrade_required` for `action.http-request`, required plan `pro`. Discovery
+reported `requiresCredentials: false` and no plan metadata.
+
+**Impact:** The same discovery gap previously observed for Code affects a
+second general-purpose action. An agent cannot determine which advertised
+schemas are usable before attempting to mutate a live workflow.
+
+**Resolution:** Do not retry the rejected definition. Remove the unavailable
+node locally, keep the last proven live graph, and document the output-mapping
+runtime defect instead of adding an undeclared paid dependency.
+
+**Proposed improvement:** Add `minimumPlan`, `availableToOrg`, and
+`upgradeRequired` to `list_action_schemas` for every action, and make
+`validate_workflow` report entitlement failures without requiring a workflow
+mutation.
+
+## 2026-07-29 - First-party wallet omits settlement transaction details
+
+**Observed:** The successful `call_workflow` response reported HTTP 200,
+`paid=true`, and `protocolUsed=x402`, but no settlement transaction hash or
+payment details. Vigil recovered transaction
+`0x440baa100eb85a9b586ead523c05a1918247fccb610098718e2f2fd0317d4122`
+by querying the Base USDC `Transfer` event from the public agent wallet to the
+challenge recipient for exactly `20,000` raw units.
+
+**Impact:** A buyer cannot link the paid call to its onchain proof directly,
+and applications with immediate audit-ledger requirements must reconstruct the
+settlement from chain logs.
+
+**Resolution:** `scripts/agent-b-demo.ts` now reads only the wallet's public
+address, confirms the exact challenge-matched USDC transfer with `viem`, checks
+the receipt, and immediately appends the execution ID and transaction hash to
+`ledger/txs.json`. It never reads or prints wallet credential material.
+
+**Proposed improvement:** Return a structured settlement object containing
+transaction hash, chain, asset, amount, payer, payee, facilitator, and receipt
+status from `call_workflow`.

@@ -1,6 +1,6 @@
 {
   "name": "vigil-risk-check",
-  "description": "Paid Aave v3 risk report: health factor, single-collateral liquidation price scenario, and deterministic risk-grade signals.",
+  "description": "Paid Aave v3 Base risk report: health factor, single-collateral liquidation price scenario, and deterministic risk-grade signals.",
   "enabled": true,
   "nodes": [
     {
@@ -21,7 +21,7 @@
         "type": "action",
         "config": {
           "actionType": "aave-v3/get-user-account-data",
-          "network": "11155111",
+          "network": "8453",
           "user": "{{@trigger-1:Trigger.account}}"
         },
         "status": "idle"
@@ -35,7 +35,7 @@
         "type": "action",
         "config": {
           "actionType": "aave-v3/get-user-reserve-data",
-          "network": "11155111",
+          "network": "8453",
           "asset": "{{@trigger-1:Trigger.collateralAsset}}",
           "user": "{{@trigger-1:Trigger.account}}"
         },
@@ -50,8 +50,8 @@
         "type": "action",
         "config": {
           "actionType": "web3/read-contract",
-          "network": "11155111",
-          "contractAddress": "0x2da88497588bf89281816106C7259e31AF45a663",
+          "network": "8453",
+          "contractAddress": "0x2Cc0Fc26eD4563A5ce5e8bdcfe1A2878676Ae156",
           "abi": "[{\"type\":\"function\",\"name\":\"getAssetPrice\",\"stateMutability\":\"view\",\"inputs\":[{\"name\":\"asset\",\"type\":\"address\"}],\"outputs\":[{\"name\":\"\",\"type\":\"uint256\"}]}]",
           "abiFunction": "getAssetPrice",
           "functionArgs": "[\"{{@trigger-1:Trigger.collateralAsset}}\"]"

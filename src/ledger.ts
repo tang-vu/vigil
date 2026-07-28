@@ -5,16 +5,22 @@ import type { Hash } from "viem";
 export interface LedgerEntry {
   readonly executionId: string;
   readonly transactionHash: Hash;
-  readonly chainId: 11_155_111;
+  readonly chainId: 11_155_111 | 8_453;
   readonly type:
     | "m1-connectivity-transfer"
     | "setup-collateral"
     | "setup-borrow"
     | "setup-approval"
-    | "rescue";
+    | "rescue"
+    | "marketplace-x402-payment";
   readonly confirmedAt: string;
   readonly transactionLink?: string;
   readonly gasUsedWei?: string;
+  readonly gasUsedUnits?: string;
+  readonly gasPaidBy?: "x402-facilitator";
+  readonly asset?: "USDC";
+  readonly amountRaw?: string;
+  readonly blockNumber?: string;
 }
 
 export async function appendLedgerEntry(

@@ -3,7 +3,7 @@
     "workflowId": "7ov7rxn5jz1ldehwsipoj",
     "slug": "vigil-risk-check",
     "category": "defi",
-    "chain": "11155111",
+    "chain": "8453",
     "workflowType": "read",
     "priceUsdcPerCall": "0.02",
     "inputSchema": {
@@ -13,7 +13,7 @@
       "properties": {
         "account": {
           "type": "string",
-          "description": "Aave account address on Ethereum Sepolia.",
+          "description": "Aave account address on Base.",
           "pattern": "^0x[a-fA-F0-9]{40}$"
         },
         "collateralAsset": {
@@ -40,14 +40,14 @@
         "isHighOrWorse": "{{@high-condition:High Risk.condition}}",
         "isElevatedOrWorse": "{{@elevated-condition:Elevated Risk.condition}}"
       },
-      "chainId": 11155111
+      "chainId": 8453
     }
   },
   "rescueQuote": {
     "workflowId": "ofihzaszujrq8nhki2kti",
     "slug": "vigil-rescue-quote",
     "category": "defi",
-    "chain": "11155111",
+    "chain": "8453",
     "workflowType": "read",
     "priceUsdcPerCall": "0.02",
     "inputSchema": {
@@ -62,7 +62,7 @@
       "properties": {
         "account": {
           "type": "string",
-          "description": "Aave borrower address on Ethereum Sepolia.",
+          "description": "Aave borrower address on Base.",
           "pattern": "^0x[a-fA-F0-9]{40}$"
         },
         "debtAsset": {
@@ -101,14 +101,14 @@
         "onBehalfOf": "{{@trigger-1:Trigger.account}}"
       },
       "aaveV3RepayParams": {
-        "network": 11155111,
+        "network": 8453,
         "asset": "{{@trigger-1:Trigger.debtAsset}}",
         "amount": "{{@repay-raw-cap:Capped Repay Amount.result}}",
         "interestRateMode": 2,
         "onBehalfOf": "{{@trigger-1:Trigger.account}}"
       },
       "executesOnchain": false,
-      "chainId": 11155111
+      "chainId": 8453
     }
   }
 }

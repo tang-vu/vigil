@@ -42,5 +42,18 @@
     "confirmedAt": "2026-07-28T16:29:26.213Z",
     "transactionLink": "https://sepolia.etherscan.io/tx/0xa03a49a8213415e9fc0ec53c423c707ed2c869b92841781c4174abced9a958bb",
     "gasUsedWei": "205376"
+  },
+  {
+    "executionId": "vn5ghanemwgvwr6gg5h5i",
+    "transactionHash": "0x440baa100eb85a9b586ead523c05a1918247fccb610098718e2f2fd0317d4122",
+    "chainId": 8453,
+    "type": "marketplace-x402-payment",
+    "confirmedAt": "2026-07-28T17:59:57.000Z",
+    "transactionLink": "https://basescan.org/tx/0x440baa100eb85a9b586ead523c05a1918247fccb610098718e2f2fd0317d4122",
+    "asset": "USDC",
+    "amountRaw": "20000",
+    "blockNumber": "49236125",
+    "gasUsedUnits": "103378",
+    "gasPaidBy": "x402-facilitator"
   }
 ]

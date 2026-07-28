@@ -1,0 +1,904 @@
+{
+  "slug": "vigil-risk-check",
+  "executionId": "bdmcgs8gfe7e5dpar91mk",
+  "capturedAt": "2026-07-28T18:09:15.129Z",
+  "execution": {
+    "status": {
+      "status": "success",
+      "nodeStatuses": [
+        {
+          "nodeId": "high-condition",
+          "status": "success"
+        },
+        {
+          "nodeId": "liq-denominator",
+          "status": "success"
+        },
+        {
+          "nodeId": "liq-price",
+          "status": "success"
+        },
+        {
+          "nodeId": "trigger-1",
+          "status": "success"
+        },
+        {
+          "nodeId": "read-account",
+          "status": "success"
+        },
+        {
+          "nodeId": "read-price",
+          "status": "success"
+        },
+        {
+          "nodeId": "liq-numerator",
+          "status": "success"
+        },
+        {
+          "nodeId": "read-collateral",
+          "status": "success"
+        },
+        {
+          "nodeId": "critical-condition",
+          "status": "success"
+        },
+        {
+          "nodeId": "elevated-condition",
+          "status": "success"
+        }
+      ],
+      "progress": {
+        "totalSteps": 0,
+        "completedSteps": 10,
+        "runningSteps": 0,
+        "currentNodeId": null,
+        "currentNodeName": null,
+        "percentage": 0
+      },
+      "errorContext": null,
+      "transactionHashes": []
+    },
+    "logs": {
+      "execution": {
+        "id": "bdmcgs8gfe7e5dpar91mk",
+        "workflowId": "7ov7rxn5jz1ldehwsipoj",
+        "userId": "R0XrO60abvIUWu0TkCdqi5G9MypZk6lf",
+        "status": "success",
+        "input": {
+          "account": "0x5a93Cd1176ebbbfCeFa915da3eFCBB9bC3ca2C44",
+          "collateralUnit": "100000000",
+          "collateralAsset": "0xcbB7C0000aB88B473b1f5aFd9ef808440eed33Bf"
+        },
+        "output": {
+          "result": "12909024592558.094",
+          "success": true,
+          "operation": "sum then divide",
+          "inputCount": 1,
+          "resultType": "number"
+        },
+        "error": null,
+        "errorCategory": null,
+        "errorType": null,
+        "errorCode": null,
+        "startedAt": "2026-07-28T18:09:08.220Z",
+        "completedAt": "2026-07-28T18:09:10.465Z",
+        "duration": "2185",
+        "totalSteps": null,
+        "completedSteps": "10",
+        "currentNodeId": null,
+        "currentNodeName": null,
+        "lastSuccessfulNodeId": "liq-price",
+        "lastSuccessfulNodeName": "Liquidation Price Scenario",
+        "executionTrace": [
+          "trigger-1",
+          "read-account",
+          "read-collateral",
+          "read-price",
+          "critical-condition",
+          "high-condition",
+          "elevated-condition",
+          "liq-numerator",
+          "liq-denominator",
+          "liq-price"
+        ],
+        "runId": "wrun_01KYMYN2MAK8FA8S07VS5X77BG",
+        "transactionHashes": [],
+        "gasUsedWei": null,
+        "billable": true,
+        "triggeredByUserApiKeyId": null,
+        "triggeredByOrgApiKeyId": "6is7xn7yazcdqeq92hach",
+        "triggeredByIp": null,
+        "triggeredByCountry": null,
+        "triggerSource": "manual",
+        "triggeredByCredentialType": "org_api_key",
+        "triggeredByCredentialLabel": null,
+        "executedWorkflowHash": "4271042efcd3d01fc5741557bbe1180cdf1634f7d93efbc2f9e33d9f1947bd90",
+        "dispatchKey": null,
+        "deletedAt": null,
+        "workflow": {
+          "id": "7ov7rxn5jz1ldehwsipoj",
+          "name": "vigil-risk-check",
+          "description": "Paid Aave v3 Base risk report: health factor, single-collateral liquidation price scenario, and deterministic risk-grade signals.",
+          "userId": "R0XrO60abvIUWu0TkCdqi5G9MypZk6lf",
+          "organizationId": "e782ed83-5e97-447a-9126-22a64d427512",
+          "isAnonymous": false,
+          "featured": false,
+          "featuredOrder": 0,
+          "featuredProtocol": null,
+          "featuredProtocolOrder": 0,
+          "projectId": null,
+          "tagId": null,
+          "nodes": [
+            {
+              "id": "trigger-1",
+              "data": {
+                "type": "trigger",
+                "label": "Trigger",
+                "config": {
+                  "triggerType": "Manual"
+                },
+                "status": "idle"
+              },
+              "type": "trigger",
+              "position": {
+                "x": 0,
+                "y": 0
+              }
+            },
+            {
+              "id": "read-account",
+              "data": {
+                "type": "action",
+                "label": "Read Aave Account",
+                "config": {
+                  "user": "{{@trigger-1:Trigger.account}}",
+                  "network": "8453",
+                  "actionType": "aave-v3/get-user-account-data"
+                },
+                "status": "idle"
+              },
+              "type": "action",
+              "position": {
+                "x": 252,
+                "y": 0
+              }
+            },
+            {
+              "id": "read-collateral",
+              "data": {
+                "type": "action",
+                "label": "Read Collateral Reserve",
+                "config": {
+                  "user": "{{@trigger-1:Trigger.account}}",
+                  "asset": "{{@trigger-1:Trigger.collateralAsset}}",
+                  "network": "8453",
+                  "actionType": "aave-v3/get-user-reserve-data"
+                },
+                "status": "idle"
+              },
+              "type": "action",
+              "position": {
+                "x": 504,
+                "y": 0
+              }
+            },
+            {
+              "id": "read-price",
+              "data": {
+                "type": "action",
+                "label": "Read Aave Oracle Price",
+                "config": {
+                  "abi": "[{\"type\":\"function\",\"name\":\"getAssetPrice\",\"stateMutability\":\"view\",\"inputs\":[{\"name\":\"asset\",\"type\":\"address\"}],\"outputs\":[{\"name\":\"\",\"type\":\"uint256\"}]}]",
+                  "network": "8453",
+                  "actionType": "web3/read-contract",
+                  "abiFunction": "getAssetPrice",
+                  "functionArgs": "[\"{{@trigger-1:Trigger.collateralAsset}}\"]",
+                  "contractAddress": "0x2Cc0Fc26eD4563A5ce5e8bdcfe1A2878676Ae156"
+                },
+                "status": "idle"
+              },
+              "type": "action",
+              "position": {
+                "x": 756,
+                "y": 0
+              }
+            },
+            {
+              "id": "critical-condition",
+              "data": {
+                "type": "action",
+                "label": "Critical Risk",
+                "config": {
+                  "condition": "{{@read-account:Read Aave Account.healthFactor}} < 1050000000000000000",
+                  "actionType": "Condition",
+                  "conditionConfig": {
+                    "group": {
+                      "id": "critical-group",
+                      "logic": "AND",
+                      "rules": [
+                        {
+                          "id": "critical-rule",
+                          "operator": "<",
+                          "leftOperand": "{{@read-account:Read Aave Account.healthFactor}}",
+                          "rightOperand": "1050000000000000000"
+                        }
+                      ]
+                    }
+                  }
+                },
+                "status": "idle"
+              },
+              "type": "action",
+              "position": {
+                "x": 1008,
+                "y": 0
+              }
+            },
+            {
+              "id": "high-condition",
+              "data": {
+                "type": "action",
+                "label": "High Risk",
+                "config": {
+                  "condition": "{{@read-account:Read Aave Account.healthFactor}} < 1200000000000000000",
+                  "actionType": "Condition",
+                  "conditionConfig": {
+                    "group": {
+                      "id": "high-group",
+                      "logic": "AND",
+                      "rules": [
+                        {
+                          "id": "high-rule",
+                          "operator": "<",
+                          "leftOperand": "{{@read-account:Read Aave Account.healthFactor}}",
+                          "rightOperand": "1200000000000000000"
+                        }
+                      ]
+                    }
+                  }
+                },
+                "status": "idle"
+              },
+              "type": "action",
+              "position": {
+                "x": 1260,
+                "y": 0
+              }
+            },
+            {
+              "id": "elevated-condition",
+              "data": {
+                "type": "action",
+                "label": "Elevated Risk",
+                "config": {
+                  "condition": "{{@read-account:Read Aave Account.healthFactor}} < 1500000000000000000",
+                  "actionType": "Condition",
+                  "conditionConfig": {
+                    "group": {
+                      "id": "elevated-group",
+                      "logic": "AND",
+                      "rules": [
+                        {
+                          "id": "elevated-rule",
+                          "operator": "<",
+                          "leftOperand": "{{@read-account:Read Aave Account.healthFactor}}",
+                          "rightOperand": "1500000000000000000"
+                        }
+                      ]
+                    }
+                  }
+                },
+                "status": "idle"
+              },
+              "type": "action",
+              "position": {
+                "x": 1512,
+                "y": 0
+              }
+            },
+            {
+              "id": "liq-numerator",
+              "data": {
+                "type": "action",
+                "label": "Liquidation Numerator",
+                "config": {
+                  "inputMode": "explicit",
+                  "operation": "product",
+                  "actionType": "math/aggregate",
+                  "postOperation": "none",
+                  "explicitValues": "{{@read-account:Read Aave Account.totalDebtBase}},10000,{{@trigger-1:Trigger.collateralUnit}}"
+                },
+                "status": "idle"
+              },
+              "type": "action",
+              "position": {
+                "x": 1764,
+                "y": 0
+              }
+            },
+            {
+              "id": "liq-denominator",
+              "data": {
+                "type": "action",
+                "label": "Liquidation Denominator",
+                "config": {
+                  "inputMode": "explicit",
+                  "operation": "product",
+                  "actionType": "math/aggregate",
+                  "postOperation": "none",
+                  "explicitValues": "{{@read-collateral:Read Collateral Reserve.currentATokenBalance}},{{@read-account:Read Aave Account.currentLiquidationThreshold}}"
+                },
+                "status": "idle"
+              },
+              "type": "action",
+              "position": {
+                "x": 2016,
+                "y": 0
+              }
+            },
+            {
+              "id": "liq-price",
+              "data": {
+                "type": "action",
+                "label": "Liquidation Price Scenario",
+                "config": {
+                  "inputMode": "explicit",
+                  "operation": "sum",
+                  "actionType": "math/aggregate",
+                  "postOperand": "{{@liq-denominator:Liquidation Denominator.result}}",
+                  "postOperation": "divide",
+                  "explicitValues": "{{@liq-numerator:Liquidation Numerator.result}}"
+                },
+                "status": "idle"
+              },
+              "type": "action",
+              "position": {
+                "x": 2268,
+                "y": 0
+              }
+            }
+          ],
+          "edges": [
+            {
+              "id": "edge-trigger-account",
+              "source": "trigger-1",
+              "target": "read-account"
+            },
+            {
+              "id": "edge-account-collateral",
+              "source": "read-account",
+              "target": "read-collateral"
+            },
+            {
+              "id": "edge-collateral-price",
+              "source": "read-collateral",
+              "target": "read-price"
+            },
+            {
+              "id": "edge-price-critical",
+              "source": "read-price",
+              "target": "critical-condition"
+            },
+            {
+              "id": "edge-critical-true-high",
+              "source": "critical-condition",
+              "target": "high-condition",
+              "sourceHandle": "true"
+            },
+            {
+              "id": "edge-critical-false-high",
+              "source": "critical-condition",
+              "target": "high-condition",
+              "sourceHandle": "false"
+            },
+            {
+              "id": "edge-high-true-elevated",
+              "source": "high-condition",
+              "target": "elevated-condition",
+              "sourceHandle": "true"
+            },
+            {
+              "id": "edge-high-false-elevated",
+              "source": "high-condition",
+              "target": "elevated-condition",
+              "sourceHandle": "false"
+            },
+            {
+              "id": "edge-elevated-true-numerator",
+              "source": "elevated-condition",
+              "target": "liq-numerator",
+              "sourceHandle": "true"
+            },
+            {
+              "id": "edge-elevated-false-numerator",
+              "source": "elevated-condition",
+              "target": "liq-numerator",
+              "sourceHandle": "false"
+            },
+            {
+              "id": "edge-numerator-denominator",
+              "source": "liq-numerator",
+              "target": "liq-denominator"
+            },
+            {
+              "id": "edge-denominator-price",
+              "source": "liq-denominator",
+              "target": "liq-price"
+            }
+          ],
+          "visibility": "private",
+          "enabled": true,
+          "sourceWorkflowId": null,
+          "createdAt": "2026-07-28T16:56:18.855Z",
+          "updatedAt": "2026-07-28T18:08:50.540Z",
+          "seededAt": null,
+          "isListed": true,
+          "listedSlug": "vigil-risk-check",
+          "listedAt": "2026-07-28T18:08:50.540Z",
+          "inputSchema": {
+            "type": "object",
+            "required": [
+              "account",
+              "collateralAsset",
+              "collateralUnit"
+            ],
+            "properties": {
+              "account": {
+                "type": "string",
+                "pattern": "^0x[a-fA-F0-9]{40}$",
+                "description": "Aave account address on Base."
+              },
+              "collateralUnit": {
+                "type": "string",
+                "pattern": "^[1-9][0-9]*$",
+                "description": "One whole collateral token in raw units, e.g. 1000000000000000000 for 18 decimals."
+              },
+              "collateralAsset": {
+                "type": "string",
+                "pattern": "^0x[a-fA-F0-9]{40}$",
+                "description": "Primary collateral token address used for the liquidation-price scenario."
+              }
+            },
+            "additionalProperties": false
+          },
+          "outputMapping": {
+            "chainId": 8453,
+            "riskGrade": {
+              "isCritical": "{{@critical-condition:Critical Risk.condition}}",
+              "isHighOrWorse": "{{@high-condition:High Risk.condition}}",
+              "isElevatedOrWorse": "{{@elevated-condition:Elevated Risk.condition}}"
+            },
+            "totalDebtBase": "{{@read-account:Read Aave Account.totalDebtBase}}",
+            "healthFactorWad": "{{@read-account:Read Aave Account.healthFactor}}",
+            "totalCollateralBase": "{{@read-account:Read Aave Account.totalCollateralBase}}",
+            "liquidationPriceBase8": "{{@liq-price:Liquidation Price Scenario.result}}",
+            "currentCollateralPriceBase8": "{{@read-price:Read Aave Oracle Price.result}}",
+            "currentLiquidationThresholdBps": "{{@read-account:Read Aave Account.currentLiquidationThreshold}}"
+          },
+          "priceUsdcPerCall": "0.02",
+          "workflowType": "read",
+          "category": "defi",
+          "chain": "8453",
+          "listingVersion": 10,
+          "deletedAt": null,
+          "deactivatedAt": null
+        }
+      },
+      "logs": [
+        {
+          "id": "n2bbm0dopnq6mxt2k9afq",
+          "executionId": "bdmcgs8gfe7e5dpar91mk",
+          "nodeId": "liq-price",
+          "nodeName": "Liquidation Price Scenario",
+          "nodeType": "math/aggregate",
+          "status": "success",
+          "input": {
+            "condition": null,
+            "inputMode": "explicit",
+            "operation": "sum",
+            "actionType": "math/aggregate",
+            "_actionType": "math/aggregate",
+            "postOperand": "13943779200",
+            "postOperation": "divide",
+            "explicitValues": "1.80000588606e+23",
+            "conditionConfig": null
+          },
+          "output": {
+            "result": "12909024592558.094",
+            "success": true,
+            "operation": "sum then divide",
+            "inputCount": 1,
+            "resultType": "number"
+          },
+          "outputRaw": {
+            "result": "12909024592558.094",
+            "success": true,
+            "operation": "sum then divide",
+            "inputCount": 1,
+            "resultType": "number"
+          },
+          "error": null,
+          "startedAt": "2026-07-28T18:09:10.336Z",
+          "completedAt": "2026-07-28T18:09:10.343Z",
+          "duration": "3",
+          "timestamp": "2026-07-28T18:09:10.336Z",
+          "iterationIndex": null,
+          "forEachNodeId": null,
+          "network": null,
+          "gasUsedWei": null
+        },
+        {
+          "id": "dkodt0u859x7b1hqetrmk",
+          "executionId": "bdmcgs8gfe7e5dpar91mk",
+          "nodeId": "liq-denominator",
+          "nodeName": "Liquidation Denominator",
+          "nodeType": "math/aggregate",
+          "status": "success",
+          "input": {
+            "condition": null,
+            "inputMode": "explicit",
+            "operation": "product",
+            "actionType": "math/aggregate",
+            "_actionType": "math/aggregate",
+            "postOperation": "none",
+            "explicitValues": "1787664,7800",
+            "conditionConfig": null
+          },
+          "output": {
+            "result": "13943779200",
+            "success": true,
+            "operation": "product",
+            "inputCount": 2,
+            "resultType": "number"
+          },
+          "outputRaw": {
+            "result": "13943779200",
+            "success": true,
+            "operation": "product",
+            "inputCount": 2,
+            "resultType": "number"
+          },
+          "error": null,
+          "startedAt": "2026-07-28T18:09:09.800Z",
+          "completedAt": "2026-07-28T18:09:09.815Z",
+          "duration": "6",
+          "timestamp": "2026-07-28T18:09:09.801Z",
+          "iterationIndex": null,
+          "forEachNodeId": null,
+          "network": null,
+          "gasUsedWei": null
+        },
+        {
+          "id": "vz0uona8ix5jbk9kpny6u",
+          "executionId": "bdmcgs8gfe7e5dpar91mk",
+          "nodeId": "liq-numerator",
+          "nodeName": "Liquidation Numerator",
+          "nodeType": "math/aggregate",
+          "status": "success",
+          "input": {
+            "condition": null,
+            "inputMode": "explicit",
+            "operation": "product",
+            "actionType": "math/aggregate",
+            "_actionType": "math/aggregate",
+            "postOperation": "none",
+            "explicitValues": "180000588606,10000,100000000",
+            "conditionConfig": null
+          },
+          "output": {
+            "result": "1.80000588606e+23",
+            "success": true,
+            "operation": "product",
+            "inputCount": 3,
+            "resultType": "number"
+          },
+          "outputRaw": {
+            "result": "1.80000588606e+23",
+            "success": true,
+            "operation": "product",
+            "inputCount": 3,
+            "resultType": "number"
+          },
+          "error": null,
+          "startedAt": "2026-07-28T18:09:09.431Z",
+          "completedAt": "2026-07-28T18:09:09.439Z",
+          "duration": "3",
+          "timestamp": "2026-07-28T18:09:09.431Z",
+          "iterationIndex": null,
+          "forEachNodeId": null,
+          "network": null,
+          "gasUsedWei": null
+        },
+        {
+          "id": "scg6esva4iic4wxxk7jms",
+          "executionId": "bdmcgs8gfe7e5dpar91mk",
+          "nodeId": "elevated-condition",
+          "nodeName": "Elevated Risk",
+          "nodeType": "Condition",
+          "status": "success",
+          "input": {
+            "values": {
+              "Read Aave Account.healthFactor": "1810762178545984082"
+            },
+            "condition": false,
+            "expression": "{{@read-account:Read Aave Account.healthFactor}} < 1500000000000000000",
+            "_evaluationError": null,
+            "resolvedExpression": "\"1810762178545984082\" < 1500000000000000000"
+          },
+          "output": {
+            "condition": false
+          },
+          "outputRaw": {
+            "condition": false
+          },
+          "error": null,
+          "startedAt": "2026-07-28T18:09:09.323Z",
+          "completedAt": "2026-07-28T18:09:09.330Z",
+          "duration": "2",
+          "timestamp": "2026-07-28T18:09:09.323Z",
+          "iterationIndex": null,
+          "forEachNodeId": null,
+          "network": null,
+          "gasUsedWei": null
+        },
+        {
+          "id": "e4qhtuwk7zu2wr4u5b07r",
+          "executionId": "bdmcgs8gfe7e5dpar91mk",
+          "nodeId": "high-condition",
+          "nodeName": "High Risk",
+          "nodeType": "Condition",
+          "status": "success",
+          "input": {
+            "values": {
+              "Read Aave Account.healthFactor": "1810762178545984082"
+            },
+            "condition": false,
+            "expression": "{{@read-account:Read Aave Account.healthFactor}} < 1200000000000000000",
+            "_evaluationError": null,
+            "resolvedExpression": "\"1810762178545984082\" < 1200000000000000000"
+          },
+          "output": {
+            "condition": false
+          },
+          "outputRaw": {
+            "condition": false
+          },
+          "error": null,
+          "startedAt": "2026-07-28T18:09:09.218Z",
+          "completedAt": "2026-07-28T18:09:09.226Z",
+          "duration": "3",
+          "timestamp": "2026-07-28T18:09:09.218Z",
+          "iterationIndex": null,
+          "forEachNodeId": null,
+          "network": null,
+          "gasUsedWei": null
+        },
+        {
+          "id": "ff8oqxumxvgit6wzinq72",
+          "executionId": "bdmcgs8gfe7e5dpar91mk",
+          "nodeId": "critical-condition",
+          "nodeName": "Critical Risk",
+          "nodeType": "Condition",
+          "status": "success",
+          "input": {
+            "values": {
+              "Read Aave Account.healthFactor": "1810762178545984082"
+            },
+            "condition": false,
+            "expression": "{{@read-account:Read Aave Account.healthFactor}} < 1050000000000000000",
+            "_evaluationError": null,
+            "resolvedExpression": "\"1810762178545984082\" < 1050000000000000000"
+          },
+          "output": {
+            "condition": false
+          },
+          "outputRaw": {
+            "condition": false
+          },
+          "error": null,
+          "startedAt": "2026-07-28T18:09:09.108Z",
+          "completedAt": "2026-07-28T18:09:09.115Z",
+          "duration": "2",
+          "timestamp": "2026-07-28T18:09:09.108Z",
+          "iterationIndex": null,
+          "forEachNodeId": null,
+          "network": null,
+          "gasUsedWei": null
+        },
+        {
+          "id": "003pop59p0jukkoqo647f",
+          "executionId": "bdmcgs8gfe7e5dpar91mk",
+          "nodeId": "read-price",
+          "nodeName": "Read Aave Oracle Price",
+          "nodeType": "web3/read-contract",
+          "status": "success",
+          "input": {
+            "abi": "[{\"type\":\"function\",\"name\":\"getAssetPrice\",\"stateMutability\":\"view\",\"inputs\":[{\"name\":\"asset\",\"type\":\"address\"}],\"outputs\":[{\"name\":\"\",\"type\":\"uint256\"}]}]",
+            "network": "8453",
+            "condition": null,
+            "actionType": "web3/read-contract",
+            "_actionType": "web3/read-contract",
+            "abiFunction": "getAssetPrice",
+            "functionArgs": "[\"0xcbB7C0000aB88B473b1f5aFd9ef808440eed33Bf\"]",
+            "conditionConfig": null,
+            "contractAddress": "0x2Cc0Fc26eD4563A5ce5e8bdcfe1A2878676Ae156",
+            "contractAddressLink": "https://basescan.org/address/0x2Cc0Fc26eD4563A5ce5e8bdcfe1A2878676Ae156"
+          },
+          "output": {
+            "result": "6367135541688",
+            "success": true,
+            "addressLink": "https://basescan.org/address/0x2Cc0Fc26eD4563A5ce5e8bdcfe1A2878676Ae156"
+          },
+          "outputRaw": {
+            "result": "6367135541688",
+            "success": true,
+            "addressLink": "https://basescan.org/address/0x2Cc0Fc26eD4563A5ce5e8bdcfe1A2878676Ae156"
+          },
+          "error": null,
+          "startedAt": "2026-07-28T18:09:08.939Z",
+          "completedAt": "2026-07-28T18:09:08.998Z",
+          "duration": "53",
+          "timestamp": "2026-07-28T18:09:08.940Z",
+          "iterationIndex": null,
+          "forEachNodeId": null,
+          "network": "8453",
+          "gasUsedWei": null
+        },
+        {
+          "id": "xvi4zup3ue21jbadr9ksq",
+          "executionId": "bdmcgs8gfe7e5dpar91mk",
+          "nodeId": "read-collateral",
+          "nodeName": "Read Collateral Reserve",
+          "nodeType": "aave-v3/get-user-reserve-data",
+          "status": "success",
+          "input": {
+            "user": "0x5a93Cd1176ebbbfCeFa915da3eFCBB9bC3ca2C44",
+            "asset": "0xcbB7C0000aB88B473b1f5aFd9ef808440eed33Bf",
+            "network": "8453",
+            "condition": null,
+            "actionType": "aave-v3/get-user-reserve-data",
+            "_actionType": "aave-v3/get-user-reserve-data",
+            "conditionConfig": null
+          },
+          "output": {
+            "result": {
+              "liquidityRate": "109509784920733574773575",
+              "stableBorrowRate": "0",
+              "scaledVariableDebt": "0",
+              "principalStableDebt": "0",
+              "currentATokenBalance": "1787664",
+              "stableRateLastUpdated": "0",
+              "usageAsCollateralEnabled": true,
+              "currentStableDebtTokenBalance": "0",
+              "currentVariableDebtTokenBalance": "0"
+            },
+            "success": true,
+            "addressLink": "https://basescan.org/address/0x0F43731EB8d45A581f4a36DD74F5f358bc90C73A"
+          },
+          "outputRaw": {
+            "result": {
+              "liquidityRate": "109509784920733574773575",
+              "stableBorrowRate": "0",
+              "scaledVariableDebt": "0",
+              "principalStableDebt": "0",
+              "currentATokenBalance": "1787664",
+              "stableRateLastUpdated": "0",
+              "usageAsCollateralEnabled": true,
+              "currentStableDebtTokenBalance": "0",
+              "currentVariableDebtTokenBalance": "0"
+            },
+            "success": true,
+            "addressLink": "https://basescan.org/address/0x0F43731EB8d45A581f4a36DD74F5f358bc90C73A"
+          },
+          "error": null,
+          "startedAt": "2026-07-28T18:09:08.776Z",
+          "completedAt": "2026-07-28T18:09:08.850Z",
+          "duration": "68",
+          "timestamp": "2026-07-28T18:09:08.777Z",
+          "iterationIndex": null,
+          "forEachNodeId": null,
+          "network": "8453",
+          "gasUsedWei": null
+        },
+        {
+          "id": "xr17wf5kq9vb51yxtap1m",
+          "executionId": "bdmcgs8gfe7e5dpar91mk",
+          "nodeId": "read-account",
+          "nodeName": "Read Aave Account",
+          "nodeType": "aave-v3/get-user-account-data",
+          "status": "success",
+          "input": {
+            "user": "0x5a93Cd1176ebbbfCeFa915da3eFCBB9bC3ca2C44",
+            "network": "8453",
+            "condition": null,
+            "actionType": "aave-v3/get-user-account-data",
+            "_actionType": "aave-v3/get-user-account-data",
+            "conditionConfig": null
+          },
+          "output": {
+            "result": {
+              "ltv": "7445",
+              "healthFactor": "1810762178545984082",
+              "totalDebtBase": "180000588606",
+              "totalCollateralBase": "417869561492",
+              "availableBorrowsBase": "131103299924",
+              "currentLiquidationThreshold": "7800"
+            },
+            "success": true,
+            "addressLink": "https://basescan.org/address/0xA238Dd80C259a72e81d7e4664a9801593F98d1c5"
+          },
+          "outputRaw": {
+            "result": {
+              "ltv": "7445",
+              "healthFactor": "1810762178545984082",
+              "totalDebtBase": "180000588606",
+              "totalCollateralBase": "417869561492",
+              "availableBorrowsBase": "131103299924",
+              "currentLiquidationThreshold": "7800"
+            },
+            "success": true,
+            "addressLink": "https://basescan.org/address/0xA238Dd80C259a72e81d7e4664a9801593F98d1c5"
+          },
+          "error": null,
+          "startedAt": "2026-07-28T18:09:08.571Z",
+          "completedAt": "2026-07-28T18:09:08.668Z",
+          "duration": "92",
+          "timestamp": "2026-07-28T18:09:08.571Z",
+          "iterationIndex": null,
+          "forEachNodeId": null,
+          "network": "8453",
+          "gasUsedWei": null
+        },
+        {
+          "id": "6m7iqrogzegvwzct5m70p",
+          "executionId": "bdmcgs8gfe7e5dpar91mk",
+          "nodeId": "trigger-1",
+          "nodeName": "Trigger",
+          "nodeType": "trigger",
+          "status": "success",
+          "input": {
+            "triggerData": {
+              "account": "0x5a93Cd1176ebbbfCeFa915da3eFCBB9bC3ca2C44",
+              "timestamp": 1785262148277,
+              "triggered": true,
+              "triggeredAt": "2026-07-28T18:09:08.277Z",
+              "collateralUnit": "100000000",
+              "collateralAsset": "0xcbB7C0000aB88B473b1f5aFd9ef808440eed33Bf"
+            }
+          },
+          "output": {
+            "data": {
+              "account": "0x5a93Cd1176ebbbfCeFa915da3eFCBB9bC3ca2C44",
+              "timestamp": 1785262148277,
+              "triggered": true,
+              "triggeredAt": "2026-07-28T18:09:08.277Z",
+              "collateralUnit": "100000000",
+              "collateralAsset": "0xcbB7C0000aB88B473b1f5aFd9ef808440eed33Bf"
+            },
+            "success": true
+          },
+          "outputRaw": {
+            "data": {
+              "account": "0x5a93Cd1176ebbbfCeFa915da3eFCBB9bC3ca2C44",
+              "timestamp": 1785262148277,
+              "triggered": true,
+              "triggeredAt": "2026-07-28T18:09:08.277Z",
+              "collateralUnit": "100000000",
+              "collateralAsset": "0xcbB7C0000aB88B473b1f5aFd9ef808440eed33Bf"
+            },
+            "success": true
+          },
+          "error": null,
+          "startedAt": "2026-07-28T18:09:08.413Z",
+          "completedAt": "2026-07-28T18:09:08.421Z",
+          "duration": "3",
+          "timestamp": "2026-07-28T18:09:08.413Z",
+          "iterationIndex": null,
+          "forEachNodeId": null,
+          "network": null,
+          "gasUsedWei": null
+        }
+      ]
+    }
+  }
+}

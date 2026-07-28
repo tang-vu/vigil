@@ -92,23 +92,23 @@ async function publish(
     );
   }
 
-  if (!alreadyListed) {
-    const updateResult = await callKeeperHubMcpTool(
-      baseUrl,
-      apiKey,
-      "update_workflow_listing",
-      {
-        workflowId: listing.workflowId,
-        workflowType: listing.workflowType,
-        category: listing.category,
-        chain: listing.chain,
-        priceUsdcPerCall: listing.priceUsdcPerCall,
-        inputSchema: listing.inputSchema,
-        outputMapping: listing.outputMapping,
-      },
-    );
-    assertSuccessful(updateResult, `configure ${listing.slug}`);
-  }
+  const updateResult = await callKeeperHubMcpTool(
+    baseUrl,
+    apiKey,
+    "update_workflow_listing",
+    {
+      workflowId: listing.workflowId,
+      workflowType: listing.workflowType,
+      category: listing.category,
+      chain: listing.chain,
+      ...(!alreadyListed
+        ? { priceUsdcPerCall: listing.priceUsdcPerCall }
+        : {}),
+      inputSchema: listing.inputSchema,
+      outputMapping: listing.outputMapping,
+    },
+  );
+  assertSuccessful(updateResult, `configure ${listing.slug}`);
 
   const validationResult = await callKeeperHubMcpTool(
     baseUrl,

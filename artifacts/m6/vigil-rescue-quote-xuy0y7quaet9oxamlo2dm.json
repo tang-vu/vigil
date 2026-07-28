@@ -1,0 +1,1119 @@
+{
+  "slug": "vigil-rescue-quote",
+  "executionId": "xuy0y7quaet9oxamlo2dm",
+  "capturedAt": "2026-07-28T17:59:36.106Z",
+  "execution": {
+    "status": {
+      "status": "success",
+      "nodeStatuses": [
+        {
+          "nodeId": "read-account",
+          "status": "success"
+        },
+        {
+          "nodeId": "read-price",
+          "status": "success"
+        },
+        {
+          "nodeId": "adjusted-collateral",
+          "status": "success"
+        },
+        {
+          "nodeId": "repay-raw-numerator",
+          "status": "success"
+        },
+        {
+          "nodeId": "trigger-1",
+          "status": "success"
+        },
+        {
+          "nodeId": "target-debt-numerator",
+          "status": "success"
+        },
+        {
+          "nodeId": "target-debt",
+          "status": "success"
+        },
+        {
+          "nodeId": "repay-base",
+          "status": "success"
+        },
+        {
+          "nodeId": "repay-raw-decimal",
+          "status": "success"
+        },
+        {
+          "nodeId": "repay-raw-ceil",
+          "status": "success"
+        },
+        {
+          "nodeId": "repay-raw-cap",
+          "status": "success"
+        },
+        {
+          "nodeId": "read-pool",
+          "status": "success"
+        },
+        {
+          "nodeId": "read-debt",
+          "status": "success"
+        }
+      ],
+      "progress": {
+        "totalSteps": 0,
+        "completedSteps": 13,
+        "runningSteps": 0,
+        "currentNodeId": null,
+        "currentNodeName": null,
+        "percentage": 0
+      },
+      "errorContext": null,
+      "transactionHashes": []
+    },
+    "logs": {
+      "execution": {
+        "id": "xuy0y7quaet9oxamlo2dm",
+        "workflowId": "ofihzaszujrq8nhki2kti",
+        "userId": "R0XrO60abvIUWu0TkCdqi5G9MypZk6lf",
+        "status": "success",
+        "input": {
+          "account": "0x5a93Cd1176ebbbfCeFa915da3eFCBB9bC3ca2C44",
+          "debtAsset": "0x6Bb7a212910682DCFdbd5BCBb3e28FB4E8da10Ee",
+          "debtAssetUnit": "1000000000000000000",
+          "targetHealthFactorWad": "1800000000000000000"
+        },
+        "output": {
+          "result": "-10296809460000000000",
+          "success": true,
+          "operation": "min",
+          "inputCount": 2,
+          "resultType": "bigint"
+        },
+        "error": null,
+        "errorCategory": null,
+        "errorType": null,
+        "errorCode": null,
+        "startedAt": "2026-07-28T17:59:30.508Z",
+        "completedAt": "2026-07-28T17:59:32.138Z",
+        "duration": "1587",
+        "totalSteps": null,
+        "completedSteps": "13",
+        "currentNodeId": null,
+        "currentNodeName": null,
+        "lastSuccessfulNodeId": "repay-raw-cap",
+        "lastSuccessfulNodeName": "Capped Repay Amount",
+        "executionTrace": [
+          "trigger-1",
+          "read-account",
+          "read-debt",
+          "read-price",
+          "read-pool",
+          "adjusted-collateral",
+          "target-debt-numerator",
+          "target-debt",
+          "repay-base",
+          "repay-raw-numerator",
+          "repay-raw-decimal",
+          "repay-raw-ceil",
+          "repay-raw-cap"
+        ],
+        "runId": "wrun_01KYMY3EEWKF3ZWHKDG3J9KKN5",
+        "transactionHashes": [],
+        "gasUsedWei": null,
+        "billable": true,
+        "triggeredByUserApiKeyId": null,
+        "triggeredByOrgApiKeyId": "6is7xn7yazcdqeq92hach",
+        "triggeredByIp": null,
+        "triggeredByCountry": null,
+        "triggerSource": "manual",
+        "triggeredByCredentialType": "org_api_key",
+        "triggeredByCredentialLabel": null,
+        "executedWorkflowHash": "15df0c6a40a346dd38a877eb16a64d1c5f555af87b79e9dd04263dad8150b829",
+        "dispatchKey": null,
+        "deletedAt": null,
+        "workflow": {
+          "id": "ofihzaszujrq8nhki2kti",
+          "name": "vigil-rescue-quote",
+          "description": "Paid read-only Aave v3 Base quote returning an exact KeeperHub repay call plan without executing it.",
+          "userId": "R0XrO60abvIUWu0TkCdqi5G9MypZk6lf",
+          "organizationId": "e782ed83-5e97-447a-9126-22a64d427512",
+          "isAnonymous": false,
+          "featured": false,
+          "featuredOrder": 0,
+          "featuredProtocol": null,
+          "featuredProtocolOrder": 0,
+          "projectId": null,
+          "tagId": null,
+          "nodes": [
+            {
+              "id": "trigger-1",
+              "data": {
+                "type": "trigger",
+                "label": "Trigger",
+                "config": {
+                  "triggerType": "Manual"
+                },
+                "status": "idle"
+              },
+              "type": "trigger",
+              "position": {
+                "x": 0,
+                "y": 0
+              }
+            },
+            {
+              "id": "read-account",
+              "data": {
+                "type": "action",
+                "label": "Read Aave Account",
+                "config": {
+                  "user": "{{@trigger-1:Trigger.account}}",
+                  "network": "8453",
+                  "actionType": "aave-v3/get-user-account-data"
+                },
+                "status": "idle"
+              },
+              "type": "action",
+              "position": {
+                "x": 252,
+                "y": 0
+              }
+            },
+            {
+              "id": "read-debt",
+              "data": {
+                "type": "action",
+                "label": "Read Debt Reserve",
+                "config": {
+                  "user": "{{@trigger-1:Trigger.account}}",
+                  "asset": "{{@trigger-1:Trigger.debtAsset}}",
+                  "network": "8453",
+                  "actionType": "aave-v3/get-user-reserve-data"
+                },
+                "status": "idle"
+              },
+              "type": "action",
+              "position": {
+                "x": 504,
+                "y": 0
+              }
+            },
+            {
+              "id": "read-price",
+              "data": {
+                "type": "action",
+                "label": "Read Debt Oracle Price",
+                "config": {
+                  "abi": "[{\"type\":\"function\",\"name\":\"getAssetPrice\",\"stateMutability\":\"view\",\"inputs\":[{\"name\":\"asset\",\"type\":\"address\"}],\"outputs\":[{\"name\":\"\",\"type\":\"uint256\"}]}]",
+                  "network": "8453",
+                  "actionType": "web3/read-contract",
+                  "abiFunction": "getAssetPrice",
+                  "functionArgs": "[\"{{@trigger-1:Trigger.debtAsset}}\"]",
+                  "contractAddress": "0x2Cc0Fc26eD4563A5ce5e8bdcfe1A2878676Ae156"
+                },
+                "status": "idle"
+              },
+              "type": "action",
+              "position": {
+                "x": 756,
+                "y": 0
+              }
+            },
+            {
+              "id": "read-pool",
+              "data": {
+                "type": "action",
+                "label": "Read Aave Pool Address",
+                "config": {
+                  "abi": "[{\"type\":\"function\",\"name\":\"getPool\",\"stateMutability\":\"view\",\"inputs\":[],\"outputs\":[{\"name\":\"\",\"type\":\"address\"}]}]",
+                  "network": "8453",
+                  "actionType": "web3/read-contract",
+                  "abiFunction": "getPool",
+                  "functionArgs": "[]",
+                  "contractAddress": "0xe20fCBdBfFC4Dd138cE8b2E6FBb6CB49777ad64D"
+                },
+                "status": "idle"
+              },
+              "type": "action",
+              "position": {
+                "x": 1008,
+                "y": 0
+              }
+            },
+            {
+              "id": "adjusted-collateral",
+              "data": {
+                "type": "action",
+                "label": "Adjusted Collateral",
+                "config": {
+                  "inputMode": "explicit",
+                  "operation": "product",
+                  "actionType": "math/aggregate",
+                  "postOperand": "10000",
+                  "postOperation": "divide",
+                  "explicitValues": "{{@read-account:Read Aave Account.totalCollateralBase}},{{@read-account:Read Aave Account.currentLiquidationThreshold}}"
+                },
+                "status": "idle"
+              },
+              "type": "action",
+              "position": {
+                "x": 1260,
+                "y": 0
+              }
+            },
+            {
+              "id": "target-debt-numerator",
+              "data": {
+                "type": "action",
+                "label": "Target Debt Numerator",
+                "config": {
+                  "inputMode": "explicit",
+                  "operation": "product",
+                  "actionType": "math/aggregate",
+                  "postOperation": "none",
+                  "explicitValues": "{{@adjusted-collateral:Adjusted Collateral.result}},1000000000000000000"
+                },
+                "status": "idle"
+              },
+              "type": "action",
+              "position": {
+                "x": 1512,
+                "y": 0
+              }
+            },
+            {
+              "id": "target-debt",
+              "data": {
+                "type": "action",
+                "label": "Target Debt",
+                "config": {
+                  "inputMode": "explicit",
+                  "operation": "sum",
+                  "actionType": "math/aggregate",
+                  "postOperand": "{{@trigger-1:Trigger.targetHealthFactorWad}}",
+                  "postOperation": "divide",
+                  "explicitValues": "{{@target-debt-numerator:Target Debt Numerator.result}}"
+                },
+                "status": "idle"
+              },
+              "type": "action",
+              "position": {
+                "x": 1764,
+                "y": 0
+              }
+            },
+            {
+              "id": "repay-base",
+              "data": {
+                "type": "action",
+                "label": "Required Repay Base",
+                "config": {
+                  "inputMode": "explicit",
+                  "operation": "sum",
+                  "actionType": "math/aggregate",
+                  "postOperand": "{{@target-debt:Target Debt.result}}",
+                  "postOperation": "subtract",
+                  "explicitValues": "{{@read-account:Read Aave Account.totalDebtBase}}"
+                },
+                "status": "idle"
+              },
+              "type": "action",
+              "position": {
+                "x": 2016,
+                "y": 0
+              }
+            },
+            {
+              "id": "repay-raw-numerator",
+              "data": {
+                "type": "action",
+                "label": "Repay Raw Numerator",
+                "config": {
+                  "inputMode": "explicit",
+                  "operation": "product",
+                  "actionType": "math/aggregate",
+                  "postOperation": "none",
+                  "explicitValues": "{{@repay-base:Required Repay Base.result}},{{@trigger-1:Trigger.debtAssetUnit}}"
+                },
+                "status": "idle"
+              },
+              "type": "action",
+              "position": {
+                "x": 2268,
+                "y": 0
+              }
+            },
+            {
+              "id": "repay-raw-decimal",
+              "data": {
+                "type": "action",
+                "label": "Repay Raw Decimal",
+                "config": {
+                  "inputMode": "explicit",
+                  "operation": "sum",
+                  "actionType": "math/aggregate",
+                  "postOperand": "{{@read-price:Read Debt Oracle Price.result}}",
+                  "postOperation": "divide",
+                  "explicitValues": "{{@repay-raw-numerator:Repay Raw Numerator.result}}"
+                },
+                "status": "idle"
+              },
+              "type": "action",
+              "position": {
+                "x": 2520,
+                "y": 0
+              }
+            },
+            {
+              "id": "repay-raw-ceil",
+              "data": {
+                "type": "action",
+                "label": "Repay Raw Rounded Up",
+                "config": {
+                  "inputMode": "explicit",
+                  "operation": "sum",
+                  "actionType": "math/aggregate",
+                  "postOperation": "ceil",
+                  "explicitValues": "{{@repay-raw-decimal:Repay Raw Decimal.result}}"
+                },
+                "status": "idle"
+              },
+              "type": "action",
+              "position": {
+                "x": 2772,
+                "y": 0
+              }
+            },
+            {
+              "id": "repay-raw-cap",
+              "data": {
+                "type": "action",
+                "label": "Capped Repay Amount",
+                "config": {
+                  "inputMode": "explicit",
+                  "operation": "min",
+                  "actionType": "math/aggregate",
+                  "postOperation": "none",
+                  "explicitValues": "{{@repay-raw-ceil:Repay Raw Rounded Up.result}},{{@read-debt:Read Debt Reserve.currentVariableDebtTokenBalance}}"
+                },
+                "status": "idle"
+              },
+              "type": "action",
+              "position": {
+                "x": 3024,
+                "y": 0
+              }
+            }
+          ],
+          "edges": [
+            {
+              "id": "edge-trigger-account",
+              "source": "trigger-1",
+              "target": "read-account"
+            },
+            {
+              "id": "edge-account-debt",
+              "source": "read-account",
+              "target": "read-debt"
+            },
+            {
+              "id": "edge-debt-price",
+              "source": "read-debt",
+              "target": "read-price"
+            },
+            {
+              "id": "edge-price-pool",
+              "source": "read-price",
+              "target": "read-pool"
+            },
+            {
+              "id": "edge-pool-adjusted",
+              "source": "read-pool",
+              "target": "adjusted-collateral"
+            },
+            {
+              "id": "edge-adjusted-numerator",
+              "source": "adjusted-collateral",
+              "target": "target-debt-numerator"
+            },
+            {
+              "id": "edge-numerator-target",
+              "source": "target-debt-numerator",
+              "target": "target-debt"
+            },
+            {
+              "id": "edge-target-repay-base",
+              "source": "target-debt",
+              "target": "repay-base"
+            },
+            {
+              "id": "edge-repay-base-raw-numerator",
+              "source": "repay-base",
+              "target": "repay-raw-numerator"
+            },
+            {
+              "id": "edge-raw-numerator-decimal",
+              "source": "repay-raw-numerator",
+              "target": "repay-raw-decimal"
+            },
+            {
+              "id": "edge-raw-decimal-ceil",
+              "source": "repay-raw-decimal",
+              "target": "repay-raw-ceil"
+            },
+            {
+              "id": "edge-raw-ceil-cap",
+              "source": "repay-raw-ceil",
+              "target": "repay-raw-cap"
+            }
+          ],
+          "visibility": "private",
+          "enabled": true,
+          "sourceWorkflowId": null,
+          "createdAt": "2026-07-28T16:56:30.294Z",
+          "updatedAt": "2026-07-28T17:59:18.144Z",
+          "seededAt": null,
+          "isListed": true,
+          "listedSlug": "vigil-rescue-quote",
+          "listedAt": "2026-07-28T17:59:18.144Z",
+          "inputSchema": {
+            "type": "object",
+            "required": [
+              "account",
+              "debtAsset",
+              "debtAssetUnit",
+              "targetHealthFactorWad"
+            ],
+            "properties": {
+              "account": {
+                "type": "string",
+                "pattern": "^0x[a-fA-F0-9]{40}$",
+                "description": "Aave borrower address on Base."
+              },
+              "debtAsset": {
+                "type": "string",
+                "pattern": "^0x[a-fA-F0-9]{40}$",
+                "description": "Aave variable-debt underlying token address."
+              },
+              "debtAssetUnit": {
+                "type": "string",
+                "pattern": "^[1-9][0-9]*$",
+                "description": "One whole debt token in raw units, e.g. 1000000 for USDC."
+              },
+              "targetHealthFactorWad": {
+                "type": "string",
+                "pattern": "^[1-9][0-9]{18,}$",
+                "description": "Target health factor in 18-decimal WAD; must be greater than 1e18."
+              }
+            },
+            "additionalProperties": false
+          },
+          "outputMapping": {
+            "chainId": 8453,
+            "repayPlan": {
+              "to": "{{@read-pool:Read Aave Pool Address.result}}",
+              "asset": "{{@trigger-1:Trigger.debtAsset}}",
+              "value": 0,
+              "amountRaw": "{{@repay-raw-cap:Capped Repay Amount.result}}",
+              "onBehalfOf": "{{@trigger-1:Trigger.account}}",
+              "interestRateMode": 2
+            },
+            "allowancePlan": {
+              "token": "{{@trigger-1:Trigger.debtAsset}}",
+              "spender": "{{@read-pool:Read Aave Pool Address.result}}",
+              "amountRaw": "{{@repay-raw-cap:Capped Repay Amount.result}}"
+            },
+            "repayAmountRaw": "{{@repay-raw-cap:Capped Repay Amount.result}}",
+            "assetPriceBase8": "{{@read-price:Read Debt Oracle Price.result}}",
+            "executesOnchain": false,
+            "aaveV3RepayParams": {
+              "asset": "{{@trigger-1:Trigger.debtAsset}}",
+              "amount": "{{@repay-raw-cap:Capped Repay Amount.result}}",
+              "network": 8453,
+              "onBehalfOf": "{{@trigger-1:Trigger.account}}",
+              "interestRateMode": 2
+            },
+            "targetHealthFactorWad": "{{@trigger-1:Trigger.targetHealthFactorWad}}",
+            "currentHealthFactorWad": "{{@read-account:Read Aave Account.healthFactor}}"
+          },
+          "priceUsdcPerCall": "0.02",
+          "workflowType": "read",
+          "category": "defi",
+          "chain": "8453",
+          "listingVersion": 7,
+          "deletedAt": null,
+          "deactivatedAt": null
+        }
+      },
+      "logs": [
+        {
+          "id": "clsk0wdys5vizmpohgvdt",
+          "executionId": "xuy0y7quaet9oxamlo2dm",
+          "nodeId": "repay-raw-cap",
+          "nodeName": "Capped Repay Amount",
+          "nodeType": "math/aggregate",
+          "status": "success",
+          "input": {
+            "condition": null,
+            "inputMode": "explicit",
+            "operation": "min",
+            "actionType": "math/aggregate",
+            "_actionType": "math/aggregate",
+            "postOperation": "none",
+            "explicitValues": "-10296809460000000000,1800003839186649452725",
+            "conditionConfig": null
+          },
+          "output": {
+            "result": "-10296809460000000000",
+            "success": true,
+            "operation": "min",
+            "inputCount": 2,
+            "resultType": "bigint"
+          },
+          "outputRaw": {
+            "result": "-10296809460000000000",
+            "success": true,
+            "operation": "min",
+            "inputCount": 2,
+            "resultType": "bigint"
+          },
+          "error": null,
+          "startedAt": "2026-07-28T17:59:32.038Z",
+          "completedAt": "2026-07-28T17:59:32.043Z",
+          "duration": "2",
+          "timestamp": "2026-07-28T17:59:32.038Z",
+          "iterationIndex": null,
+          "forEachNodeId": null,
+          "network": null,
+          "gasUsedWei": null
+        },
+        {
+          "id": "1w0iorezv9qwxvjyj4lrx",
+          "executionId": "xuy0y7quaet9oxamlo2dm",
+          "nodeId": "repay-raw-ceil",
+          "nodeName": "Repay Raw Rounded Up",
+          "nodeType": "math/aggregate",
+          "status": "success",
+          "input": {
+            "condition": null,
+            "inputMode": "explicit",
+            "operation": "sum",
+            "actionType": "math/aggregate",
+            "_actionType": "math/aggregate",
+            "postOperation": "ceil",
+            "explicitValues": "-10296809460000000000",
+            "conditionConfig": null
+          },
+          "output": {
+            "result": "-10296809460000000000",
+            "success": true,
+            "operation": "sum then ceil",
+            "inputCount": 1,
+            "resultType": "number"
+          },
+          "outputRaw": {
+            "result": "-10296809460000000000",
+            "success": true,
+            "operation": "sum then ceil",
+            "inputCount": 1,
+            "resultType": "number"
+          },
+          "error": null,
+          "startedAt": "2026-07-28T17:59:31.953Z",
+          "completedAt": "2026-07-28T17:59:31.958Z",
+          "duration": "2",
+          "timestamp": "2026-07-28T17:59:31.953Z",
+          "iterationIndex": null,
+          "forEachNodeId": null,
+          "network": null,
+          "gasUsedWei": null
+        },
+        {
+          "id": "rmxo07b9ff7r7kkrioljf",
+          "executionId": "xuy0y7quaet9oxamlo2dm",
+          "nodeId": "repay-raw-decimal",
+          "nodeName": "Repay Raw Decimal",
+          "nodeType": "math/aggregate",
+          "status": "success",
+          "input": {
+            "condition": null,
+            "inputMode": "explicit",
+            "operation": "sum",
+            "actionType": "math/aggregate",
+            "_actionType": "math/aggregate",
+            "postOperand": "100000000",
+            "postOperation": "divide",
+            "explicitValues": "-1029680946000000000000000000",
+            "conditionConfig": null
+          },
+          "output": {
+            "result": "-10296809460000000000",
+            "success": true,
+            "operation": "sum then divide",
+            "inputCount": 1,
+            "resultType": "number"
+          },
+          "outputRaw": {
+            "result": "-10296809460000000000",
+            "success": true,
+            "operation": "sum then divide",
+            "inputCount": 1,
+            "resultType": "number"
+          },
+          "error": null,
+          "startedAt": "2026-07-28T17:59:31.867Z",
+          "completedAt": "2026-07-28T17:59:31.872Z",
+          "duration": "1",
+          "timestamp": "2026-07-28T17:59:31.867Z",
+          "iterationIndex": null,
+          "forEachNodeId": null,
+          "network": null,
+          "gasUsedWei": null
+        },
+        {
+          "id": "jk590t60oqqy1si0e9h20",
+          "executionId": "xuy0y7quaet9oxamlo2dm",
+          "nodeId": "repay-raw-numerator",
+          "nodeName": "Repay Raw Numerator",
+          "nodeType": "math/aggregate",
+          "status": "success",
+          "input": {
+            "condition": null,
+            "inputMode": "explicit",
+            "operation": "product",
+            "actionType": "math/aggregate",
+            "_actionType": "math/aggregate",
+            "postOperation": "none",
+            "explicitValues": "-1029680946.5555725,1000000000000000000",
+            "conditionConfig": null
+          },
+          "output": {
+            "result": "-1029680946000000000000000000",
+            "success": true,
+            "operation": "product",
+            "inputCount": 2,
+            "resultType": "bigint"
+          },
+          "outputRaw": {
+            "result": "-1029680946000000000000000000",
+            "success": true,
+            "operation": "product",
+            "inputCount": 2,
+            "resultType": "bigint"
+          },
+          "error": null,
+          "startedAt": "2026-07-28T17:59:31.765Z",
+          "completedAt": "2026-07-28T17:59:31.771Z",
+          "duration": "2",
+          "timestamp": "2026-07-28T17:59:31.765Z",
+          "iterationIndex": null,
+          "forEachNodeId": null,
+          "network": null,
+          "gasUsedWei": null
+        },
+        {
+          "id": "ny1q0yyqul45pw9wx7fv4",
+          "executionId": "xuy0y7quaet9oxamlo2dm",
+          "nodeId": "repay-base",
+          "nodeName": "Required Repay Base",
+          "nodeType": "math/aggregate",
+          "status": "success",
+          "input": {
+            "condition": null,
+            "inputMode": "explicit",
+            "operation": "sum",
+            "actionType": "math/aggregate",
+            "_actionType": "math/aggregate",
+            "postOperand": "181030064865.55557",
+            "postOperation": "subtract",
+            "explicitValues": "180000383919",
+            "conditionConfig": null
+          },
+          "output": {
+            "result": "-1029680946.5555725",
+            "success": true,
+            "operation": "sum then subtract",
+            "inputCount": 1,
+            "resultType": "number"
+          },
+          "outputRaw": {
+            "result": "-1029680946.5555725",
+            "success": true,
+            "operation": "sum then subtract",
+            "inputCount": 1,
+            "resultType": "number"
+          },
+          "error": null,
+          "startedAt": "2026-07-28T17:59:31.671Z",
+          "completedAt": "2026-07-28T17:59:31.675Z",
+          "duration": "1",
+          "timestamp": "2026-07-28T17:59:31.671Z",
+          "iterationIndex": null,
+          "forEachNodeId": null,
+          "network": null,
+          "gasUsedWei": null
+        },
+        {
+          "id": "pbjijoql92lp2m3219rk1",
+          "executionId": "xuy0y7quaet9oxamlo2dm",
+          "nodeId": "target-debt",
+          "nodeName": "Target Debt",
+          "nodeType": "math/aggregate",
+          "status": "success",
+          "input": {
+            "condition": null,
+            "inputMode": "explicit",
+            "operation": "sum",
+            "actionType": "math/aggregate",
+            "_actionType": "math/aggregate",
+            "postOperand": "1800000000000000000",
+            "postOperation": "divide",
+            "explicitValues": "325854116758000000000000000000",
+            "conditionConfig": null
+          },
+          "output": {
+            "result": "181030064865.55557",
+            "success": true,
+            "operation": "sum then divide",
+            "inputCount": 1,
+            "resultType": "number"
+          },
+          "outputRaw": {
+            "result": "181030064865.55557",
+            "success": true,
+            "operation": "sum then divide",
+            "inputCount": 1,
+            "resultType": "number"
+          },
+          "error": null,
+          "startedAt": "2026-07-28T17:59:31.587Z",
+          "completedAt": "2026-07-28T17:59:31.591Z",
+          "duration": "1",
+          "timestamp": "2026-07-28T17:59:31.587Z",
+          "iterationIndex": null,
+          "forEachNodeId": null,
+          "network": null,
+          "gasUsedWei": null
+        },
+        {
+          "id": "5mn1hz252cbir6pcvrxem",
+          "executionId": "xuy0y7quaet9oxamlo2dm",
+          "nodeId": "target-debt-numerator",
+          "nodeName": "Target Debt Numerator",
+          "nodeType": "math/aggregate",
+          "status": "success",
+          "input": {
+            "condition": null,
+            "inputMode": "explicit",
+            "operation": "product",
+            "actionType": "math/aggregate",
+            "_actionType": "math/aggregate",
+            "postOperation": "none",
+            "explicitValues": "325854116758.56,1000000000000000000",
+            "conditionConfig": null
+          },
+          "output": {
+            "result": "325854116758000000000000000000",
+            "success": true,
+            "operation": "product",
+            "inputCount": 2,
+            "resultType": "bigint"
+          },
+          "outputRaw": {
+            "result": "325854116758000000000000000000",
+            "success": true,
+            "operation": "product",
+            "inputCount": 2,
+            "resultType": "bigint"
+          },
+          "error": null,
+          "startedAt": "2026-07-28T17:59:31.462Z",
+          "completedAt": "2026-07-28T17:59:31.493Z",
+          "duration": "23",
+          "timestamp": "2026-07-28T17:59:31.462Z",
+          "iterationIndex": null,
+          "forEachNodeId": null,
+          "network": null,
+          "gasUsedWei": null
+        },
+        {
+          "id": "n7t4crxmqx3zwakdzwyb3",
+          "executionId": "xuy0y7quaet9oxamlo2dm",
+          "nodeId": "adjusted-collateral",
+          "nodeName": "Adjusted Collateral",
+          "nodeType": "math/aggregate",
+          "status": "success",
+          "input": {
+            "condition": null,
+            "inputMode": "explicit",
+            "operation": "product",
+            "actionType": "math/aggregate",
+            "_actionType": "math/aggregate",
+            "postOperand": "10000",
+            "postOperation": "divide",
+            "explicitValues": "417761688152,7800",
+            "conditionConfig": null
+          },
+          "output": {
+            "result": "325854116758.56",
+            "success": true,
+            "operation": "product then divide",
+            "inputCount": 2,
+            "resultType": "number"
+          },
+          "outputRaw": {
+            "result": "325854116758.56",
+            "success": true,
+            "operation": "product then divide",
+            "inputCount": 2,
+            "resultType": "number"
+          },
+          "error": null,
+          "startedAt": "2026-07-28T17:59:31.355Z",
+          "completedAt": "2026-07-28T17:59:31.362Z",
+          "duration": "3",
+          "timestamp": "2026-07-28T17:59:31.355Z",
+          "iterationIndex": null,
+          "forEachNodeId": null,
+          "network": null,
+          "gasUsedWei": null
+        },
+        {
+          "id": "k33edccou18wrb8nhw6wr",
+          "executionId": "xuy0y7quaet9oxamlo2dm",
+          "nodeId": "read-pool",
+          "nodeName": "Read Aave Pool Address",
+          "nodeType": "web3/read-contract",
+          "status": "success",
+          "input": {
+            "abi": "[{\"type\":\"function\",\"name\":\"getPool\",\"stateMutability\":\"view\",\"inputs\":[],\"outputs\":[{\"name\":\"\",\"type\":\"address\"}]}]",
+            "network": "8453",
+            "condition": null,
+            "actionType": "web3/read-contract",
+            "_actionType": "web3/read-contract",
+            "abiFunction": "getPool",
+            "functionArgs": "[]",
+            "conditionConfig": null,
+            "contractAddress": "0xe20fCBdBfFC4Dd138cE8b2E6FBb6CB49777ad64D",
+            "contractAddressLink": "https://basescan.org/address/0xe20fCBdBfFC4Dd138cE8b2E6FBb6CB49777ad64D"
+          },
+          "output": {
+            "result": "0xA238Dd80C259a72e81d7e4664a9801593F98d1c5",
+            "success": true,
+            "addressLink": "https://basescan.org/address/0xe20fCBdBfFC4Dd138cE8b2E6FBb6CB49777ad64D"
+          },
+          "outputRaw": {
+            "result": "0xA238Dd80C259a72e81d7e4664a9801593F98d1c5",
+            "success": true,
+            "addressLink": "https://basescan.org/address/0xe20fCBdBfFC4Dd138cE8b2E6FBb6CB49777ad64D"
+          },
+          "error": null,
+          "startedAt": "2026-07-28T17:59:31.173Z",
+          "completedAt": "2026-07-28T17:59:31.258Z",
+          "duration": "80",
+          "timestamp": "2026-07-28T17:59:31.174Z",
+          "iterationIndex": null,
+          "forEachNodeId": null,
+          "network": "8453",
+          "gasUsedWei": null
+        },
+        {
+          "id": "rmff7gbi3ydf9zu6tj92q",
+          "executionId": "xuy0y7quaet9oxamlo2dm",
+          "nodeId": "read-price",
+          "nodeName": "Read Debt Oracle Price",
+          "nodeType": "web3/read-contract",
+          "status": "success",
+          "input": {
+            "abi": "[{\"type\":\"function\",\"name\":\"getAssetPrice\",\"stateMutability\":\"view\",\"inputs\":[{\"name\":\"asset\",\"type\":\"address\"}],\"outputs\":[{\"name\":\"\",\"type\":\"uint256\"}]}]",
+            "network": "8453",
+            "condition": null,
+            "actionType": "web3/read-contract",
+            "_actionType": "web3/read-contract",
+            "abiFunction": "getAssetPrice",
+            "functionArgs": "[\"0x6Bb7a212910682DCFdbd5BCBb3e28FB4E8da10Ee\"]",
+            "conditionConfig": null,
+            "contractAddress": "0x2Cc0Fc26eD4563A5ce5e8bdcfe1A2878676Ae156",
+            "contractAddressLink": "https://basescan.org/address/0x2Cc0Fc26eD4563A5ce5e8bdcfe1A2878676Ae156"
+          },
+          "output": {
+            "result": "100000000",
+            "success": true,
+            "addressLink": "https://basescan.org/address/0x2Cc0Fc26eD4563A5ce5e8bdcfe1A2878676Ae156"
+          },
+          "outputRaw": {
+            "result": "100000000",
+            "success": true,
+            "addressLink": "https://basescan.org/address/0x2Cc0Fc26eD4563A5ce5e8bdcfe1A2878676Ae156"
+          },
+          "error": null,
+          "startedAt": "2026-07-28T17:59:31.027Z",
+          "completedAt": "2026-07-28T17:59:31.092Z",
+          "duration": "62",
+          "timestamp": "2026-07-28T17:59:31.027Z",
+          "iterationIndex": null,
+          "forEachNodeId": null,
+          "network": "8453",
+          "gasUsedWei": null
+        },
+        {
+          "id": "hk2lz0fb1kro8w6xmrzq4",
+          "executionId": "xuy0y7quaet9oxamlo2dm",
+          "nodeId": "read-debt",
+          "nodeName": "Read Debt Reserve",
+          "nodeType": "aave-v3/get-user-reserve-data",
+          "status": "success",
+          "input": {
+            "user": "0x5a93Cd1176ebbbfCeFa915da3eFCBB9bC3ca2C44",
+            "asset": "0x6Bb7a212910682DCFdbd5BCBb3e28FB4E8da10Ee",
+            "network": "8453",
+            "condition": null,
+            "actionType": "aave-v3/get-user-reserve-data",
+            "_actionType": "aave-v3/get-user-reserve-data",
+            "conditionConfig": null
+          },
+          "output": {
+            "result": {
+              "liquidityRate": "50445225453588171455874395",
+              "stableBorrowRate": "0",
+              "scaledVariableDebt": "1651779302367569395666",
+              "principalStableDebt": "0",
+              "currentATokenBalance": "0",
+              "stableRateLastUpdated": "0",
+              "usageAsCollateralEnabled": false,
+              "currentStableDebtTokenBalance": "0",
+              "currentVariableDebtTokenBalance": "1800003839186649452725"
+            },
+            "success": true,
+            "addressLink": "https://basescan.org/address/0x0F43731EB8d45A581f4a36DD74F5f358bc90C73A"
+          },
+          "outputRaw": {
+            "result": {
+              "liquidityRate": "50445225453588171455874395",
+              "stableBorrowRate": "0",
+              "scaledVariableDebt": "1651779302367569395666",
+              "principalStableDebt": "0",
+              "currentATokenBalance": "0",
+              "stableRateLastUpdated": "0",
+              "usageAsCollateralEnabled": false,
+              "currentStableDebtTokenBalance": "0",
+              "currentVariableDebtTokenBalance": "1800003839186649452725"
+            },
+            "success": true,
+            "addressLink": "https://basescan.org/address/0x0F43731EB8d45A581f4a36DD74F5f358bc90C73A"
+          },
+          "error": null,
+          "startedAt": "2026-07-28T17:59:30.872Z",
+          "completedAt": "2026-07-28T17:59:30.944Z",
+          "duration": "68",
+          "timestamp": "2026-07-28T17:59:30.872Z",
+          "iterationIndex": null,
+          "forEachNodeId": null,
+          "network": "8453",
+          "gasUsedWei": null
+        },
+        {
+          "id": "p3ryvoarzfam8i48ry0t4",
+          "executionId": "xuy0y7quaet9oxamlo2dm",
+          "nodeId": "read-account",
+          "nodeName": "Read Aave Account",
+          "nodeType": "aave-v3/get-user-account-data",
+          "status": "success",
+          "input": {
+            "user": "0x5a93Cd1176ebbbfCeFa915da3eFCBB9bC3ca2C44",
+            "network": "8453",
+            "condition": null,
+            "actionType": "aave-v3/get-user-account-data",
+            "_actionType": "aave-v3/get-user-account-data",
+            "conditionConfig": null
+          },
+          "output": {
+            "result": {
+              "ltv": "7445",
+              "healthFactor": "1810296787506820206",
+              "totalDebtBase": "180000383919",
+              "totalCollateralBase": "417761688152",
+              "availableBorrowsBase": "131023192910",
+              "currentLiquidationThreshold": "7800"
+            },
+            "success": true,
+            "addressLink": "https://basescan.org/address/0xA238Dd80C259a72e81d7e4664a9801593F98d1c5"
+          },
+          "outputRaw": {
+            "result": {
+              "ltv": "7445",
+              "healthFactor": "1810296787506820206",
+              "totalDebtBase": "180000383919",
+              "totalCollateralBase": "417761688152",
+              "availableBorrowsBase": "131023192910",
+              "currentLiquidationThreshold": "7800"
+            },
+            "success": true,
+            "addressLink": "https://basescan.org/address/0xA238Dd80C259a72e81d7e4664a9801593F98d1c5"
+          },
+          "error": null,
+          "startedAt": "2026-07-28T17:59:30.680Z",
+          "completedAt": "2026-07-28T17:59:30.779Z",
+          "duration": "96",
+          "timestamp": "2026-07-28T17:59:30.680Z",
+          "iterationIndex": null,
+          "forEachNodeId": null,
+          "network": "8453",
+          "gasUsedWei": null
+        },
+        {
+          "id": "cufl2y35ya922wpdq2w1l",
+          "executionId": "xuy0y7quaet9oxamlo2dm",
+          "nodeId": "trigger-1",
+          "nodeName": "Trigger",
+          "nodeType": "trigger",
+          "status": "success",
+          "input": {
+            "triggerData": {
+              "account": "0x5a93Cd1176ebbbfCeFa915da3eFCBB9bC3ca2C44",
+              "debtAsset": "0x6Bb7a212910682DCFdbd5BCBb3e28FB4E8da10Ee",
+              "timestamp": 1785261570545,
+              "triggered": true,
+              "triggeredAt": "2026-07-28T17:59:30.545Z",
+              "debtAssetUnit": "1000000000000000000",
+              "targetHealthFactorWad": "1800000000000000000"
+            }
+          },
+          "output": {
+            "data": {
+              "account": "0x5a93Cd1176ebbbfCeFa915da3eFCBB9bC3ca2C44",
+              "debtAsset": "0x6Bb7a212910682DCFdbd5BCBb3e28FB4E8da10Ee",
+              "timestamp": 1785261570545,
+              "triggered": true,
+              "triggeredAt": "2026-07-28T17:59:30.545Z",
+              "debtAssetUnit": "1000000000000000000",
+              "targetHealthFactorWad": "1800000000000000000"
+            },
+            "success": true
+          },
+          "outputRaw": {
+            "data": {
+              "account": "0x5a93Cd1176ebbbfCeFa915da3eFCBB9bC3ca2C44",
+              "debtAsset": "0x6Bb7a212910682DCFdbd5BCBb3e28FB4E8da10Ee",
+              "timestamp": 1785261570545,
+              "triggered": true,
+              "triggeredAt": "2026-07-28T17:59:30.545Z",
+              "debtAssetUnit": "1000000000000000000",
+              "targetHealthFactorWad": "1800000000000000000"
+            },
+            "success": true
+          },
+          "error": null,
+          "startedAt": "2026-07-28T17:59:30.601Z",
+          "completedAt": "2026-07-28T17:59:30.607Z",
+          "duration": "1",
+          "timestamp": "2026-07-28T17:59:30.602Z",
+          "iterationIndex": null,
+          "forEachNodeId": null,
+          "network": null,
+          "gasUsedWei": null
+        }
+      ]
+    }
+  }
+}
