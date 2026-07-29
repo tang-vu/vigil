@@ -7,4 +7,17 @@ dist/
 coverage/
 demo/build/
 demo/output/
+demo/
+artifacts/
+docs/
+ledger/
+receipts/
+scripts/
+src/
+tests/
+workflows/
+CLAUDE.md
+DORAHACKS.md
+PROGRESS.md
+README.md
 *.log
