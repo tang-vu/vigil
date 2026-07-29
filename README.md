@@ -176,6 +176,7 @@ Important files:
 - `receipts/` — canonical SHA-256 rescue receipt.
 - `artifacts/` — full KeeperHub execution and chaos proof captures.
 - `docs/demo-script.md` — exact three-minute video scene list.
+- `docs/video-production.md` — reproducible MiMo TTS/ASR video renderer.
 - `docs/keeperhub-pr-proposal.md` — small PR-ready onboarding fix.
 
 ## Development rules

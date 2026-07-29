@@ -1,0 +1,107 @@
+[
+  {
+    "id": "01-last-mile",
+    "eyebrow": "KEEPERHUB AGENTS ONCHAIN HACKATHON",
+    "title": "Vigil",
+    "subtitle": "A self-funding liquidation guardian",
+    "bullets": [
+      "Monitors Aave v3 liquidation risk",
+      "Rescues positions through KeeperHub only",
+      "Sells paid risk intelligence over x402"
+    ],
+    "metricLabel": "THE LAST MILE",
+    "metricValue": "DECIDE → EXECUTE → PROVE",
+    "accent": "#7C5CFF",
+    "narration": "AI agents can detect liquidation risk, but reliable execution is the hard last mile. Vigil is a self-funding Aave guardian. It monitors health, applies deterministic policy, rescues positions only through KeeperHub, sells the same intelligence to other agents over x four oh two, and proves every action."
+  },
+  {
+    "id": "02-safety",
+    "eyebrow": "DETERMINISTIC SAFETY CORE",
+    "title": "The model cannot loosen policy",
+    "subtitle": "Reasoning advises. Rules authorize.",
+    "bullets": [
+      "Health-factor threshold and cooldown",
+      "Per-rescue and daily spend caps",
+      "Position + block-range idempotency"
+    ],
+    "metricLabel": "TEST SUITE",
+    "metricValue": "40 / 40 PASS",
+    "accent": "#23D5AB",
+    "narration": "Vigil separates reasoning from authority. Deterministic code owns the health-factor threshold, cooldown, spend caps, and idempotency window. The language model has no allow field. It may only veto, reduce spending, or increase cooldown. Forty tests enforce that an advisory can never turn a policy denial into an onchain approval."
+  },
+  {
+    "id": "03-rescue",
+    "eyebrow": "REAL AAVE V3 RESCUE · SEPOLIA",
+    "title": "Health factor restored onchain",
+    "subtitle": "Condition true → partial repay → verified state",
+    "bullets": [
+      "KeeperHub execution 3r554…",
+      "Aave repay through workflow action",
+      "Sponsored gas · 205,376 units"
+    ],
+    "metricLabel": "HEALTH FACTOR",
+    "metricValue": "1.1786 → 1.5000",
+    "accent": "#FFB547",
+    "narration": "Here is the real rescue. KeeperHub read a health factor of one point one seven eight six, followed the true Condition branch, repaid Aave, and raised the position to one point five zero zero zero. The transaction was sponsored, confirmed on Sepolia, and recorded immediately with its KeeperHub execution ID and transaction hash."
+  },
+  {
+    "id": "04-observability",
+    "eyebrow": "RELIABILITY + OBSERVABILITY",
+    "title": "Failures become evidence",
+    "subtitle": "Classified retries, never blind repeats",
+    "bullets": [
+      "Gas · revert · nonce · RPC classification",
+      "Exponential backoff capped at 3 attempts",
+      "Confirmed repayment is never retried"
+    ],
+    "metricLabel": "RECEIPT SHA-256",
+    "metricValue": "550de5d5…d0f20",
+    "accent": "#FF6577",
+    "narration": "Autonomy without observability is unsafe. Vigil classifies gas, revert, nonce, RPC, and unknown failures from KeeperHub step logs. Retries use exponential backoff and stop after three attempts. If repayment succeeds but Telegram fails, Vigil alerts separately and never repays twice. The full rationale, logs, gas, before-and-after state, and transaction are sealed into a canonical SHA two fifty six receipt."
+  },
+  {
+    "id": "05-marketplace",
+    "eyebrow": "PAID AGENT PRODUCT · AAVE BASE",
+    "title": "Risk intelligence becomes revenue",
+    "subtitle": "Two read-only workflows · $0.02 per call",
+    "bullets": [
+      "vigil-risk-check",
+      "vigil-rescue-quote",
+      "Typed per-workflow MCP endpoints"
+    ],
+    "metricLabel": "LIVE QUOTE",
+    "metricValue": "170.3146097 GHO",
+    "accent": "#46B5FF",
+    "narration": "Vigil funds itself by publishing two read-only products on the KeeperHub marketplace. Vigil risk check computes health factor, oracle price, liquidation-price scenario, and risk signals. Vigil rescue quote returns a nonnegative, debt-capped Aave repay plan. Both run against Aave Base and cost two cents per call."
+  },
+  {
+    "id": "06-x402",
+    "eyebrow": "AGENT B · REAL x402 SETTLEMENT",
+    "title": "Discover → challenge → pay → result",
+    "subtitle": "KeeperHub agentic wallet pays Base USDC",
+    "bullets": [
+      "HTTP 402 payment challenge",
+      "HTTP 200 paid workflow result",
+      "Settlement confirmed from USDC Transfer"
+    ],
+    "metricLabel": "ONCHAIN PAYMENT",
+    "metricValue": "$0.02 BASE USDC",
+    "accent": "#2ED3FF",
+    "narration": "Now the money shot. A second minimal agent discovers Vigil risk check, verifies its typed MCP endpoint, and receives an HTTP four oh two challenge. KeeperHub's agentic wallet pays twenty thousand raw Base USDC. The workflow returns HTTP two hundred with execution V N five G, and Vigil independently confirms the matching USDC Transfer before appending it to the transaction ledger."
+  },
+  {
+    "id": "07-ship",
+    "eyebrow": "BUILT ON THE KEEPERHUB STACK",
+    "title": "One agent. Seven execution surfaces.",
+    "subtitle": "Useful today. Monetizable by agents. Auditable end to end.",
+    "bullets": [
+      "Direct execution · Workflows · Aave actions",
+      "Audit trail · x402 · Agentic wallet",
+      "Telegram delivery · onboarding teardown"
+    ],
+    "metricLabel": "PROOF DENSITY",
+    "metricValue": "2 REAL TX · 4 LIVE WORKFLOWS",
+    "accent": "#A78BFA",
+    "narration": "Vigil uses KeeperHub for direct execution, workflow orchestration, Aave actions, audit logs, marketplace MCP, x four oh two settlement, agentic wallet payment, and Telegram delivery. It is a working liquidation guardian, a paid agent service, and a detailed teardown of the exact friction between decision and dependable onchain action."
+  }
+]

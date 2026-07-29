@@ -6,4 +6,5 @@ coverage/
 !.env.example
 wallet.json
 *.log
-
+demo/build/
+demo/output/

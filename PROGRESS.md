@@ -294,3 +294,20 @@ Submission package:
 - Demo script: `docs/demo-script.md`
 - Teardown: `docs/teardown.md`
 - PR proposal: `docs/keeperhub-pr-proposal.md`
+
+## Demo media production
+
+Status: **renderer complete; final narration awaiting a fresh local MiMo key**
+
+- [x] Build seven 1080p submission scenes from deterministic JSON.
+- [x] Add MiMo V2.5 TTS generation using a built-in English voice.
+- [x] Add MiMo V2.5 ASR verification for every generated scene with a minimum
+  72% word-similarity gate.
+- [x] Add FFmpeg loudness normalization, scene fades, H.264/AAC encoding, and
+  burned SRT captions.
+- [x] Visually inspect the opening and x402 scenes after rasterization.
+- [x] Smoke-test the complete media path at 1920×1080 without calling MiMo.
+- [x] Refuse to use the API key pasted into chat; it must be revoked because it
+  is no longer secret.
+- [ ] Place a newly rotated `MIMO_API_KEY` only in gitignored `.env`, run
+  `npm run video:render`, and inspect the MiMo ASR validation artifact.
