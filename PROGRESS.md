@@ -406,6 +406,17 @@ Status: **public production deployed**
   Vercel REST deployment path after the Windows CLI uploader stalled, then
   verify the canonical production alias returns HTTP `200` with the new hero
   and receipt narrative.
+- [x] Add a judge-focused 60-second guided proof mode that moves through the
+  real risk trigger, duplicate-write interlock, notification recovery, and
+  x402 business proof without inventing demo data.
+- [x] Add a wide-screen live-evidence dock, pointer-reactive telemetry field,
+  top-level scroll progress, and intersection-driven cinematic reveals.
+- [x] Preserve keyboard close, visible focus states, reduced-motion behavior,
+  coarse-pointer fallbacks, and a zero-overflow `390 px` mobile layout for the
+  new interaction layer.
+- [x] Visually inspect Judge Mode in both closed and open states on desktop and
+  mobile, then re-run strict TypeScript, `40` tests, Next production build,
+  vinext compatibility, and the zero-vulnerability dependency audit.
 
 Public production URL:
 

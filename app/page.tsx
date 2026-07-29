@@ -288,6 +288,33 @@ const executionNodes = [
   },
 ] as const;
 
+const judgeStops = [
+  {
+    id: "top",
+    eyebrow: "01 / THREAT",
+    title: "Risk becomes a decision.",
+    copy:
+      "A live Aave position crossed Vigil's deterministic 1.20 threshold at health factor 1.1786.",
+    proof: "HF 1.1786",
+  },
+  {
+    id: "receipt",
+    eyebrow: "02 / SAFETY",
+    title: "One write. Zero duplicate retries.",
+    copy:
+      "KeeperHub confirmed the 6 USDC repayment. When Telegram failed afterward, Vigil protected the irreversible write and recovered notification separately.",
+    proof: "HF 1.5000",
+  },
+  {
+    id: "proof",
+    eyebrow: "03 / BUSINESS",
+    title: "The guardian can fund itself.",
+    copy:
+      "A second agent discovered Vigil's paid workflow, answered the x402 challenge, and settled $0.02 USDC on Base mainnet.",
+    proof: "x402 PAID",
+  },
+] as const;
+
 function ShieldMark() {
   return (
     <svg aria-hidden="true" className="shield-mark" viewBox="0 0 72 88">
@@ -339,7 +366,11 @@ function ExecutionReplay() {
   const receiptSealed = phase >= executionNodes.length;
 
   return (
-    <div className="replay-card" aria-label="Replay of the real Vigil rescue">
+    <div
+      className="replay-card"
+      aria-label="Replay of the real Vigil rescue"
+      data-reveal="right"
+    >
       <div className="replay-topbar">
         <span className="replay-live">
           <i />
@@ -405,6 +436,207 @@ function ExecutionReplay() {
   );
 }
 
+function EvidenceDock() {
+  return (
+    <aside className="evidence-dock" aria-label="Live execution evidence">
+      <span>
+        <i />
+        LIVE EVIDENCE
+      </span>
+      <a
+        href="https://sepolia.etherscan.io/tx/0xa03a49a8213415e9fc0ec53c423c707ed2c869b92841781c4174abced9a958bb"
+        rel="noreferrer"
+        target="_blank"
+      >
+        <small>01</small>
+        <strong>RESCUE TX</strong>
+        <i>↗</i>
+      </a>
+      <a href="#receipt">
+        <small>02</small>
+        <strong>RECEIPT</strong>
+        <i>↓</i>
+      </a>
+      <a
+        href="https://basescan.org/tx/0x440baa100eb85a9b586ead523c05a1918247fccb610098718e2f2fd0317d4122"
+        rel="noreferrer"
+        target="_blank"
+      >
+        <small>03</small>
+        <strong>x402 PAY</strong>
+        <i>↗</i>
+      </a>
+    </aside>
+  );
+}
+
+function JudgeMode() {
+  const [open, setOpen] = useState(false);
+  const [step, setStep] = useState(0);
+  const stop = judgeStops[step] ?? judgeStops[0];
+
+  useEffect(() => {
+    if (!open) return;
+
+    function closeOnEscape(event: KeyboardEvent) {
+      if (event.key === "Escape") setOpen(false);
+    }
+
+    window.addEventListener("keydown", closeOnEscape);
+    return () => window.removeEventListener("keydown", closeOnEscape);
+  }, [open]);
+
+  function visit(nextStep: number) {
+    const next = judgeStops[nextStep];
+    if (!next) return;
+    setStep(nextStep);
+    const reduceMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)",
+    ).matches;
+    document.getElementById(next.id)?.scrollIntoView({
+      behavior: reduceMotion ? "auto" : "smooth",
+      block: "start",
+    });
+  }
+
+  function launch() {
+    setOpen(true);
+    visit(0);
+  }
+
+  if (!open) {
+    return (
+      <button className="judge-launcher" onClick={launch} type="button">
+        <span>
+          <i />
+          JUDGE MODE
+        </span>
+        <strong>60 SEC</strong>
+        <b>↗</b>
+      </button>
+    );
+  }
+
+  return (
+    <aside className="judge-console" aria-label="Vigil judge mode">
+      <div className="judge-console-top">
+        <span>
+          <i />
+          GUIDED PROOF
+        </span>
+        <button
+          aria-label="Close judge mode"
+          onClick={() => setOpen(false)}
+          type="button"
+        >
+          ×
+        </button>
+      </div>
+      <div className="judge-progress" aria-hidden="true">
+        {judgeStops.map((item, index) => (
+          <i className={index <= step ? "active" : ""} key={item.id} />
+        ))}
+      </div>
+      <div className="judge-copy" aria-live="polite">
+        <span>{stop.eyebrow}</span>
+        <h2>{stop.title}</h2>
+        <p>{stop.copy}</p>
+      </div>
+      <div className="judge-console-foot">
+        <strong>{stop.proof}</strong>
+        <div>
+          <button
+            aria-label="Previous proof"
+            disabled={step === 0}
+            onClick={() => visit(step - 1)}
+            type="button"
+          >
+            ←
+          </button>
+          <button
+            onClick={() =>
+              step === judgeStops.length - 1
+                ? setOpen(false)
+                : visit(step + 1)
+            }
+            type="button"
+          >
+            {step === judgeStops.length - 1 ? "FINISH" : "NEXT PROOF"}
+            <span>{step === judgeStops.length - 1 ? "✓" : "→"}</span>
+          </button>
+        </div>
+      </div>
+    </aside>
+  );
+}
+
+function CinematicLayer() {
+  useEffect(() => {
+    const root = document.querySelector("main");
+    if (!(root instanceof HTMLElement)) return;
+    const main = root;
+
+    main.classList.add("motion-ready");
+    let pointerFrame = 0;
+
+    function updatePointer(event: PointerEvent) {
+      window.cancelAnimationFrame(pointerFrame);
+      pointerFrame = window.requestAnimationFrame(() => {
+        main.style.setProperty("--pointer-x", `${event.clientX}px`);
+        main.style.setProperty("--pointer-y", `${event.clientY}px`);
+      });
+    }
+
+    function updateScroll() {
+      const available =
+        document.documentElement.scrollHeight - window.innerHeight;
+      const progress = available > 0 ? window.scrollY / available : 0;
+      main.style.setProperty(
+        "--scroll-progress",
+        `${Math.min(1, Math.max(0, progress)) * 100}%`,
+      );
+    }
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("is-visible");
+            observer.unobserve(entry.target);
+          }
+        }
+      },
+      { rootMargin: "0px 0px -8% 0px", threshold: 0.12 },
+    );
+
+    main
+      .querySelectorAll("[data-reveal]")
+      .forEach((item) => observer.observe(item));
+    window.addEventListener("pointermove", updatePointer, { passive: true });
+    window.addEventListener("scroll", updateScroll, { passive: true });
+    updateScroll();
+
+    return () => {
+      observer.disconnect();
+      window.cancelAnimationFrame(pointerFrame);
+      window.removeEventListener("pointermove", updatePointer);
+      window.removeEventListener("scroll", updateScroll);
+      main.classList.remove("motion-ready");
+    };
+  }, []);
+
+  return (
+    <>
+      <div className="scroll-progress" aria-hidden="true">
+        <i />
+      </div>
+      <div className="pointer-aura" aria-hidden="true" />
+      <EvidenceDock />
+      <JudgeMode />
+    </>
+  );
+}
+
 export default function Home() {
   const [completed, setCompleted] = useState<boolean[]>(() =>
     steps.map(() => false),
@@ -458,6 +690,7 @@ export default function Home() {
 
   return (
     <main>
+      <CinematicLayer />
       <div className="ambient-field" aria-hidden="true">
         <i className="ambient-one" />
         <i className="ambient-two" />
@@ -488,7 +721,7 @@ export default function Home() {
       </nav>
 
       <section className="hero shell" id="top">
-        <div className="hero-copy">
+        <div className="hero-copy" data-reveal="left">
           <div className="kicker">
             <span className="live-dot" />
             A first-transaction lab forged from production friction
@@ -549,7 +782,7 @@ export default function Home() {
       </section>
 
       <section className="receipt-section shell" id="receipt">
-        <div className="receipt-heading">
+        <div className="receipt-heading" data-reveal="up">
           <div>
             <span className="section-kicker coral">THE SIGNATURE MOMENT</span>
             <h2>The write succeeded. The alert failed. Vigil knew the difference.</h2>
@@ -562,7 +795,7 @@ export default function Home() {
           </p>
         </div>
 
-        <div className="receipt-stage">
+        <div className="receipt-stage" data-reveal="up">
           <div className="receipt-flow">
             <div className="flow-track" aria-hidden="true">
               <i />
@@ -658,7 +891,7 @@ export default function Home() {
       </section>
 
       <section className="section shell" id="lab">
-        <div className="section-heading">
+        <div className="section-heading" data-reveal="up">
           <div>
             <span className="section-kicker">THE FIRST TRANSACTION LAB</span>
             <h2>Six guarded steps. One complete proof.</h2>
@@ -680,7 +913,7 @@ export default function Home() {
           </div>
         </div>
 
-        <div className="steps">
+        <div className="steps" data-reveal="up">
           {steps.map((step, index) => (
             <article
               className={`step-card ${completed[index] ? "complete" : ""}`}
@@ -736,7 +969,7 @@ export default function Home() {
 
       <section className="doctor-wrap" id="doctor">
         <div className="section shell">
-          <div className="section-heading doctor-heading">
+          <div className="section-heading doctor-heading" data-reveal="up">
             <div>
               <span className="section-kicker coral">EVIDENCE-BASED ERROR DOCTOR</span>
               <h2>Match the signal. Stop the blind retry.</h2>
@@ -747,7 +980,7 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="doctor-grid">
+          <div className="doctor-grid" data-reveal="up">
             <div className="issue-list" role="tablist" aria-label="Error signals">
               {diagnoses.map((item, index) => (
                 <button
@@ -799,14 +1032,14 @@ export default function Home() {
       </section>
 
       <section className="section shell" id="proof">
-        <div className="section-heading">
+        <div className="section-heading" data-reveal="up">
           <div>
             <span className="section-kicker">THE RECEIPT, NOT THE CLAIM</span>
             <h2>A working transaction beats a polished mockup.</h2>
           </div>
         </div>
 
-        <div className="proof-cards">
+        <div className="proof-cards" data-reveal="up">
           <a
             className="proof-card rescue"
             href="https://sepolia.etherscan.io/tx/0xa03a49a8213415e9fc0ec53c423c707ed2c869b92841781c4174abced9a958bb"
@@ -853,7 +1086,7 @@ export default function Home() {
 
       <section className="improvements-wrap">
         <div className="section shell">
-          <div className="section-heading">
+          <div className="section-heading" data-reveal="up">
             <div>
               <span className="section-kicker mint">PR-SHAPED IMPROVEMENTS</span>
               <h2>What would get the next builder there faster?</h2>
@@ -868,7 +1101,7 @@ export default function Home() {
             </a>
           </div>
 
-          <div className="improvements">
+          <div className="improvements" data-reveal="up">
             {improvements.map((item) => (
               <article key={item.id}>
                 <span>{item.id}</span>
@@ -878,7 +1111,7 @@ export default function Home() {
             ))}
           </div>
 
-          <div className="cta-panel">
+          <div className="cta-panel" data-reveal="up">
             <div>
               <span>OPEN SOURCE · BUILT IN PUBLIC</span>
               <h2>Take the lab. Improve the last mile.</h2>
