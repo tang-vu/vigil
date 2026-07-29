@@ -1,0 +1,52 @@
+{
+  "generatedAt": "2026-07-29T06:03:41.970Z",
+  "ttsModel": "mimo-v2.5-tts",
+  "ttsVoice": "Milo",
+  "asrModel": "mimo-v2.5-asr",
+  "minimumWordSimilarity": 0.8367,
+  "passed": true,
+  "scenes": [
+    {
+      "sceneId": "01-last-mile",
+      "expected": "AI agents can detect liquidation risk, but reliable execution is the hard last mile. Vigil is a self-funding Aave guardian. It monitors health, applies deterministic policy, rescues positions only through KeeperHub, sells the same intelligence to other agents over x four oh two, and proves every action.",
+      "transcript": "think>\n<chinese> AI agents can detect liquidation risk, but reliable execution is the hard last mile. Vigil is a self-funding Aave guardian. It monitors health, applies deterministic policy, rescues positions only through Keeper Hub, sells the same intelligence to other agents over other 402, and proves every action.",
+      "wordSimilarity": 0.8958
+    },
+    {
+      "sceneId": "02-safety",
+      "expected": "Vigil separates reasoning from authority. Deterministic code owns the health-factor threshold, cooldown, spend caps, and idempotency window. The language model has no allow field. It may only veto, reduce spending, or increase cooldown. Forty tests enforce that an advisory can never turn a policy denial into an onchain approval.",
+      "transcript": "10. The fidgel separates reasoning from authority. Deterministic code owns the health factor threshold, cooldown, spend caps, and ID BentoC window. The language model has no allow field. It may only veto, reduce spending, or increase cooldown. Forty tests enforce that an advisory can never turn a policy denial into an on-chain approval.",
+      "wordSimilarity": 0.94
+    },
+    {
+      "sceneId": "03-rescue",
+      "expected": "Here is the real rescue. KeeperHub read a health factor of 1.1786, followed the true Condition branch, repaid Aave, and raised the position to 1.5000. The transaction was sponsored, confirmed on Sepolia, and recorded immediately with its KeeperHub execution identifier and transaction hash.",
+      "transcript": "<chinese> Here is the real rescue. Keeper Hub read a health factor of 1.1786, followed the true condition branch, repaid Aave, and raised the position to 1.5000. The transaction was sponsored, confirmed on Sapolia, and recorded immediately with its Keeper Hub execution identifier and transaction hash.",
+      "wordSimilarity": 0.9333
+    },
+    {
+      "sceneId": "04-observability",
+      "expected": "Autonomy without observability is unsafe. Vigil classifies gas, revert, nonce, RPC, and unknown failures from KeeperHub step logs. Retries use exponential backoff and stop after three attempts. If repayment succeeds but Telegram fails, Vigil alerts separately and never repays twice. The full rationale, logs, gas, before-and-after state, and transaction are sealed into a canonical SHA two fifty six receipt.",
+      "transcript": "3. Autonomy without observability is unsafe. Vigil classifies gas, revert, nonce, RPC, and unknown failures from Keeper Hub step logs. Retries use exponential backoff and stop after three attempts. If repayment succeeds but Telegram fails, Vigil alerts separately and never repays twice. The full rationale, logs, gas before and after state and transaction are sealed into a canonical SHD-256 receipt.",
+      "wordSimilarity": 0.918
+    },
+    {
+      "sceneId": "05-marketplace",
+      "expected": "Vigil funds itself by publishing two read-only products on the KeeperHub marketplace. Vigil risk check computes health factor, oracle price, liquidation-price scenario, and risk signals. Vigil rescue quote returns a nonnegative, debt-capped Aave repay plan. Both run against Aave Base and cost two cents per call.",
+      "transcript": "2. Vigil funds itself by publishing two read-only products on the Keeper Hub marketplace. Vigil Risk Check computes health factor, Oracle price, liquidation price scenario, and risk signals. Vigil Rescue Quote returns a non-negative debt-capped Aave repay plan. Both run against Aave Base and cost two cents per call.",
+      "wordSimilarity": 0.9592
+    },
+    {
+      "sceneId": "06-x402",
+      "expected": "Now Agent B demonstrates the paid workflow. It discovers Vigil risk check, verifies the typed MCP endpoint, and receives the required HTTP 402 response. KeeperHub's agentic wallet settles the listed two-cent fee in Base USDC. The workflow succeeds with execution V N five G. Vigil then matches the public token transfer to the marketplace request and records it in the transaction ledger.",
+      "transcript": "think>\n<chinese> Now, Agent B demonstrates the paid workflow. It discovers Vigil Risk Check, verifies the typed NCP endpoint, and receives the required HTTP 402 response. Keeper Hub's agentic wallet settles the listed two cent fee in Base USDC. The workflow succeeds with execution VN5G. Vigil then matches the public token transfer to the marketplace request and records it in the transaction ledger.",
+      "wordSimilarity": 0.9063
+    },
+    {
+      "sceneId": "07-ship",
+      "expected": "Vigil uses KeeperHub for direct execution, workflow orchestration, Aave actions, audit logs, marketplace MCP, x four oh two settlement, agentic wallet payment, and Telegram delivery. It is a working liquidation guardian, a paid agent service, and a detailed teardown of the exact friction between decision and dependable onchain action.",
+      "transcript": "think>\n<chinese> Vigil uses Keeper Hub for direct execution, workflow orchestration, Ave actions, audit logs, marketplace MCP, X402 settlement, agentic wallet payment, and Telegram delivery. It is a working liquidation guardian, a paid agent service, and a detailed tear down of the exact friction between decision and dependable on-chain action.",
+      "wordSimilarity": 0.8367
+    }
+  ]
+}

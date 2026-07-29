@@ -1,0 +1,119 @@
+1
+00:00:00,000 --> 00:00:04,920
+AI agents can detect liquidation risk, but reliable execution is the hard last
+
+2
+00:00:04,920 --> 00:00:09,840
+mile. Vigil is a self-funding Aave guardian. It monitors health, applies deterministic policy,
+
+3
+00:00:09,840 --> 00:00:14,760
+rescues positions only through KeeperHub, sells the same intelligence to other agents over
+
+4
+00:00:14,760 --> 00:00:19,680
+x four oh two, and proves every action.
+
+5
+00:00:19,680 --> 00:00:25,520
+Vigil separates reasoning from authority. Deterministic code owns the health-factor threshold, cooldown, spend
+
+6
+00:00:25,520 --> 00:00:31,360
+caps, and idempotency window. The language model has no allow field. It may
+
+7
+00:00:31,360 --> 00:00:37,200
+only veto, reduce spending, or increase cooldown. Forty tests enforce that an advisory
+
+8
+00:00:37,200 --> 00:00:43,040
+can never turn a policy denial into an onchain approval.
+
+9
+00:00:43,040 --> 00:00:48,480
+Here is the real rescue. KeeperHub read a health factor of 1.1786, followed
+
+10
+00:00:48,480 --> 00:00:53,920
+the true Condition branch, repaid Aave, and raised the position to 1.5000. The
+
+11
+00:00:53,920 --> 00:00:59,360
+transaction was sponsored, confirmed on Sepolia, and recorded immediately with its KeeperHub execution
+
+12
+00:00:59,360 --> 00:01:04,800
+identifier and transaction hash.
+
+13
+00:01:04,800 --> 00:01:10,208
+Autonomy without observability is unsafe. Vigil classifies gas, revert, nonce, RPC, and unknown
+
+14
+00:01:10,208 --> 00:01:15,616
+failures from KeeperHub step logs. Retries use exponential backoff and stop after three
+
+15
+00:01:15,616 --> 00:01:21,024
+attempts. If repayment succeeds but Telegram fails, Vigil alerts separately and never repays
+
+16
+00:01:21,024 --> 00:01:26,432
+twice. The full rationale, logs, gas, before-and-after state, and transaction are sealed into
+
+17
+00:01:26,432 --> 00:01:31,840
+a canonical SHA two fifty six receipt.
+
+18
+00:01:31,840 --> 00:01:37,200
+Vigil funds itself by publishing two read-only products on the KeeperHub marketplace. Vigil
+
+19
+00:01:37,200 --> 00:01:42,560
+risk check computes health factor, oracle price, liquidation-price scenario, and risk signals. Vigil
+
+20
+00:01:42,560 --> 00:01:47,920
+rescue quote returns a nonnegative, debt-capped Aave repay plan. Both run against Aave
+
+21
+00:01:47,920 --> 00:01:53,280
+Base and cost two cents per call.
+
+22
+00:01:53,280 --> 00:01:57,728
+Now Agent B demonstrates the paid workflow. It discovers Vigil risk check, verifies
+
+23
+00:01:57,728 --> 00:02:02,176
+the typed MCP endpoint, and receives the required HTTP 402 response. KeeperHub's agentic
+
+24
+00:02:02,176 --> 00:02:06,624
+wallet settles the listed two-cent fee in Base USDC. The workflow succeeds with
+
+25
+00:02:06,624 --> 00:02:11,072
+execution V N five G. Vigil then matches the public token transfer to
+
+26
+00:02:11,072 --> 00:02:15,520
+the marketplace request and records it in the transaction ledger.
+
+27
+00:02:15,520 --> 00:02:20,440
+Vigil uses KeeperHub for direct execution, workflow orchestration, Aave actions, audit logs, marketplace
+
+28
+00:02:20,440 --> 00:02:25,360
+MCP, x four oh two settlement, agentic wallet payment, and Telegram delivery. It
+
+29
+00:02:25,360 --> 00:02:30,280
+is a working liquidation guardian, a paid agent service, and a detailed teardown
+
+30
+00:02:30,280 --> 00:02:35,200
+of the exact friction between decision and dependable onchain action.

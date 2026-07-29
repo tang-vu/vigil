@@ -1,5 +1,6 @@
 import "dotenv/config";
 import { spawn } from "node:child_process";
+import { createHash } from "node:crypto";
 import { access, mkdir, readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
 import scenesJson from "../demo/video-scenes.json" with { type: "json" };
@@ -278,7 +279,23 @@ async function synthesizeScene(
   scene: Scene,
 ): Promise<string> {
   const audioPath = path.join(buildDirectory, `${scene.id}.wav`);
-  if (await fileExists(audioPath)) {
+  const cachePath = path.join(buildDirectory, `${scene.id}.tts.sha256`);
+  const style =
+    "Warm, confident English technical-demo narration. Crisp diction, energetic but credible, medium-fast pace. Pronounce Aave as ah-vay and KeeperHub as Keeper Hub.";
+  const cacheKey = createHash("sha256")
+    .update(
+      JSON.stringify({
+        model: "mimo-v2.5-tts",
+        voice: "Milo",
+        style,
+        narration: scene.narration,
+      }),
+    )
+    .digest("hex");
+  const cachedKey = (await fileExists(cachePath))
+    ? (await readFile(cachePath, "utf8")).trim()
+    : undefined;
+  if ((await fileExists(audioPath)) && cachedKey === cacheKey) {
     console.info(`TTS cached: ${path.relative(root, audioPath)}`);
     return audioPath;
   }
@@ -287,8 +304,7 @@ async function synthesizeScene(
     messages: [
       {
         role: "user",
-        content:
-          "Warm, confident English technical-demo narration. Crisp diction, energetic but credible, medium-fast pace. Pronounce Aave as ah-vay and KeeperHub as Keeper Hub.",
+        content: style,
       },
       { role: "assistant", content: scene.narration },
     ],
@@ -301,6 +317,7 @@ async function synthesizeScene(
     throw new Error(`MiMo TTS returned no audio for ${scene.id}`);
   }
   await writeFile(audioPath, Buffer.from(encodedAudio, "base64"));
+  await writeFile(cachePath, `${cacheKey}\n`, "utf8");
   console.info(`TTS generated: ${path.relative(root, audioPath)}`);
   return audioPath;
 }
@@ -335,7 +352,27 @@ async function transcribeScene(
   scene: Scene,
   audioPath: string,
 ): Promise<AsrResult> {
-  const encodedAudio = (await readFile(audioPath)).toString("base64");
+  const audioBytes = await readFile(audioPath);
+  const audioSha256 = createHash("sha256").update(audioBytes).digest("hex");
+  const cachePath = path.join(buildDirectory, `${scene.id}.asr.json`);
+  if (await fileExists(cachePath)) {
+    const cached = JSON.parse(await readFile(cachePath, "utf8")) as {
+      readonly audioSha256?: unknown;
+      readonly result?: AsrResult;
+    };
+    if (
+      cached.audioSha256 === audioSha256 &&
+      cached.result?.sceneId === scene.id &&
+      typeof cached.result.transcript === "string" &&
+      typeof cached.result.wordSimilarity === "number"
+    ) {
+      console.info(
+        `ASR cached ${scene.id}: ${(cached.result.wordSimilarity * 100).toFixed(1)}% word similarity`,
+      );
+      return cached.result;
+    }
+  }
+  const encodedAudio = audioBytes.toString("base64");
   const result = await mimoRequest<AsrResponse>(apiKey, {
     model: "mimo-v2.5-asr",
     messages: [
@@ -362,12 +399,18 @@ async function transcribeScene(
   console.info(
     `ASR verified ${scene.id}: ${(similarity * 100).toFixed(1)}% word similarity`,
   );
-  return {
+  const asrResult = {
     sceneId: scene.id,
     expected: scene.narration,
     transcript,
     wordSimilarity: Number(similarity.toFixed(4)),
   };
+  await writeFile(
+    cachePath,
+    `${JSON.stringify({ audioSha256, result: asrResult }, null, 2)}\n`,
+    "utf8",
+  );
+  return asrResult;
 }
 
 async function probeDuration(filePath: string): Promise<number> {
@@ -470,6 +513,8 @@ async function renderVideo(
       "aac",
       "-b:a",
       "192k",
+      "-ar",
+      "48000",
       "-t",
       duration.toFixed(3),
       "-movflags",

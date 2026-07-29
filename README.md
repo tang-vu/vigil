@@ -16,6 +16,8 @@ The project has real proofs on both sides of the product:
 ·
 [x402 payment](https://basescan.org/tx/0x440baa100eb85a9b586ead523c05a1918247fccb610098718e2f2fd0317d4122)
 ·
+[Demo video](./demo/vigil-keeperhub-demo.mp4)
+·
 [Full milestone evidence](./PROGRESS.md)
 
 ## Architecture
@@ -177,6 +179,7 @@ Important files:
 - `artifacts/` — full KeeperHub execution and chaos proof captures.
 - `docs/demo-script.md` — exact three-minute video scene list.
 - `docs/video-production.md` — reproducible MiMo TTS/ASR video renderer.
+- `demo/vigil-keeperhub-demo.mp4` — final 155-second submission video.
 - `docs/keeperhub-pr-proposal.md` — small PR-ready onboarding fix.
 
 ## Development rules

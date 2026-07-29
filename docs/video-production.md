@@ -59,5 +59,7 @@ Outputs:
 - `artifacts/video/asr-validation.json`
 
 The build directory and final video are gitignored because they contain large,
-reproducible media. The compact ASR validation artifact is committed as proof
-of the narration quality check.
+reproducible media. A reviewed release copy is committed at
+`demo/vigil-keeperhub-demo.mp4` with its sidecar captions and SHA-256. The
+compact ASR validation artifact is committed as proof of the narration quality
+check.

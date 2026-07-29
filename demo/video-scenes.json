@@ -42,7 +42,7 @@
     "metricLabel": "HEALTH FACTOR",
     "metricValue": "1.1786 → 1.5000",
     "accent": "#FFB547",
-    "narration": "Here is the real rescue. KeeperHub read a health factor of one point one seven eight six, followed the true Condition branch, repaid Aave, and raised the position to one point five zero zero zero. The transaction was sponsored, confirmed on Sepolia, and recorded immediately with its KeeperHub execution ID and transaction hash."
+    "narration": "Here is the real rescue. KeeperHub read a health factor of 1.1786, followed the true Condition branch, repaid Aave, and raised the position to 1.5000. The transaction was sponsored, confirmed on Sepolia, and recorded immediately with its KeeperHub execution identifier and transaction hash."
   },
   {
     "id": "04-observability",
@@ -87,7 +87,7 @@
     "metricLabel": "ONCHAIN PAYMENT",
     "metricValue": "$0.02 BASE USDC",
     "accent": "#2ED3FF",
-    "narration": "Now the money shot. A second minimal agent discovers Vigil risk check, verifies its typed MCP endpoint, and receives an HTTP four oh two challenge. KeeperHub's agentic wallet pays twenty thousand raw Base USDC. The workflow returns HTTP two hundred with execution V N five G, and Vigil independently confirms the matching USDC Transfer before appending it to the transaction ledger."
+    "narration": "Now Agent B demonstrates the paid workflow. It discovers Vigil risk check, verifies the typed MCP endpoint, and receives the required HTTP 402 response. KeeperHub's agentic wallet settles the listed two-cent fee in Base USDC. The workflow succeeds with execution V N five G. Vigil then matches the public token transfer to the marketplace request and records it in the transaction ledger."
   },
   {
     "id": "07-ship",

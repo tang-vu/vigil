@@ -297,7 +297,7 @@ Submission package:
 
 ## Demo media production
 
-Status: **renderer complete; final narration awaiting a fresh local MiMo key**
+Status: **complete**
 
 - [x] Build seven 1080p submission scenes from deterministic JSON.
 - [x] Add MiMo V2.5 TTS generation using a built-in English voice.
@@ -311,5 +311,19 @@ Status: **renderer complete; final narration awaiting a fresh local MiMo key**
   URL, payment guard, and Telegram defaults through `npm run env:sync`.
 - [x] Refuse to use the API key pasted into chat; it must be revoked because it
   is no longer secret.
-- [ ] Place a newly rotated `MIMO_API_KEY` only in gitignored `.env`, run
-  `npm run video:render`, and inspect the MiMo ASR validation artifact.
+- [x] Place a newly rotated `MIMO_API_KEY` only in gitignored `.env` and render
+  the final video without printing credentials.
+- [x] Pass MiMo ASR verification for all seven scenes; minimum word similarity
+  `83.67%`.
+- [x] Inspect a seven-frame final contact sheet and standardize output to
+  1920×1080 H.264 plus mono AAC at 48 kHz.
+- [x] Package the final `155.23`-second, `10.84` MB video, burned captions,
+  sidecar SRT, and SHA-256 in the repository.
+
+Final media proof:
+
+- Video: `demo/vigil-keeperhub-demo.mp4`
+- Captions: `demo/vigil-keeperhub-demo.srt`
+- ASR artifact: `artifacts/video/asr-validation.json`
+- SHA-256:
+  `60f1e2ec95e5e9bb17b2d10a97d5a754284384abf7ec5608da806695dfb08485`
