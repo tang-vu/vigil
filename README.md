@@ -18,6 +18,8 @@ The project has real proofs on both sides of the product:
 ·
 [Demo video](./demo/vigil-keeperhub-demo.mp4)
 ·
+[KeeperHub First Transaction Lab](https://vigil-first-tx-lab.vercel.app)
+·
 [Full milestone evidence](./PROGRESS.md)
 
 ## Architecture

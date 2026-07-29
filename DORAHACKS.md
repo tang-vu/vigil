@@ -16,7 +16,7 @@ execution receipts.
 - category: `DeFi`
 - AI Agent: `Yes`
 - repository: https://github.com/tang-vu/vigil
-- project website: leave blank until a dedicated landing page is deployed
+- project website: https://vigil-first-tx-lab.vercel.app
 - demo video: https://youtu.be/1a25RRZmkJ8
 - social link: https://t.me/hanhgia2212
 - logo: [`demo/vigil-logo-480.png`](./demo/vigil-logo-480.png)

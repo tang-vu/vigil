@@ -370,7 +370,7 @@ https://vigil-first-tx-lab.hanhgia2212.chatgpt.site
 
 ### Vercel mirror
 
-Status: **production deployment in progress**
+Status: **public production deployed**
 
 - [x] Confirm the lab has no application backend, database, private API, or
   server-side secret dependency; interactive progress remains in browser
@@ -380,4 +380,12 @@ Status: **production deployment in progress**
   standard Next.js build.
 - [x] Exclude local secrets, wallet exports, dependencies, and build artifacts
   from CLI uploads.
-- [ ] Validate, commit, push, and deploy the public production mirror.
+- [x] Validate the Next.js production build, strict TypeScript, 40 tests, and
+  dependency audit before deployment.
+- [x] Commit and push the Vercel-specific deployment configuration.
+- [x] Deploy publicly through the authenticated Vercel CLI and verify the
+  production alias returns HTTP 200 with the expected application content.
+
+Public production URL:
+
+https://vigil-first-tx-lab.vercel.app

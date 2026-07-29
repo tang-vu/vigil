@@ -7,6 +7,7 @@ export const metadata: Metadata = {
   title: "KeeperHub First Transaction Lab — Vigil",
   description:
     "A zero-to-confirmed-transaction onboarding lab and error doctor built from Vigil's real KeeperHub integration.",
+  metadataBase: new URL("https://vigil-first-tx-lab.vercel.app"),
   openGraph: {
     title: "KeeperHub First Transaction Lab",
     description:

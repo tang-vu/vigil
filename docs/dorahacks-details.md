@@ -100,6 +100,7 @@ KeeperHub workflows, x402, Base USDC, and Telegram.
 
 ## Links
 
+- **Interactive onboarding lab:** https://vigil-first-tx-lab.vercel.app
 - **Source code:** https://github.com/tang-vu/vigil
 - **Demo video:** https://youtu.be/1a25RRZmkJ8
 - **Milestone proofs:**
