@@ -285,12 +285,15 @@ Status: **complete**
 - [x] Keep the paid demo repeatable and compliant: a future Agent B payment
   confirms the challenge-matched Base USDC event and immediately records its
   transaction hash and KeeperHub execution ID.
+- [x] Prepare final DoraHacks form copy, attach the public YouTube demo, and
+  export a matching 480×480 Vigil logo below the 2 MB upload limit.
 
 Submission package:
 
 - Repository: <https://github.com/tang-vu/vigil>
 - README: `README.md`
 - DoraHacks copy: `DORAHACKS.md`
+- BUIDL logo: `demo/vigil-logo-480.png`
 - Demo script: `docs/demo-script.md`
 - Teardown: `docs/teardown.md`
 - PR proposal: `docs/keeperhub-pr-proposal.md`

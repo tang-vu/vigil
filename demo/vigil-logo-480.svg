@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="480" height="480" viewBox="0 0 480 480">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#090B16"/>
+      <stop offset="0.58" stop-color="#151634"/>
+      <stop offset="1" stop-color="#080A12"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="50%" cy="40%" r="65%">
+      <stop offset="0" stop-color="#7C5CFF" stop-opacity="0.34"/>
+      <stop offset="1" stop-color="#7C5CFF" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="shield" x1="0" y1="0" x2="0.9" y2="1">
+      <stop offset="0" stop-color="#947DFF"/>
+      <stop offset="1" stop-color="#5032CE"/>
+    </linearGradient>
+    <filter id="shadow" x="-40%" y="-40%" width="180%" height="180%">
+      <feDropShadow dx="0" dy="18" stdDeviation="20" flood-color="#000000" flood-opacity="0.45"/>
+    </filter>
+  </defs>
+
+  <rect width="480" height="480" rx="96" fill="url(#bg)"/>
+  <circle cx="240" cy="190" r="220" fill="url(#glow)"/>
+  <path d="M54 382 C164 342, 318 454, 480 358 L480 480 L0 480 L0 410 Z"
+        fill="#7C5CFF" opacity="0.055"/>
+
+  <g filter="url(#shadow)">
+    <path d="M240 72 L348 117 V210 C348 297 300 355 240 390
+             C180 355 132 297 132 210 V117 Z"
+          fill="url(#shield)" stroke="#A998FF" stroke-width="5"/>
+    <path d="M168 220 Q240 142 312 220 Q240 298 168 220 Z"
+          fill="#0D1020" stroke="#FFFFFF" stroke-width="12"/>
+    <circle cx="240" cy="220" r="28" fill="#FFFFFF"/>
+    <circle cx="240" cy="220" r="15" fill="#7C5CFF"/>
+    <circle cx="230" cy="210" r="5" fill="#DCD5FF"/>
+  </g>
+
+  <text x="240" y="444" text-anchor="middle"
+        font-family="Segoe UI, Arial, sans-serif" font-size="38"
+        font-weight="800" letter-spacing="10" fill="#F6F7FF">VIGIL</text>
+</svg>

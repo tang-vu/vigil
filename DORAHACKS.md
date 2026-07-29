@@ -10,6 +10,33 @@ Vigil is a self-funding Aave liquidation guardian that rescues positions only
 through KeeperHub, sells paid risk checks over x402, and emits tamper-evident
 execution receipts.
 
+## Submission form copy
+
+- BUIDL name: `Vigil`
+- category: `DeFi`
+- AI Agent: `Yes`
+- repository: https://github.com/tang-vu/vigil
+- project website: leave blank until a dedicated landing page is deployed
+- demo video: https://youtu.be/1a25RRZmkJ8
+- social link: https://t.me/hanhgia2212
+- logo: [`demo/vigil-logo-480.png`](./demo/vigil-logo-480.png)
+
+### Vision
+
+AI agents can detect liquidation risk, but the hardest part is the last mile:
+executing the right transaction reliably before a position becomes
+liquidatable. Direct wallet signing creates key-management risk, while failed
+transactions, gas spikes, duplicate retries, and weak audit trails make
+autonomous DeFi unsafe.
+
+Vigil closes that gap. It continuously monitors Aave v3 health factors, applies
+a deterministic policy that an LLM can only tighten, and executes partial-repay
+rescues exclusively through KeeperHub. Every decision is protected by
+cooldowns, spend caps, idempotency, classified retries, and a tamper-evident
+receipt containing KeeperHub's complete execution log and transaction proof.
+Vigil also turns its risk engine into a sustainable agent business by selling
+paid risk checks and rescue quotes through KeeperHub's x402 marketplace.
+
 ## Best transaction proof
 
 The core product transaction is the KeeperHub-executed Aave v3 rescue:
