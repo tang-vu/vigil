@@ -353,5 +353,7 @@ Status: **implementation complete; production deployment pending**
   and dependency audit with zero known vulnerabilities.
 - [x] Visually inspect desktop and emulated 390 px mobile layouts with no
   horizontal overflow.
-- [ ] Push the exact source state to Sites, save a version, and deploy it to
-  production.
+- [x] Push the exact source state to Sites and save version 1.
+- [ ] Redeploy after aligning Next.js `distDir` with the Sites build contract;
+  the first private deployment compiled successfully but packaging expected a
+  `dist` directory instead of Next.js's default `.next`.
