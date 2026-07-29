@@ -8,8 +8,11 @@
     "node": ">=20"
   },
   "scripts": {
-    "build": "tsc -p tsconfig.json",
+    "build": "next build",
+    "build:agent": "tsc -p tsconfig.json",
     "typecheck": "tsc -p tsconfig.json --noEmit",
+    "site:dev": "next dev",
+    "site:build": "next build",
     "test": "vitest run",
     "test:watch": "vitest",
     "env:sync": "tsx scripts/sync-local-env.ts",
@@ -32,12 +35,21 @@
     "@bgd-labs/aave-address-book": "4.44.22",
     "@modelcontextprotocol/sdk": "^1.30.0",
     "dotenv": "^17.2.1",
+    "next": "16.2.12",
+    "react": "19.2.8",
+    "react-dom": "19.2.8",
     "viem": "^2.33.1"
   },
   "devDependencies": {
     "@types/node": "^24.1.0",
+    "@types/react": "19.2.14",
+    "@types/react-dom": "19.2.3",
     "tsx": "^4.20.3",
     "typescript": "^5.8.3",
     "vitest": "^3.2.4"
+  },
+  "overrides": {
+    "postcss": "8.5.24",
+    "sharp": "0.35.3"
   }
 }

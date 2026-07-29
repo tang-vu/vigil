@@ -333,3 +333,25 @@ Final media proof:
 - ASR artifact: `artifacts/video/asr-validation.json`
 - SHA-256:
   `60f1e2ec95e5e9bb17b2d10a97d5a754284384abf7ec5608da806695dfb08485`
+
+## Onboarding UX bounty website
+
+Status: **implementation complete; production deployment pending**
+
+- [x] Create a Sites project and persist its opaque project ID without
+  credentials in `.openai/hosting.json`.
+- [x] Build a responsive KeeperHub First Transaction Lab in Next.js.
+- [x] Add a six-step, schema-first path from MCP connection to confirmed
+  transaction hash plus KeeperHub execution ID.
+- [x] Add a local-progress checklist and copy-safe prompts that never request
+  private keys.
+- [x] Add an eight-scenario error doctor separating official behavior from
+  friction observed during Vigil's real build.
+- [x] Link the real Aave rescue, Base x402 settlement, teardown, and PR-ready
+  improvement proposal.
+- [x] Pass the existing 40 tests, strict agent build, Next.js production build,
+  and dependency audit with zero known vulnerabilities.
+- [x] Visually inspect desktop and emulated 390 px mobile layouts with no
+  horizontal overflow.
+- [ ] Push the exact source state to Sites, save a version, and deploy it to
+  production.
