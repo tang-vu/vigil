@@ -287,6 +287,8 @@ Status: **complete**
   transaction hash and KeeperHub execution ID.
 - [x] Prepare final DoraHacks form copy, attach the public YouTube demo, and
   export a matching 480×480 Vigil logo below the 2 MB upload limit.
+- [x] Finalize track, KeeperHub-surface, transaction-network, and honest
+  unfinished-work answers for the DoraHacks submission form.
 
 Submission package:
 

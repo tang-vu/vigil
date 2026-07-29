@@ -38,6 +38,36 @@ receipt containing KeeperHub's complete execution log and transaction proof.
 Vigil also turns its risk engine into a sustainable agent business by selling
 paid risk checks and rescue quotes through KeeperHub's x402 marketplace.
 
+### Final submission fields
+
+- Track: `Build with Agents Onchain`
+- Need teammates: `No`
+- Testnet or mainnet: `Testnet` for the submitted Aave rescue transaction. The
+  separate x402 marketplace payment is a real Base-mainnet USDC settlement.
+
+#### Which KeeperHub surfaces did you use?
+
+MCP server; direct execution; workflow builder with Condition branches; Aave
+v3 protocol actions; `get_execution` audit trail; marketplace and per-workflow
+MCP endpoints; x402; KeeperHub agentic wallet; and Telegram integration. CLI
+and MPP were not used.
+
+#### Link to a transaction landed via KeeperHub
+
+https://sepolia.etherscan.io/tx/0xa03a49a8213415e9fc0ec53c423c707ed2c869b92841781c4174abced9a958bb
+
+#### What still breaks or is unfinished?
+
+The core rescue remains intentionally on Sepolia; production mainnet rescue
+needs a funded live position, an external security review, and conservative
+operator limits. KeeperHub's paid runtime currently returns the final node's
+raw output instead of the workflow's advertised `outputMapping`, and the
+first-party agentic wallet does not return the x402 settlement transaction
+hash. Vigil preserves the full execution audit trail and reconstructs the
+confirmed Base USDC payment from public transfer logs. A Sepolia-listed paid
+workflow also triggers a payment/application chain mismatch, so only the
+read-only marketplace products were moved to Aave Base.
+
 ## Best transaction proof
 
 The core product transaction is the KeeperHub-executed Aave v3 rescue:
