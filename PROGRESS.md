@@ -293,6 +293,7 @@ Submission package:
 - Repository: <https://github.com/tang-vu/vigil>
 - README: `README.md`
 - DoraHacks copy: `DORAHACKS.md`
+- DoraHacks Details: `docs/dorahacks-details.md`
 - BUIDL logo: `demo/vigil-logo-480.png`
 - Demo script: `docs/demo-script.md`
 - Teardown: `docs/teardown.md`

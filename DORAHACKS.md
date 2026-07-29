@@ -20,6 +20,7 @@ execution receipts.
 - demo video: https://youtu.be/1a25RRZmkJ8
 - social link: https://t.me/hanhgia2212
 - logo: [`demo/vigil-logo-480.png`](./demo/vigil-logo-480.png)
+- Details copy: [`docs/dorahacks-details.md`](./docs/dorahacks-details.md)
 
 ### Vision
 
