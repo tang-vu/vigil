@@ -423,6 +423,20 @@ Status: **public production deployed**
 - [x] Push the exact `bec8b72` source to Sites, save it as version 5, and
   deploy it successfully to the existing owner-only production URL without
   changing access.
+- [x] Create a brand-consistent multi-resolution favicon, `512×512` app icon,
+  `180×180` Apple touch icon, and a purpose-built `1200×630` Open Graph /
+  Twitter image centered on the real Aave rescue proof.
+- [x] Add canonical metadata, descriptive titles, search/social descriptions,
+  author/publisher/category fields, Open Graph, Twitter large-card metadata,
+  indexing directives, theme colors, and application keywords.
+- [x] Add an installable web manifest with maskable icon and proof shortcuts,
+  plus crawlable `robots.txt` and `sitemap.xml` metadata routes.
+- [x] Add valid JSON-LD for `WebSite` and `WebApplication`, including the
+  required zero-price offer, supported developer-app category, feature list,
+  and public project links.
+- [x] Verify every metadata asset and route returns HTTP `200` with the expected
+  MIME type in both the Next.js and packaged vinext runtimes; parse the
+  manifest and JSON-LD in automated local checks.
 
 Public production URL:
 
