@@ -249,6 +249,45 @@ const improvements = [
   },
 ];
 
+const executionNodes = [
+  {
+    label: "Trigger",
+    detail: "manual · 2 ms",
+    output: "request accepted",
+    tone: "success",
+  },
+  {
+    label: "Read Aave health",
+    detail: "Sepolia · 94 ms",
+    output: "HF 1.1786",
+    tone: "success",
+  },
+  {
+    label: "Policy gate",
+    detail: "threshold 1.20 · 1 ms",
+    output: "condition true",
+    tone: "success",
+  },
+  {
+    label: "Repay debt",
+    detail: "6 USDC · 11.10 s",
+    output: "write confirmed",
+    tone: "success",
+  },
+  {
+    label: "Telegram alert",
+    detail: "integration error · 3 ms",
+    output: "write not retried",
+    tone: "warning",
+  },
+  {
+    label: "Recovery",
+    detail: "separate execution",
+    output: "message delivered",
+    tone: "recovery",
+  },
+] as const;
+
 function ShieldMark() {
   return (
     <svg aria-hidden="true" className="shield-mark" viewBox="0 0 72 88">
@@ -272,6 +311,97 @@ function CopyButton({ value }: { value: string }) {
     <button className="copy-button" onClick={copy} type="button">
       {copied ? "Copied" : "Copy"}
     </button>
+  );
+}
+
+function ExecutionReplay() {
+  const [phase, setPhase] = useState<number>(executionNodes.length);
+  const [running, setRunning] = useState(false);
+
+  useEffect(() => {
+    if (!running) return;
+    if (phase >= executionNodes.length) {
+      setRunning(false);
+      return;
+    }
+
+    const delay = phase === 3 ? 1100 : 620;
+    const timer = window.setTimeout(() => setPhase((current) => current + 1), delay);
+    return () => window.clearTimeout(timer);
+  }, [phase, running]);
+
+  function replay() {
+    setPhase(0);
+    setRunning(true);
+  }
+
+  const writeConfirmed = phase > 3;
+  const receiptSealed = phase >= executionNodes.length;
+
+  return (
+    <div className="replay-card" aria-label="Replay of the real Vigil rescue">
+      <div className="replay-topbar">
+        <span className="replay-live">
+          <i />
+          REAL EXECUTION REPLAY
+        </span>
+        <span>3r554… · 11.79 s</span>
+      </div>
+
+      <div className="replay-visual">
+        <div className={`health-orbit ${writeConfirmed ? "restored" : ""}`}>
+          <div className="orbit-rings" aria-hidden="true">
+            <i />
+            <i />
+            <i />
+          </div>
+          <div className="health-core">
+            <span>HEALTH FACTOR</span>
+            <strong>{writeConfirmed ? "1.5000" : "1.1786"}</strong>
+            <small>{writeConfirmed ? "RESTORED" : "AT RISK"}</small>
+          </div>
+          <div className="orbit-label label-policy">POLICY</div>
+          <div className="orbit-label label-aave">AAVE</div>
+          <div className="orbit-label label-proof">PROOF</div>
+        </div>
+
+        <div className="replay-timeline">
+          {executionNodes.map((node, index) => {
+            const active = running && phase === index;
+            const complete = phase > index;
+            return (
+              <div
+                className={`replay-node ${node.tone} ${active ? "active" : ""} ${complete ? "complete" : ""}`}
+                key={node.label}
+              >
+                <span className="node-state">
+                  {complete ? "✓" : active ? "→" : String(index + 1).padStart(2, "0")}
+                </span>
+                <div>
+                  <strong>{node.label}</strong>
+                  <small>{node.detail}</small>
+                </div>
+                <code>{complete ? node.output : active ? "running…" : "queued"}</code>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+
+      <div className="replay-footer">
+        <div className={`seal-status ${receiptSealed ? "sealed" : ""}`}>
+          <span>{receiptSealed ? "✓" : "◇"}</span>
+          <p>
+            <small>CANONICAL RECEIPT</small>
+            <strong>{receiptSealed ? "SHA-256 SEALED" : "WAITING FOR TERMINAL STATE"}</strong>
+          </p>
+        </div>
+        <button disabled={running} onClick={replay} type="button">
+          <span>{running ? "REPLAYING" : "REPLAY THE RESCUE"}</span>
+          <i>{running ? "•••" : "↻"}</i>
+        </button>
+      </div>
+    </div>
   );
 }
 
@@ -328,6 +458,12 @@ export default function Home() {
 
   return (
     <main>
+      <div className="ambient-field" aria-hidden="true">
+        <i className="ambient-one" />
+        <i className="ambient-two" />
+        <i className="ambient-three" />
+        <div className="signal-grid" />
+      </div>
       <nav className="nav shell" aria-label="Primary navigation">
         <a className="brand" href="#top" aria-label="Vigil home">
           <ShieldMark />
@@ -337,9 +473,9 @@ export default function Home() {
           </span>
         </a>
         <div className="nav-links">
+          <a href="#receipt">Execution replay</a>
           <a href="#lab">Lab</a>
           <a href="#doctor">Error doctor</a>
-          <a href="#proof">Proof</a>
           <a
             className="nav-cta"
             href="https://github.com/tang-vu/vigil"
@@ -355,21 +491,21 @@ export default function Home() {
         <div className="hero-copy">
           <div className="kicker">
             <span className="live-dot" />
-            Built from a real KeeperHub integration
+            A first-transaction lab forged from production friction
           </div>
           <h1>
-            Your first onchain action should take{" "}
-            <span>minutes, not a teardown.</span>
+            The shortest safe path from{" "}
+            <span>prompt to proof.</span>
           </h1>
           <p className="hero-lede">
-            A guided zero-to-confirmed-transaction path with a safe preflight,
-            copy-ready agent prompts, and an error doctor grounded in failures
-            Vigil actually hit.
+            Connect KeeperHub, preflight the wallet, land a guarded transaction,
+            and leave with evidence. Every step is grounded in a rescue Vigil
+            actually executed—not a happy-path mockup.
           </p>
           <div className="hero-actions">
-            <a className="primary-button" href="#lab">
-              Start the preflight
-              <span>↓</span>
+            <a className="primary-button" href="#receipt">
+              Replay the real rescue
+              <span>↘</span>
             </a>
             <a
               className="secondary-button"
@@ -377,7 +513,7 @@ export default function Home() {
               rel="noreferrer"
               target="_blank"
             >
-              Inspect a real rescue ↗
+              Open on Etherscan ↗
             </a>
           </div>
           <div className="hero-trust">
@@ -388,59 +524,7 @@ export default function Home() {
           </div>
         </div>
 
-        <div className="terminal-card" aria-label="First transaction path">
-          <div className="terminal-bar">
-            <span className="terminal-lights">
-              <i />
-              <i />
-              <i />
-            </span>
-            <span>keeperhub / first-transaction</span>
-            <span className="terminal-safe">SAFE PATH</span>
-          </div>
-          <div className="terminal-body">
-            <div className="terminal-line">
-              <span>01</span>
-              <i className="ok">✓</i>
-              <p>
-                MCP <small>connected</small>
-              </p>
-            </div>
-            <div className="terminal-line">
-              <span>02</span>
-              <i className="ok">✓</i>
-              <p>
-                schema <small>discovered live</small>
-              </p>
-            </div>
-            <div className="terminal-line">
-              <span>03</span>
-              <i className="ok">✓</i>
-              <p>
-                wallet <small>organization integration</small>
-              </p>
-            </div>
-            <div className="terminal-line">
-              <span>04</span>
-              <i className="ok">✓</i>
-              <p>
-                network <small>Sepolia · 11155111</small>
-              </p>
-            </div>
-            <div className="terminal-line active">
-              <span>05</span>
-              <i>→</i>
-              <p>
-                execute <small>through KeeperHub only</small>
-              </p>
-            </div>
-            <div className="terminal-result">
-              <span>confirmed</span>
-              <strong>tx hash + execution ID</strong>
-              <div className="hash-line" />
-            </div>
-          </div>
-        </div>
+        <ExecutionReplay />
       </section>
 
       <section className="proof-strip" aria-label="Vigil proof summary">
@@ -461,6 +545,115 @@ export default function Home() {
             <span className="metric-value">$0.02</span>
             <span className="metric-label">Base x402 settlement</span>
           </div>
+        </div>
+      </section>
+
+      <section className="receipt-section shell" id="receipt">
+        <div className="receipt-heading">
+          <div>
+            <span className="section-kicker coral">THE SIGNATURE MOMENT</span>
+            <h2>The write succeeded. The alert failed. Vigil knew the difference.</h2>
+          </div>
+          <p>
+            The real KeeperHub run ended as an error because Telegram failed
+            after Aave repayment. Vigil classified the confirmed write,
+            refused to repay twice, recovered notification separately, and
+            sealed the complete story into one receipt.
+          </p>
+        </div>
+
+        <div className="receipt-stage">
+          <div className="receipt-flow">
+            <div className="flow-track" aria-hidden="true">
+              <i />
+            </div>
+            <article className="flow-event complete">
+              <span>01</span>
+              <div>
+                <small>16:29:15.107 UTC</small>
+                <h3>Aave repayment submitted</h3>
+                <p>6 USDC · sponsored gas · KeeperHub-only execution</p>
+              </div>
+              <strong>WRITE</strong>
+            </article>
+            <article className="flow-event complete">
+              <span>02</span>
+              <div>
+                <small>+11.10 seconds</small>
+                <h3>Transaction confirmed</h3>
+                <p>205,376 gas · health factor restored to 1.5000</p>
+              </div>
+              <strong>FINAL</strong>
+            </article>
+            <article className="flow-event warning">
+              <span>03</span>
+              <div>
+                <small>+3 milliseconds</small>
+                <h3>Telegram integration failed</h3>
+                <p>Failure occurred after the irreversible write</p>
+              </div>
+              <strong>ERROR</strong>
+            </article>
+            <article className="flow-event protected">
+              <span>04</span>
+              <div>
+                <small>POLICY INTERLOCK</small>
+                <h3>Repayment retry blocked</h3>
+                <p>Confirmed writes are never repeated for downstream failures</p>
+              </div>
+              <strong>SAFE</strong>
+            </article>
+            <article className="flow-event recovered">
+              <span>05</span>
+              <div>
+                <small>RECOVERY EXECUTION 35bu3…</small>
+                <h3>Alert delivered separately</h3>
+                <p>One financial action · one recovered notification</p>
+              </div>
+              <strong>PROVED</strong>
+            </article>
+          </div>
+
+          <aside className="receipt-vault">
+            <div className="vault-grid" aria-hidden="true" />
+            <div className="vault-top">
+              <span>RECEIPT / M4</span>
+              <i>VERIFIED</i>
+            </div>
+            <div className="vault-seal">
+              <ShieldMark />
+              <div>
+                <small>CANONICAL BUNDLE</small>
+                <strong>550de5d5…d0f20</strong>
+              </div>
+            </div>
+            <dl>
+              <div>
+                <dt>KeeperHub execution</dt>
+                <dd>3r554lkdru7bn225qdwsz</dd>
+              </div>
+              <div>
+                <dt>Transaction</dt>
+                <dd>0xa03a49…958bb</dd>
+              </div>
+              <div>
+                <dt>Decision</dt>
+                <dd>eligible · policy v1</dd>
+              </div>
+              <div>
+                <dt>Outcome</dt>
+                <dd>HF 1.1786 → 1.5000</dd>
+              </div>
+            </dl>
+            <a
+              href="https://github.com/tang-vu/vigil/blob/main/receipts/2026-07-28T16-29-26.213Z.json"
+              rel="noreferrer"
+              target="_blank"
+            >
+              Inspect the full canonical receipt
+              <span>↗</span>
+            </a>
+          </aside>
         </div>
       </section>
 

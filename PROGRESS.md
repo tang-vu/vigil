@@ -385,6 +385,20 @@ Status: **public production deployed**
 - [x] Commit and push the Vercel-specific deployment configuration.
 - [x] Deploy publicly through the authenticated Vercel CLI and verify the
   production alias returns HTTP 200 with the expected application content.
+- [x] Elevate the public experience with a cinematic replay of the real M4
+  KeeperHub execution, including the Aave health-factor recovery from `1.1786`
+  to `1.5000`.
+- [x] Turn the downstream Telegram failure into a forensic safety story:
+  confirmed repayment, retry interlock, separate notification recovery, and
+  the canonical receipt seal are visible in one timeline.
+- [x] Add ambient signal fields, health-orbit telemetry, execution-node states,
+  and an interactive replay while retaining a restrained security-console
+  visual language.
+- [x] Add responsive layouts for the replay and receipt vault, preserve a
+  `390 px` viewport with zero horizontal overflow, and disable animation for
+  visitors who prefer reduced motion.
+- [x] Re-run strict TypeScript, the Next.js production build, all `40` tests,
+  the vinext compatibility/build gates, and the dependency audit.
 
 Public production URL:
 
