@@ -361,6 +361,9 @@ Status: **private production deployed; public access pending approval**
   the production server locally over HTTP.
 - [x] Save version 3 and deploy it successfully to the owner-only production
   environment.
+- [x] Push the cinematic execution-replay source at commit `d276d89`, save it
+  as Sites version 4, and deploy it successfully without widening the
+  owner-only access policy.
 - [ ] After explicit approval, change access from owner-only to public, deploy
   the final saved version, and add the public URL to the submission.
 
@@ -399,6 +402,10 @@ Status: **public production deployed**
   visitors who prefer reduced motion.
 - [x] Re-run strict TypeScript, the Next.js production build, all `40` tests,
   the vinext compatibility/build gates, and the dependency audit.
+- [x] Publish deployment `dpl_kT9XhV3KkTvHfJb8b8os9Dpran97` through the
+  Vercel REST deployment path after the Windows CLI uploader stalled, then
+  verify the canonical production alias returns HTTP `200` with the new hero
+  and receipt narrative.
 
 Public production URL:
 
