@@ -437,6 +437,12 @@ Status: **public production deployed**
 - [x] Verify every metadata asset and route returns HTTP `200` with the expected
   MIME type in both the Next.js and packaged vinext runtimes; parse the
   manifest and JSON-LD in automated local checks.
+- [x] Deploy the SEO release to Vercel as
+  `dpl_48UctiE6GaQam84CcmSy67sTYRts` and verify the canonical public host
+  serves every icon, social image, manifest, robots, and sitemap route.
+- [x] Save the exact `22078f9` source as Sites version 6 and deploy it
+  successfully to the existing owner-only production URL without changing
+  access.
 
 Public production URL:
 
