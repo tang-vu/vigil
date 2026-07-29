@@ -349,11 +349,15 @@ Status: **implementation complete; production deployment pending**
   friction observed during Vigil's real build.
 - [x] Link the real Aave rescue, Base x402 settlement, teardown, and PR-ready
   improvement proposal.
-- [x] Pass the existing 40 tests, strict agent build, Next.js production build,
+- [x] Pass the existing 40 tests, strict agent build, production site build,
   and dependency audit with zero known vulnerabilities.
 - [x] Visually inspect desktop and emulated 390 px mobile layouts with no
   horizontal overflow.
-- [x] Push the exact source state to Sites and save version 1.
-- [ ] Redeploy after aligning Next.js `distDir` with the Sites build contract;
-  the first private deployment compiled successfully but packaging expected a
-  `dist` directory instead of Next.js's default `.next`.
+- [x] Push exact source states to Sites and preserve failed version history:
+  version 1 lacked `dist`; version 2 had raw Next.js output but not the required
+  `dist/server/index.js` runtime entrypoint.
+- [x] Move the deployment build to vinext, pass its 100% compatibility scan,
+  produce `dist/server/index.js`, package `.openai/hosting.json`, and verify
+  the production server locally over HTTP.
+- [ ] Save version 3, deploy it privately, and request explicit approval before
+  changing access from owner-only to public.

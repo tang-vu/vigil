@@ -8,11 +8,12 @@
     "node": ">=20"
   },
   "scripts": {
-    "build": "next build",
+    "build": "vinext build && tsx scripts/package-site-build.ts",
     "build:agent": "tsc -p tsconfig.json",
     "typecheck": "tsc -p tsconfig.json --noEmit",
-    "site:dev": "next dev",
-    "site:build": "next build",
+    "site:check": "vinext check",
+    "site:dev": "vinext dev",
+    "site:build": "vinext build && tsx scripts/package-site-build.ts",
     "test": "vitest run",
     "test:watch": "vitest",
     "env:sync": "tsx scripts/sync-local-env.ts",
@@ -41,12 +42,18 @@
     "viem": "^2.33.1"
   },
   "devDependencies": {
+    "@mdx-js/rollup": "3.1.1",
     "@types/node": "^24.1.0",
     "@types/react": "19.2.14",
     "@types/react-dom": "19.2.3",
+    "@vitejs/plugin-react": "6.0.4",
+    "@vitejs/plugin-rsc": "0.5.32",
+    "react-server-dom-webpack": "19.2.8",
     "tsx": "^4.20.3",
     "typescript": "^5.8.3",
-    "vitest": "^3.2.4"
+    "vinext": "1.0.0-beta.4",
+    "vite": "8.1.5",
+    "vitest": "4.1.10"
   },
   "overrides": {
     "postcss": "8.5.24",
