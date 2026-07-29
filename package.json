@@ -12,6 +12,7 @@
     "typecheck": "tsc -p tsconfig.json --noEmit",
     "test": "vitest run",
     "test:watch": "vitest",
+    "env:sync": "tsx scripts/sync-local-env.ts",
     "m1:connectivity": "tsx scripts/m1-connectivity.ts",
     "monitor": "tsx scripts/monitor.ts",
     "m4:setup": "tsx scripts/setup-aave-position.ts",

@@ -27,6 +27,12 @@ The renderer never prints the key, request headers, or `.env` contents.
 
 ## Commands
 
+Synchronize non-secret local defaults without printing existing values:
+
+```powershell
+npm run env:sync
+```
+
 Render slides without any API call:
 
 ```powershell

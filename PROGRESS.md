@@ -307,6 +307,8 @@ Status: **renderer complete; final narration awaiting a fresh local MiMo key**
   burned SRT captions.
 - [x] Visually inspect the opening and x402 scenes after rasterization.
 - [x] Smoke-test the complete media path at 1920×1080 without calling MiMo.
+- [x] Audit `.env` by variable name only and add missing non-secret Base, MiMo
+  URL, payment guard, and Telegram defaults through `npm run env:sync`.
 - [x] Refuse to use the API key pasted into chat; it must be revoked because it
   is no longer secret.
 - [ ] Place a newly rotated `MIMO_API_KEY` only in gitignored `.env`, run
