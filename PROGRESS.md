@@ -417,6 +417,12 @@ Status: **public production deployed**
 - [x] Visually inspect Judge Mode in both closed and open states on desktop and
   mobile, then re-run strict TypeScript, `40` tests, Next production build,
   vinext compatibility, and the zero-vulnerability dependency audit.
+- [x] Deploy Judge Mode to Vercel production as
+  `dpl_3jMDJ2NohnKcSzGCKpCBy8yvtxXG`, verify the canonical alias returns HTTP
+  `200` with the launcher, and visually inspect the production render.
+- [x] Push the exact `bec8b72` source to Sites, save it as version 5, and
+  deploy it successfully to the existing owner-only production URL without
+  changing access.
 
 Public production URL:
 
