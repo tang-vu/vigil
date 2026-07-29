@@ -367,3 +367,17 @@ Status: **private production deployed; public access pending approval**
 Owner-only production URL:
 
 https://vigil-first-tx-lab.hanhgia2212.chatgpt.site
+
+### Vercel mirror
+
+Status: **production deployment in progress**
+
+- [x] Confirm the lab has no application backend, database, private API, or
+  server-side secret dependency; interactive progress remains in browser
+  `localStorage`.
+- [x] Verify the existing Vercel CLI session.
+- [x] Keep the Sites vinext build intact while configuring Vercel to use the
+  standard Next.js build.
+- [x] Exclude local secrets, wallet exports, dependencies, and build artifacts
+  from CLI uploads.
+- [ ] Validate, commit, push, and deploy the public production mirror.

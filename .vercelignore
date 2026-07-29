@@ -1,0 +1,10 @@
+.env
+.env.*
+wallet.json
+node_modules/
+dist/
+.next/
+coverage/
+demo/build/
+demo/output/
+*.log
