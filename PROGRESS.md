@@ -336,7 +336,7 @@ Final media proof:
 
 ## Onboarding UX bounty website
 
-Status: **implementation complete; production deployment pending**
+Status: **private production deployed; public access pending approval**
 
 - [x] Create a Sites project and persist its opaque project ID without
   credentials in `.openai/hosting.json`.
@@ -359,5 +359,11 @@ Status: **implementation complete; production deployment pending**
 - [x] Move the deployment build to vinext, pass its 100% compatibility scan,
   produce `dist/server/index.js`, package `.openai/hosting.json`, and verify
   the production server locally over HTTP.
-- [ ] Save version 3, deploy it privately, and request explicit approval before
-  changing access from owner-only to public.
+- [x] Save version 3 and deploy it successfully to the owner-only production
+  environment.
+- [ ] After explicit approval, change access from owner-only to public, deploy
+  the final saved version, and add the public URL to the submission.
+
+Owner-only production URL:
+
+https://vigil-first-tx-lab.hanhgia2212.chatgpt.site
