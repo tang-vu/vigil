@@ -478,5 +478,8 @@ Status: **complete**
   `build -> typecheck` succeeds after either build system has run.
 - [x] Verify the public website, YouTube demo, Sepolia rescue explorer, and Base
   payment explorer all return HTTP `200`.
+- [x] Deploy the final public site as Vercel production
+  `dpl_FJaVcSR1tUseptYmirkHTHW5rFzU` and verify the canonical alias serves the
+  same-address KeeperHub treasury proof.
 - [x] Verify the final video is `155.23` seconds, 1920×1080 H.264 with AAC
   audio, and still matches its committed SHA-256.
