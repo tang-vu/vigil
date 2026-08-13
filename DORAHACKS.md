@@ -37,6 +37,9 @@ cooldowns, spend caps, idempotency, classified retries, and a tamper-evident
 receipt containing KeeperHub's complete execution log and transaction proof.
 Vigil also turns its risk engine into a sustainable agent business by selling
 paid risk checks and rescue quotes through KeeperHub's x402 marketplace.
+The paid challenge and confirmed USDC transfer both resolve to the same EVM
+address that owns the submitted KeeperHub rescue, making the treasury loop
+machine-verifiable with `npm run submission:verify`.
 
 ### Final submission fields
 
@@ -135,3 +138,4 @@ The exact three-minute commands and narration are in
 - onboarding teardown: [`docs/teardown.md`](./docs/teardown.md)
 - PR-ready KeeperHub fix:
   [`docs/keeperhub-pr-proposal.md`](./docs/keeperhub-pr-proposal.md)
+- submission integrity gate: [`scripts/verify-submission.ts`](./scripts/verify-submission.ts)

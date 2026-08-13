@@ -1,6 +1,6 @@
 # Vigil progress
 
-Last updated: 2026-07-29
+Last updated: 2026-08-13
 
 ## M1 — Connectivity
 
@@ -447,3 +447,36 @@ Status: **public production deployed**
 Public production URL:
 
 https://vigil-first-tx-lab.vercel.app
+
+## Submission deadline verification — 2026-08-13
+
+Status: **complete**
+
+- [x] Re-run all 40 tests, strict TypeScript, vinext compatibility, and the
+  packaged production build.
+- [x] Deep-validate all four live KeeperHub workflows: rescue (5 nodes),
+  Telegram recovery (2), risk check (10), and rescue quote (14).
+- [x] Execute fresh read-only marketplace proofs successfully as KeeperHub
+  executions `gboqycn6q3rethcyx22yv` and `316tvgj8ejzjao5hzy2v4`.
+- [x] Re-run Agent B discovery, typed per-workflow MCP inspection, and the HTTP
+  402 challenge without spending. Preserve the original paid artifact in a
+  separate immutable file.
+- [x] Point the default demo monitor at Vigil's public Sepolia proof account.
+  At block `11478730`, the live health factor was
+  `1.459454903796939771`, matching Vigil's fixed-point calculation exactly.
+- [x] Add `npm run submission:verify` to check the receipt seal, transaction
+  ledger, paid x402 proof, same-address revenue/rescue treasury identity, video
+  checksum, `.env` exclusion, and all three required submission links.
+- [x] Refresh the dependency lockfile to remove the production transitive
+  advisories in `fast-uri`, `hono`, and `nanoid`; `npm audit --omit=dev`
+  reports zero vulnerabilities.
+- [x] Keep the remaining `image-size` advisory isolated to the trusted-asset
+  vinext build tool. No patched upstream release exists; the only npm-proposed
+  fix is an incompatible vinext downgrade, so it was not forced into the
+  deadline build.
+- [x] Make the vinext packaging step remove stale generated Next validators so
+  `build -> typecheck` succeeds after either build system has run.
+- [x] Verify the public website, YouTube demo, Sepolia rescue explorer, and Base
+  payment explorer all return HTTP `200`.
+- [x] Verify the final video is `155.23` seconds, 1920×1080 H.264 with AAC
+  audio, and still matches its committed SHA-256.

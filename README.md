@@ -12,6 +12,11 @@ The project has real proofs on both sides of the product:
 - a second agent paid `$0.02` Base USDC through KeeperHub to call
   `vigil-risk-check`.
 
+The x402 challenge recipient, confirmed Base transfer recipient, and KeeperHub
+rescue account are the same EVM address. Run `npm run submission:verify` to
+check that economic loop together with the receipt seal, ledger, video checksum,
+and all three required submission links.
+
 [Rescue transaction](https://sepolia.etherscan.io/tx/0xa03a49a8213415e9fc0ec53c423c707ed2c869b92841781c4174abced9a958bb)
 ·
 [x402 payment](https://basescan.org/tx/0x440baa100eb85a9b586ead523c05a1918247fccb610098718e2f2fd0317d4122)
@@ -113,7 +118,9 @@ Node.js 20+ is required. The commands below are eight steps.
    npm run workflow:validate
    ```
 
-7. Re-run the two read-only marketplace proofs without spending funds.
+7. Re-run the two read-only marketplace proofs without spending funds. The
+   Agent B check writes a separate challenge artifact and preserves the
+   committed paid proof.
 
    ```bash
    npm run marketplace:prove
@@ -167,6 +174,7 @@ npm run marketplace:publish
 npm run marketplace:prove
 npm run agent-b:demo
 npm run chaos
+npm run submission:verify
 npm run receipt:verify -- receipts/2026-07-28T16-29-26.213Z.json
 ```
 
@@ -176,9 +184,13 @@ Important files:
 - `scripts/execute-rescue.ts` — guarded execution, retry, and alert recovery.
 - `scripts/agent-b-demo.ts` — discovery, 402, KeeperHub wallet payment, and
   settlement-ledger proof.
+- `scripts/verify-submission.ts` — one-command integrity gate for every required
+  submission proof and the self-funding treasury identity.
 - `src/policy/` — deterministic and tightening-only advisory policy.
 - `receipts/` — canonical SHA-256 rescue receipt.
 - `artifacts/` — full KeeperHub execution and chaos proof captures.
+- `artifacts/m6/agent-b-marketplace-challenge.json` — latest non-paying x402
+  discovery/challenge check; it never replaces the paid settlement proof.
 - `docs/demo-script.md` — exact three-minute video scene list.
 - `docs/video-production.md` — reproducible MiMo TTS/ASR video renderer.
 - `demo/vigil-keeperhub-demo.mp4` — final 155-second submission video.

@@ -243,11 +243,14 @@ async function verifyPerWorkflowEndpoint(
   }
 }
 
-async function saveProof(proof: Readonly<Record<string, unknown>>): Promise<void> {
+async function saveProof(
+  proof: Readonly<Record<string, unknown>>,
+  filename: "agent-b-marketplace-challenge.json" | "agent-b-marketplace-proof.json",
+): Promise<void> {
   const directory = path.resolve("artifacts", "m6");
   await mkdir(directory, { recursive: true });
   await writeFile(
-    path.join(directory, "agent-b-marketplace-proof.json"),
+    path.join(directory, filename),
     `${JSON.stringify(proof, null, 2)}\n`,
     "utf8",
   );
@@ -302,9 +305,9 @@ async function main(): Promise<void> {
   };
 
   if (!process.argv.includes("--pay")) {
-    await saveProof(proof);
+    await saveProof(proof, "agent-b-marketplace-challenge.json");
     console.info(
-      "Payment intentionally stopped. Re-run with --pay only after the operator explicitly says \"go mainnet\".",
+      "Payment intentionally stopped. The paid proof was preserved; re-run with --pay only after the operator explicitly says \"go mainnet\".",
     );
     return;
   }
@@ -318,7 +321,10 @@ async function main(): Promise<void> {
     slug,
     getMcpText(challenge),
   );
-  await saveProof({ ...proof, paid: true, paidResponse });
+  await saveProof(
+    { ...proof, paid: true, paidResponse },
+    "agent-b-marketplace-proof.json",
+  );
 }
 
 await main();

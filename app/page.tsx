@@ -1079,7 +1079,10 @@ export default function Home() {
               <span>SETTLED ONCHAIN</span>
               <strong>$0.02 Base USDC</strong>
             </div>
-            <small>Base mainnet · public Transfer verified</small>
+            <small>
+              Base mainnet · public Transfer verified · paid to the KeeperHub
+              rescue account
+            </small>
           </a>
         </div>
       </section>

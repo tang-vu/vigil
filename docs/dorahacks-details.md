@@ -67,6 +67,11 @@ HTTP `402` challenge, pays through the KeeperHub agentic wallet in Base USDC,
 and receives the result. This turns the same risk engine that protects Vigil's
 positions into an agent-to-agent revenue stream.
 
+This loop is not just conceptual: the challenge `payTo`, the confirmed USDC
+Transfer recipient, and the KeeperHub account that executed the submitted Aave
+rescue are the same EVM address. `npm run submission:verify` checks that identity
+across the sealed receipt, payment proof, and transaction ledger.
+
 ## Reliability and observability
 
 - Deterministic policy remains authoritative over the LLM.

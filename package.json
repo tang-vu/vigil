@@ -24,6 +24,7 @@
     "receipt:m4": "tsx scripts/build-m4-receipt.ts",
     "receipt:verify": "tsx scripts/verify-receipt.ts",
     "chaos": "tsx scripts/chaos.ts",
+    "submission:verify": "tsx scripts/verify-submission.ts",
     "workflow:validate": "tsx scripts/validate-workflow.ts",
     "marketplace:publish": "tsx scripts/publish-marketplace.ts",
     "marketplace:prove": "tsx scripts/prove-marketplace.ts",
